@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 public class ApplicationCoreController {
-    @RequestMapping(method = RequestMethod.GET, path = "/health")
+    @RequestMapping(
+            value = "/health",
+            method = RequestMethod.GET,
+            produces = {"application/json"}
+    )
     public ResponseEntity<String> healthCheck() {
         return new ResponseEntity<>("{\"status\":\"UP\"}", HttpStatus.OK);
     }
