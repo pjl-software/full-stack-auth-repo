@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
+
+. "${ENV_CONFIG_FILE}"
+
+# Put the script in the required location to run mvnw and access the pom.xml file.
+cd "${SCRIPT_DIR}"/../.. || exit
+
+############################################################
+# Help                                                     #
+############################################################
+help() {
+  echo ""
+  echo -e "Build the Spring-Boot jar locally; will skip tests." | fmt
+  echo -e "E.g. mvnw clean package -Dmaven.test.skip"
+  echo ""
+  echo -e "Usage: $0 [-h]" | fmt
+  echo -e "\t-h\t Display this help message" | fmt
+  echo ""
+}
+
+############################################################
+############################################################
+# Main Program                                             #
+############################################################
+############################################################
+
+while getopts "h" opt; do
+  case $opt in
+  h)
+    help
+    exit 0
+    ;;
+  \?)
+    echo "Invalid option: -$OPTARG" >&2
+    help
+    exit 1
+    ;;
+  :)
+    echo ""
+    echo "Option -$OPTARG requires an argument." >&2
+    help
+    exit 1
+    ;;
+  esac
+done
+
+"${SCRIPT_DIR}"/../../mvnw clean package -Dmaven.test.skip
