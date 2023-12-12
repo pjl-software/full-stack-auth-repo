@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
+
+. "${ENV_CONFIG_FILE}"
+
+############################################################
+# Help                                                     #
+############################################################
+help() {
+  echo ""
+  echo -e "Composite script that will run the build and run scripts." | fmt
+  echo ""
+  echo -e "Usage: $0 [-h] | [-p profile]" | fmt
+  echo -e "\t-h\t Display this help message" | fmt
+  echo -e "\t-p\t Spring-Boot profile you want to use. Default is local." | fmt
+  echo ""
+}
+
+############################################################
+############################################################
+# Main Program                                             #
+############################################################
+############################################################
+
+COMMAND="${SCRIPT_DIR}/build && ${SCRIPT_DIR}/run"
+PROFILE_COMMAND=""
+
+while getopts "hp:" opt; do
+  case $opt in
+  h)
+    help
+    exit 0
+    ;;
+  p)
+    PROFILE_COMMAND=" -p ${OPTARG}"
+    ;;
+  \?)
+    echo "Invalid option: -$OPTARG" >&2
+    help
+    exit 1
+    ;;
+  :)
+    echo ""
+    echo "Option -$OPTARG requires an argument." >&2
+    help
+    exit 1
+    ;;
+  esac
+done
+
+eval "${COMMAND} ${PROFILE_COMMAND}"
