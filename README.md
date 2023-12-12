@@ -19,4 +19,4 @@ and watch the [Code Review walkthrough videos](https://www.youtube.com/playlist?
 
 ## Code Review Branch Videos
 
-[00-spring-boot-setup-local](https://youtu.be/b2kl8cu3tC8?si=anWga882uFXQ6MJC)
+- **00-spring-boot-setup-local** [Branch](https://github.com/pjl-software/spring-angular-auth-repo/tree/00-spring-boot-setup-local) and [Code Review Video](https://youtu.be/b2kl8cu3tC8?si=anWga882uFXQ6MJC)
