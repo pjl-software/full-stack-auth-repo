@@ -25,7 +25,7 @@ to tinker and expand while learning the tech.
 
 And Voilà! You have a back-end server up and running.
 
-<img src="https://s3.amazonaws.com/htscodelookup.com/github/pjl-software/spring-angular-auth-repo/00-spring-boot-setup-local/getting-started-1080.gif" width="45%" height="45%"  alt="getting started running the api"/>
+<img src="https://s3.amazonaws.com/htscodelookup.com/github/pjl-software/spring-angular-auth-repo/00-spring-boot-setup-local/getting-started.gif" width="45%" height="45%"  alt="getting started running the api"/>
 
 ### Test The Running Application
 
