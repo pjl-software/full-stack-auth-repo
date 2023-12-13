@@ -4,7 +4,7 @@
 
 This codebase represents a **complete** Spring Boot (3.2) back-end that will run on your local
 machine out of the box. This branch has a health check endpoint that can be reached by navigating
-to http://localhost:5001/health. This demo is intended to help give you a starting point with Spring Boot
+to https://localhost:8443/health. This demo is intended to help give you a starting point with Spring Boot
 to tinker and expand while learning the tech.
 
 [Code Review Video](https://youtu.be/b2kl8cu3tC8?si=anWga882uFXQ6MJC)
@@ -15,24 +15,27 @@ to tinker and expand while learning the tech.
 
 - `$ git clone https://github.com/pjl-software/spring-angular-auth-repo.git`
 
-2. Change directories into this directory and checkout this branch (_00-spring-boot-setup-local_)
+2. Change directories into this directory and checkout this branch (_01-run-server-local-on-https_)
 
-- `$ cd spring-angular-auth-repo/spring-back-end && git checkout 00-spring-boot-setup-local`
+- `$ cd spring-angular-auth-repo/spring-back-end && git checkout 01-run-server-local-on-https`
+
+3. Make sure you've created your SSL Cert and followed the instructions to run the app on HTTPS
+
+- `$ ./bin/ssl/enable-localhost-https`
 
 3. Run the application
 
 - `$ ./bin/startup-scripts/build-and-run`
 
-And Voilà! You have a back-end server up and running.
+And Voilà! You have a back-end server up and running on HTTPS.
 
-<img src="https://s3.amazonaws.com/htscodelookup.com/github/pjl-software/spring-angular-auth-repo/00-spring-boot-setup-local/getting-started-simple-720.gif" width="45%" height="45%"  alt="getting started running the api"/>
+[//]: # (<img src="https://s3.amazonaws.com/htscodelookup.com/github/pjl-software/spring-angular-auth-repo/00-spring-boot-setup-local/getting-started-simple-720.gif" width="45%" height="45%"  alt="getting started running the api"/>)
 
 ### Test The Running Application
 
-Because we are only running on HTTP (HTTPS is on branch `01-run-server-local-on-https`), most browser will not let
-you navigate to http://localhost:5001/health. Therefore, to test you can run `CURL -X GET http://localhost:5001/health`.
+Open a browers and navigate to https://localhost:8443/health
 
-<img src="https://s3.amazonaws.com/htscodelookup.com/github/pjl-software/spring-angular-auth-repo/00-spring-boot-setup-local/testing-the-api.gif" width="45%" height="45%"  alt="testing the api"/>
+[//]: # (<img src="https://s3.amazonaws.com/htscodelookup.com/github/pjl-software/spring-angular-auth-repo/00-spring-boot-setup-local/testing-the-api.gif" width="45%" height="45%"  alt="testing the api"/>)
 
 ### Assumptions
 
