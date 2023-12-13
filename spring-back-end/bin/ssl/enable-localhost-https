@@ -1,0 +1,193 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
+
+. "${ENV_CONFIG_FILE}"
+
+# Put the script in the required location to run mvnw and access the pom.xml file.
+cd "${SCRIPT_DIR}"/../../pjl-application/pjl-application-core/src/main/resources || exit
+
+mkdir "${SSL_KEYSTORE_DIR}"
+cd "${SSL_KEYSTORE_DIR}" || exit
+
+############################################################
+# Help                                                     #
+############################################################
+help() {
+  echo ""
+  echo -e "Docs and commands to get your local set up to run the Spring Boot server on HTTPS. This script will create ~9 files. Ultimately, it will only reference one, but I would leave all the files as-is." | fmt
+  echo -e "Also, be sure not to commit these to GitHub. Although they are development-only files, it's best practice not to commit this stuff regardless." | fmt
+  echo
+  echo -e "Note that this is solely for developmental purposes and not meant, in any way, to be used in a production environment" | fmt
+  echo
+  echo -e "References these Tutorials "
+  echo -e "\thttps://www.freecodecamp.org/news/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec/" | fmt
+  echo -e "\thttps://medium.com/javarevisited/how-to-enable-https-locally-without-getting-annoying-browser-privacyerrors-in-a-spring-boot-a6137dacbc0a" | fmt
+  echo ""
+  echo -e "Usage: $0 [-h]" | fmt
+  echo -e "\t-h\t Display this help message" | fmt
+  echo ""
+}
+
+############################################################
+############################################################
+# Main Program                                             #
+############################################################
+############################################################
+
+while getopts "h" opt; do
+  case $opt in
+  h)
+    help
+    exit 0
+    ;;
+  \?)
+    echo "Invalid option: -$OPTARG" >&2
+    help
+    exit 1
+    ;;
+  :)
+    echo ""
+    echo "Option -$OPTARG requires an argument." >&2
+    help
+    exit 1
+    ;;
+  esac
+done
+
+echo
+
+read -r -p "Delete all files in ${SSL_KEYSTORE_DIR}? (y/n) " yn
+case $yn in
+y | Y)
+  echo "Removing files from ${SSL_KEYSTORE_DIR}..."
+  rm "${SSL_KEYSTORE_DIR}"/*
+  ;;
+n | N)
+  echo "Proceeding without deleting files..."
+  ;;
+*)
+  echo "invalid response"
+  exit 1
+  ;;
+esac
+
+echo
+
+RSA_KEY_NAME=rootCA.key
+DAYS_VALID=90
+ROOT_SSL_CERT_PEM_NAME=rootCA.pem
+
+OPEN_SSL_CONFIGURATION_FILE="server.csr.cnf"
+
+echo
+echo -e "Generate a RSA-2048 key and save it to a file: rootCA.key. This file will be used as the key to generate the Root SSL certificate. You will be prompted for a pass phrase which you’ll need to enter each time you use this particular key to generate a certificate." | fmt
+echo
+echo "Suggest using password123 for developmental purposes."
+echo
+
+openssl genrsa -des3 -out "${RSA_KEY_NAME}" 2048
+
+echo
+echo -e "You can use the key you generated to create a new Root SSL certificate. Save it to a file named ${ROOT_SSL_CERT_PEM_NAME}. This certificate will have a validity of ${DAYS_VALID} days. Feel free to change it to any number of days you want. You’ll also be prompted for other optional information, but you MUST give a an 'Organization Name'" | fmt
+echo
+echo -e "Provide the password set above." | fmt
+echo
+
+openssl req -x509 -new -nodes -key "${RSA_KEY_NAME}" -sha256 -days ${DAYS_VALID} -out "${ROOT_SSL_CERT_PEM_NAME}"
+
+echo
+echo -e "NOW YOU MUST TAKE A MANUAL STEP:" | fmt
+echo -e "We need to add the root certificate to any laptops, desktops, tablets, and phones that will be accessing your HTTPS sites (one time)." | fmt
+echo
+echo -e "For Mac Users" | fmt
+echo -e "Open Keychain Access on your Mac and go to the Certificates category in your System keychain. Once there, import the ${ROOT_SSL_CERT_PEM_NAME} using File > Import Items. Double click the imported certificate and change the 'When using this certificate:' dropdown to 'Always Trust' in the 'Trust' section." | fmt
+echo
+echo -e "For None Mac Users" | fmt
+echo -e "Search how to manage certificates in your browser of choice and upload the ${ROOT_SSL_CERT_PEM_NAME} to Trusted Root Certificates." | fmt
+echo
+echo -e "In Chrome for example, open settings and search 'certificates'. Click 'Security' and then click 'Manage Certificates'. On my Mac, this will open Keychain, not sure what happens on other operating systems, but this is where you'll want to add the ${ROOT_SSL_CERT_PEM_NAME} to trust the file." | fmt
+
+echo
+read -r -p "Press enter to continue once you've followed the manual step above. ctrl-c to quit."
+echo
+
+echo
+echo -e "Creating an OpenSSL configuration file (${OPEN_SSL_CONFIGURATION_FILE}) so you can import these settings when creating a certificate instead of entering them on the command line" | fmt
+
+cat <<'EOF' >"${SSL_KEYSTORE_DIR}"/"${OPEN_SSL_CONFIGURATION_FILE}"
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+distinguished_name = dn
+
+[dn]
+C=US
+ST=RandomState
+L=RandomCity
+O=RandomOrganization
+OU=RandomOrganizationUnit
+emailAddress=hello@example.com
+CN = localhost
+
+EOF
+
+V3_EXT_FILENAME="v3.ext"
+
+echo
+echo -e "Create a ${V3_EXT_FILENAME} file in order to create a X509 v3 certificate. Notice how we’re specifying subjectAltName here." | fmt
+echo
+
+cat <<'EOF' >"${SSL_KEYSTORE_DIR}"/"${V3_EXT_FILENAME}"
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = localhost
+
+EOF
+
+echo
+echo -e "Create a certificate key for localhost using the configuration settings stored in ${OPEN_SSL_CONFIGURATION_FILE}. This key is stored in server.key." | fmt
+echo
+
+OPEN_SSL_FILE="server.csr"
+SERVER_KEY_FILE="server.key"
+
+openssl req -new -sha256 -nodes -out ${OPEN_SSL_FILE} -newkey rsa:2048 -keyout ${SERVER_KEY_FILE} -config <(cat ${OPEN_SSL_CONFIGURATION_FILE})
+
+CERTIFICATE_FILE="server.crt"
+
+echo
+echo -e "A certificate signing request is issued via the root SSL certificate we created earlier to create a domain certificate for localhost. The output is a certificate file called ${CERTIFICATE_FILE}." | fmt
+echo
+
+openssl x509 -req -in ${OPEN_SSL_FILE} -CA ${ROOT_SSL_CERT_PEM_NAME} -CAkey ${RSA_KEY_NAME} -CAcreateserial -out ${CERTIFICATE_FILE} -days ${DAYS_VALID} -sha256 -extfile ${V3_EXT_FILENAME}
+
+echo
+echo -e "Convert the x.509 cert and key to a pkcs12 file for the spring-boot server." | fmt
+echo
+
+P12_FILE="server.p12"
+P12_ALIAS="pjl"
+CA_FILE="ca.crt"
+CA_NAME="root"
+
+openssl pkcs12 -export -in ${CERTIFICATE_FILE} -inkey ${SERVER_KEY_FILE} \
+  -out ${P12_FILE} -name ${P12_ALIAS} \
+  -CAfile ${CA_FILE} -caname ${CA_NAME}
+
+echo
+echo "Update application-local.properties file with the relevant info to enable HTTPS/SSL:"
+echo -e "
+\tserver.port=8443
+
+\tserver.ssl.enabled=true
+\tserver.ssl.key-alias=${P12_ALIAS}
+\tserver.ssl.key-password=<password you've been using>
+\tserver.ssl.key-store=classpath:keystore/${P12_FILE}
+\tserver.ssl.key-store-password=<password you've been using>"
+echo
