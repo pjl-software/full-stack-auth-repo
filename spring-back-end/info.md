@@ -21,11 +21,11 @@ to tinker and expand while learning the tech.
 
 3. Make sure you've created your SSL Cert and followed the instructions to run the app on HTTPS
 
-- `$ ./bin/ssl/enable-localhost-https`
+- `$ ./bin/ssl/enable-localhost-https` OR `make generate-ssl-cert`
 
 3. Run the application
 
-- `$ ./bin/startup-scripts/build-and-run`
+- `$ ./bin/startup-scripts/build-and-run` OR `make`
 
 And Voilà! You have a back-end server up and running on HTTPS.
 
@@ -39,8 +39,8 @@ Open a browers and navigate to https://localhost:8443/health
 
 ### Assumptions
 
-- I'm developing this on a Mac, and that's the only OS I'm testing it on. I'm confident it will run on Linux as
-  well.
+- I'm developing this on a Mac, and that's the only OS I'm testing it on. I'm confident it will run on a Linux
+  distribution.
 - I'm also
   using [Amazon Corretto 17](https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/what-is-corretto-17.html)
 
