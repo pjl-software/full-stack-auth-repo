@@ -51,7 +51,7 @@ while getopts "hp:" opt; do
   esac
 done
 
-SSL_FILE_TYPE=".p12z"
+SSL_FILE_TYPE=".p12"
 
 echo
 echo "Checking to make sure there is an SSL p12 file in the repo."
@@ -81,7 +81,5 @@ else
     ;;
   esac
 fi
-
-exit
 
 java -Dspring.profiles.active="${PROFILE}" -jar "${SCRIPT_DIR}"/../../pjl-application/pjl-application-core/target/pjl-application-core.jar
