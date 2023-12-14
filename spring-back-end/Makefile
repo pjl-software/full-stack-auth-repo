@@ -10,6 +10,9 @@ build:
 build-and-run:
 	./bin/startup-scripts/build-and-run
 
+generate-ssl-cert:
+	./bin/ssl/enable-localhost-https
+
 run:
 	./bin/startup-scripts/run
 
