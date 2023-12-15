@@ -13,11 +13,11 @@ to tinker and expand while learning the tech.
 
 1. Clone this repo to your local machine
 
-- `$ git clone https://github.com/pjl-software/spring-angular-auth-repo.git`
+- `$ git clone https://github.com/pjl-software/full-stack-auth-repo.git`
 
 2. Change directories into this directory and checkout this branch (_00-spring-boot-setup-local_)
 
-- `$ cd spring-angular-auth-repo/spring-back-end && git checkout 00-spring-boot-setup-local`
+- `$ cd full-stack-auth-repo/spring-back-end && git checkout 00-spring-boot-setup-local`
 
 3. Run the application
 
