@@ -13,11 +13,11 @@ to tinker and expand while learning the tech.
 
 1. Clone this repo to your local machine
 
-- `$ git clone https://github.com/pjl-software/spring-angular-auth-repo.git`
+- `$ git clone https://github.com/pjl-software/full-stack-auth-repo.git`
 
 2. Change directories into this directory and checkout this branch (_01-run-server-local-on-https_)
 
-- `$ cd spring-angular-auth-repo/spring-back-end && git checkout 01-run-server-local-on-https`
+- `$ cd full-stack-auth-repo/spring-back-end && git checkout 01-run-server-local-on-https`
 
 3. Make sure you've created your SSL Cert and followed the instructions to run the app on HTTPS
 
@@ -29,13 +29,13 @@ to tinker and expand while learning the tech.
 
 And Voilà! You have a back-end server up and running on HTTPS.
 
-[//]: # (<img src="https://s3.amazonaws.com/htscodelookup.com/github/pjl-software/spring-angular-auth-repo/00-spring-boot-setup-local/getting-started-simple-720.gif" width="45%" height="45%"  alt="getting started running the api"/>)
+[//]: # '<img src="https://s3.amazonaws.com/htscodelookup.com/github/pjl-software/spring-angular-auth-repo/00-spring-boot-setup-local/getting-started-simple-720.gif" width="45%" height="45%"  alt="getting started running the api"/>'
 
 ### Test The Running Application
 
 Open a browers and navigate to https://localhost:8443/health
 
-[//]: # (<img src="https://s3.amazonaws.com/htscodelookup.com/github/pjl-software/spring-angular-auth-repo/00-spring-boot-setup-local/testing-the-api.gif" width="45%" height="45%"  alt="testing the api"/>)
+[//]: # '<img src="https://s3.amazonaws.com/htscodelookup.com/github/pjl-software/spring-angular-auth-repo/00-spring-boot-setup-local/testing-the-api.gif" width="45%" height="45%"  alt="testing the api"/>'
 
 ### Assumptions
 
