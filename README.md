@@ -1,4 +1,4 @@
-# Spring Boot / Angular Authentication Repo
+# Full Stack Authentication Repo
 
 This is will eventually be a fully fledged user authentication application built with a Spring Boot (3.2+) back-end,
 Angular front-end, and PostgreSQL datastore that will run on Docker. The repo will be runnable with a few key strokes
