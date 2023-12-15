@@ -47,6 +47,8 @@ while getopts "h" opt; do
   esac
 done
 
+sslFileCheck
+
 cd "${SCRIPT_DIR}"/../.. || exit
 
 docker-compose build && docker-compose up --remove-orphans
