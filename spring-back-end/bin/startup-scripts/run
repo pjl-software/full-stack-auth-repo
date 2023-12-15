@@ -82,4 +82,4 @@ else
   esac
 fi
 
-java -Dspring.profiles.active="${PROFILE}" -jar "${SCRIPT_DIR}"/../../pjl-application/pjl-application-core/target/pjl-application-core.jar
+java -Dspring.profiles.active="${PROFILE}" -jar "${SCRIPT_DIR}"/../../pjl-application/pjl-application-core/target/"${DEFAULT_JAR_NAME}"
