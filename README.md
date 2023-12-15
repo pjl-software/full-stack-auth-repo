@@ -7,7 +7,7 @@ and with minimal local requirements.
 ## To Get Started
 
 - Open a terminal
-- `git clone https://github.com/pjl-software/spring-angular-auth-repo.git`
+- `git clone https://github.com/pjl-software/full-stack-auth-repo.git`
 - `cd` into this repo
 - run `make`
 
@@ -17,8 +17,8 @@ option that will provide usage and documentation.
 
 ## Code Review Branch Videos
 
-- **00-spring-boot-setup-local** [Branch](https://github.com/pjl-software/spring-angular-auth-repo/tree/00-spring-boot-setup-local) and [Code Review Video](https://youtu.be/b2kl8cu3tC8?si=anWga882uFXQ6MJC)
-- **01-run-server-local-on-https** [Branch](https://github.com/pjl-software/spring-angular-auth-repo/tree/01-run-server-local-on-https) and [Code Review Video](https://youtu.be/qxVWOGYYFV0)
+- **00-spring-boot-setup-local** [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/00-spring-boot-setup-local) and [Code Review Video](https://youtu.be/b2kl8cu3tC8?si=anWga882uFXQ6MJC)
+- **01-run-server-local-on-https** [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/01-run-server-local-on-https) and [Code Review Video](https://youtu.be/qxVWOGYYFV0)
 
 ## Why Are you Building This?
 
