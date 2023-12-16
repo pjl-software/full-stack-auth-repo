@@ -50,11 +50,12 @@ while getopts "h" opt; do
   esac
 done
 
-BUILD_SCRIPT_LOCATION="bin/startup-scripts/build"
+BUILD_SCRIPT_LOCATION="bin/local-startup-scripts/build"
 
 echo
 echo "Running ./${BUILD_SCRIPT_LOCATION} to build the jar locally."
 ./${BUILD_SCRIPT_LOCATION}
+echo
 
 JAR_DIRECTORY_LOCATION="pjl-application/pjl-application-core/target"
 
