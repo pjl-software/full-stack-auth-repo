@@ -3,7 +3,7 @@
 # $ make build-and-run-docker
 # $ ./bin/docker-startup-scripts/build-and-run-docker
 
-FROM openjdk:17-alpine
+FROM amazoncorretto:17-alpine-jdk
 
 RUN addgroup -S demo && adduser -S demo -G demo
 USER demo
