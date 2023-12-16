@@ -25,7 +25,10 @@ to tinker and expand while learning the tech.
 
 3. Run the application
 
-- `$ ./bin/startup-scripts/build-and-run` OR `make`
+- Locally
+    - `$ ./bin/local-startup-scripts/build-and-run` OR `make build-and-run-local`
+- Docker
+    - `$ ./bin/docker-startup-scripts/build-and-run-docker` OR `make build-and-run-docker`
 
 And Voilà! You have a back-end server up and running on HTTPS.
 
