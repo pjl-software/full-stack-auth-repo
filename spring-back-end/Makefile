@@ -4,17 +4,20 @@
 # For more options, run these bin commands directly from your terminal.
 # Adding the -h option after each print the help() function
 
+LOCAL_START_UP_DIR := bin/local-startup-scripts
+DOCKER_START_UP_DIR := bin/docker-startup-scripts
+
 build-local:
-	./bin/startup-scripts/build
+	./${LOCAL_START_UP_DIR}/build
 
 build-docker:
-	./bin/docker/build-and-extract-jar
+	./${DOCKER_START_UP_DIR}/build-and-extract-jar
 
 build-and-run-local:
-	./bin/startup-scripts/build-and-run
+	./${LOCAL_START_UP_DIR}/build-and-run
 
 build-and-run-docker:
-	./bin/docker/build-and-run-docker
+	./${DOCKER_START_UP_DIR}/build-and-run-docker
 
 generate-ssl-cert:
 	./bin/ssl/enable-localhost-https
@@ -23,8 +26,8 @@ help:
 	@echo "\nCheck the ./bin directory for utility scripts. Each one will have a [-h] option with help in addition to the code itself.\n" | fmt
 
 run-local:
-	./bin/startup-scripts/run
+	./${LOCAL_START_UP_DIR}/run
 
 run-docker:
-	./bin/docker/run-as-docker-container
+	./${DOCKER_START_UP_DIR}/run-as-docker-container
 
