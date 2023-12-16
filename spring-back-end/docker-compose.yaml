@@ -1,5 +1,8 @@
 version: '3.9'
 
+# Do not run this file directly. Use the ./bin/docker-startup-scripts instead
+# We leverage environment variables that must be exported first
+
 services:
   app:
     build: .
