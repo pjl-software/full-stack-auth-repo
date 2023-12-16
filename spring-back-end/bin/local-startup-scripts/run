@@ -51,35 +51,12 @@ while getopts "hp:" opt; do
   esac
 done
 
-SSL_FILE_TYPE=".p12"
+sslFileCheck
 
 echo
-echo "Checking to make sure there is an SSL p12 file in the repo."
+echo -e "You can always check if a Spring server is running locally with command: $ ps aux | grep java" | fmt
+echo
+echo -e "This command list running processes with java in the name. If you want to stop it, you can run $ kill -9 <PID> ." | fmt
 echo
 
-if [[ $(ls -A "${SSL_KEYSTORE_DIR}"/*"${SSL_FILE_TYPE}"*) ]]; then
-  echo "There is a ${SSL_FILE_TYPE} file, proceeding."
-  echo
-else
-  echo
-  echo -e "We didn't find a ${SSL_FILE_TYPE} in ${SSL_KEYSTORE_DIR}. Without this file, SSL will not be enabled; and when you try and run the app, you'll get an error indicating the server.ssl.key-store file referenced in the application-local.properties could not be found." | fmt
-  echo
-  echo -e "To generate this file, run the 'enable-localhost-https' script in ${SCRIPT_DIR}/../ssl"
-  echo
-  read -r -p "Do you want to try and run the jar anyway? (y/n) " yn
-  case $yn in
-  y | Y)
-    echo "OK. Continuing..."
-    ;;
-  n | N)
-    echo "OK. Quitting here..."
-    exit 0
-    ;;
-  *)
-    echo "invalid response"
-    exit 1
-    ;;
-  esac
-fi
-
-java -Dspring.profiles.active="${PROFILE}" -jar "${SCRIPT_DIR}"/../../pjl-application/pjl-application-core/target/pjl-application-core.jar
+java -Dspring.profiles.active="${PROFILE}" -jar "${SCRIPT_DIR}"/../../pjl-application/pjl-application-core/target/"${DEFAULT_JAR_NAME}"

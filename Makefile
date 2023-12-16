@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := build-and-run
+.DEFAULT_GOAL := build-and-run-docker
 
 BACK_END_DIR := spring-back-end
 
@@ -6,14 +6,8 @@ BACK_END_DIR := spring-back-end
 # For more options, run these bin commands directly from your terminal.
 # Adding the -h option after each print the help() function
 
-build-back-end:
-	cd ./${BACK_END_DIR} && $(MAKE) build
+build-and-run-local: # For now this is just the back-end, will be front-end too once built
+	cd ./${BACK_END_DIR} && $(MAKE) build-and-run-local
 
-build-and-run: # For now this is just the back-end, will be front-end too once built
-	cd ./${BACK_END_DIR} && $(MAKE) build-and-run	
-
-build-and-run-back-end:
-	cd ./${BACK_END_DIR} && $(MAKE) build-and-run
-
-run-back-end:
-	cd ./${BACK_END_DIR} && $(MAKE) run
+build-and-run-docker: # For now this is just the back-end, will be front-end too once built
+	cd ./${BACK_END_DIR} && $(MAKE) build-and-run-docker

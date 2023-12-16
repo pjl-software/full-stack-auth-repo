@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
+
+. "${ENV_CONFIG_FILE}"
+
+# Put the script in the required location to run mvnw and access the pom.xml file.
+cd "${SCRIPT_DIR}"/../.. || exit
+
+############################################################
+# Help                                                     #
+############################################################
+help() {
+  echo ""
+  echo -e "A build script for usage with Docker deployments." | fmt
+  echo
+  echo -e "Specifically, this build leverages the Spring Boot layer information (https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#container-images.efficient-images.layering) to extract the jar into layers based on how likely they are to change. This will make Docker image layers even more efficient." | fmt
+  echo
+  echo -e "Additional references:" | fmt
+  echo -e "\t https://spring.io/guides/topicals/spring-boot-docker/"
+  echo -e "\t https://www.baeldung.com/docker-layers-spring-boot"
+  echo
+  echo -e "Usage: $0 [-h]" | fmt
+  echo -e "\t-h\t Display this help message" | fmt
+  echo ""
+}
+
+############################################################
+############################################################
+# Main Program                                             #
+############################################################
+############################################################
+
+while getopts "h" opt; do
+  case $opt in
+  h)
+    help
+    exit 0
+    ;;
+  \?)
+    echo "Invalid option: -$OPTARG" >&2
+    help
+    exit 1
+    ;;
+  :)
+    echo ""
+    echo "Option -$OPTARG requires an argument." >&2
+    help
+    exit 1
+    ;;
+  esac
+done
+
+BUILD_SCRIPT_LOCATION="bin/local-startup-scripts/build"
+
+echo
+echo "Running ./${BUILD_SCRIPT_LOCATION} to build the jar locally."
+./${BUILD_SCRIPT_LOCATION}
+echo
+
+JAR_DIRECTORY_LOCATION="pjl-application/pjl-application-core/target"
+
+echo
+echo "Changing directories into the target directory ./${JAR_DIRECTORY_LOCATION}"
+cd ./${JAR_DIRECTORY_LOCATION} || exit
+
+EXTRACTED_DIR_NAME="extracted"
+echo
+echo "Creating a new extracted directory for the layers."
+mkdir "${EXTRACTED_DIR_NAME}"
+
+echo
+echo "Extracting the Spring Boot layers from the jar into individual directories."
+java -Djarmode=layertools -jar ./pjl-application-core.jar extract --destination ./"${EXTRACTED_DIR_NAME}"
+echo

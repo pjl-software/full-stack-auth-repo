@@ -9,9 +9,11 @@ and with minimal local requirements.
 - Open a terminal
 - `git clone https://github.com/pjl-software/full-stack-auth-repo.git`
 - `cd` into this repo
-- run `make`
+- run `make build-and-run-local` or `make build-and-run-docker`
 
-`make` will build and run the application locally on your computer. In addition to the `make` commands in the `Makefile`,
+`make` will build and run the application for you automatically. If you run it locally, it will run a check that you have [Java 17](https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/macos-install.html) installed locally on your computer. If you run it via Docker, you'll need [Docker](https://docs.docker.com/get-docker/) running locally (Enginer 19.03.0+).
+
+In addition to the `make` commands in the `Makefile`,
 the repo has a number of utility scripts in the `bin` directories located within this repo. Each script has a `-h` help
 option that will provide usage and documentation.
 
