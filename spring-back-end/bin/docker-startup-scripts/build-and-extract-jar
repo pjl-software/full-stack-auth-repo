@@ -17,7 +17,9 @@ help() {
   echo
   echo -e "Specifically, this build leverages the Spring Boot layer information (https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#container-images.efficient-images.layering) to extract the jar into layers based on how likely they are to change. This will make Docker image layers even more efficient." | fmt
   echo
-  echo -e "Additional references: https://spring.io/guides/topicals/spring-boot-docker/" | fmt
+  echo -e "Additional references:" | fmt
+  echo -e "\t https://spring.io/guides/topicals/spring-boot-docker/"
+  echo -e "\t https://www.baeldung.com/docker-layers-spring-boot"
   echo
   echo -e "Usage: $0 [-h]" | fmt
   echo -e "\t-h\t Display this help message" | fmt
