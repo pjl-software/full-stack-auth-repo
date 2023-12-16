@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
+
+. "${ENV_CONFIG_FILE}"
+
+BUILD_SCRIPT_LOCATION="${SCRIPT_DIR}/build-and-extract-jar"
+
+############################################################
+# Help                                                     #
+############################################################
+help() {
+  echo ""
+  echo -e "Run the Spring-Boot jar locally as a Docker container." | fmt
+  echo
+  echo -e "This script assumes you've already built the jar for use with Docker using ${BUILD_SCRIPT_LOCATION}" | fmt
+  echo
+  echo -e "Usage: $0 [-h] " | fmt
+  echo -e "\t-h\t Display this help message" | fmt
+  echo ""
+}
+
+############################################################
+############################################################
+# Main Program                                             #
+############################################################
+############################################################
+
+while getopts "h" opt; do
+  case $opt in
+  h)
+    help
+    exit 0
+    ;;
+  \?)
+    echo "Invalid option: -$OPTARG" >&2
+    help
+    exit 1
+    ;;
+  :)
+    echo ""
+    echo "Option -$OPTARG requires an argument." >&2
+    help
+    exit 1
+    ;;
+  esac
+done
+
+requiredProgramCheck docker "You'll need to install Docker (https://docs.docker.com/get-docker/) and ensure it is running before this command will work."
+
+sslFileCheck
+
+cd "${SCRIPT_DIR}"/../.. || exit
+
+docker-compose build && docker-compose up --remove-orphans

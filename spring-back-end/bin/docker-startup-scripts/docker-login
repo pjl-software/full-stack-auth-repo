@@ -5,20 +5,21 @@ ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
 
 . "${ENV_CONFIG_FILE}"
 
-BUILD_SCRIPT_LOCATION="${SCRIPT_DIR}/build-and-extract-jar"
-
 ############################################################
 # Help                                                     #
 ############################################################
 help() {
   echo ""
-  echo -e "Run the Spring-Boot jar locally as a Docker container." | fmt
+  echo -e "Executable that will automatically pull the docker Container ID for the postgres image (if it is running), log in to the image, and run the command provided as an option. The default command is /bin/bash if no [-c] command is provided." | fmt
   echo
-  echo -e "This script assumes you've already built the jar for use with Docker using ${BUILD_SCRIPT_LOCATION}" | fmt
-  echo
-  echo -e "Usage: $0 [-h] " | fmt
+  echo "Usage: $0 [-h] [-v] [-c \"shell-command(s)-to-run]\""
   echo -e "\t-h\t Display this help message" | fmt
-  echo ""
+  echo -e "\t-v\t Verbose mode (set -x)" | fmt
+  echo -e "\t-c\t Double quoted shell command(s) to run from the image's shell once logged in." | fmt
+  echo -e "\tExamples:" | fmt
+  echo -e "\t$ ./bin/docker-login -c \"ls\"" | fmt
+  echo
+  echo
 }
 
 ############################################################
@@ -27,11 +28,19 @@ help() {
 ############################################################
 ############################################################
 
-while getopts "h" opt; do
+COMMAND="/bin/ash"
+
+while getopts ":hvc:" opt; do
   case $opt in
   h)
     help
     exit 0
+    ;;
+  v)
+    set -x
+    ;;
+  c)
+    COMMAND="$OPTARG"
     ;;
   \?)
     echo "Invalid option: -$OPTARG" >&2
@@ -47,8 +56,7 @@ while getopts "h" opt; do
   esac
 done
 
-sslFileCheck
+# https://docs.docker.com/engine/reference/commandline/ps/
+IMAGE_CONTAINER_ID=$(docker ps --filter "name=${DEFAULT_DOCKER_IMAGE_NAME}" -q)
 
-cd "${SCRIPT_DIR}"/../.. || exit
-
-docker-compose build && docker-compose up --remove-orphans
+docker exec -it "${IMAGE_CONTAINER_ID}" sh -c "${COMMAND}"
