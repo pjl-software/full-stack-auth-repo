@@ -3,10 +3,10 @@ version: '3.9'
 services:
   app:
     build: .
-    image: full-stack-auth-repo-spring-back-end:0.0.1
+    image: ${DEFAULT_DOCKER_IMAGE_NAME}:0.0.1
     ports:
       - "8443:8443"
       - "5001:5000" # Maps: local port:docker port
-    container_name: full-stack-auth-repo-spring-back-end
+    container_name: ${DEFAULT_DOCKER_IMAGE_NAME}
     environment:
       EXAMPLE: "example value"
