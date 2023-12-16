@@ -9,6 +9,9 @@ FROM openjdk:17-alpine
 #COPY pjl-application/pjl-application-core/target/pjl-application-core.jar ./
 #ENTRYPOINT ["java", "-jar", "pjl-application-core.jar"]
 
+RUN addgroup -S demo && adduser -S demo -G demo
+USER demo
+
 ARG EXTRACTED=pjl-application/pjl-application-core/target/extracted
 
 COPY ${EXTRACTED}/dependencies/ ./
