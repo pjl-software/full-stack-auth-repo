@@ -53,4 +53,10 @@ done
 
 sslFileCheck
 
+echo
+echo -e "You can always check if a Spring server is running locally with command: $ ps aux | grep java" | fmt
+echo
+echo -e "This command list running processes with java in the name. If you want to stop it, you can run $ kill -9 <PID> ." | fmt
+echo
+
 java -Dspring.profiles.active="${PROFILE}" -jar "${SCRIPT_DIR}"/../../pjl-application/pjl-application-core/target/"${DEFAULT_JAR_NAME}"
