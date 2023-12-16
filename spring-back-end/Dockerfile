@@ -1,7 +1,7 @@
 # Do not run this Dockerfile directly
 # Instead, leverage:
-# make TBD
-# ./bin/docker TBD
+# $ make build-and-run-docker
+# $ ./bin/docker-startup-scripts/build-and-run-docker
 
 FROM openjdk:17-alpine
 
