@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
+
+. "${ENV_CONFIG_FILE}"
+
+############################################################
+# Help                                                     #
+############################################################
+help() {
+  echo ""
+  echo -e "Run the angular front-end app locally over HTTPS." | fmt
+  echo
+  echo -e "HTTPS Ref: https://www.freecodecamp.org/news/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec/"  | fmt
+  echo
+  echo -e "Usage: $0 [-h] | [-p profile]" | fmt
+  echo -e "\t-h\t Display this help message" | fmt
+  echo ""
+}
+
+############################################################
+############################################################
+# Main Program                                             #
+############################################################
+############################################################
+
+while getopts "h" opt; do
+  case $opt in
+  h)
+    help
+    exit 0
+    ;;
+  \?)
+    echo "Invalid option: -$OPTARG" >&2
+    help
+    exit 1
+    ;;
+  :)
+    echo ""
+    echo "Option -$OPTARG requires an argument." >&2
+    help
+    exit 1
+    ;;
+  esac
+done
+
+frontEndCertCheck
+
+cd "$SCRIPT_DIR/../.." || exit; ng serve --ssl true --ssl-cert "${SSL_CERT_LOCATION}" --ssl-key "${SSL_KEY_LOCATION}";
