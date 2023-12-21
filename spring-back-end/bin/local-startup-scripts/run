@@ -51,7 +51,7 @@ while getopts "hp:" opt; do
   esac
 done
 
-sslFileCheck
+fileToCheck "${DEFAULT_SSL_KEYSTORE_DIR}" "${SSL_FILE_TYPE}" "${MISSING_FILE_MESSAGE}"
 
 echo
 echo -e "You can always check if a Spring server is running locally with command: $ ps aux | grep java" | fmt
