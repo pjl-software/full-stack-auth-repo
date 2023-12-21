@@ -53,5 +53,9 @@ MISSING_FILE_MESSAGE="We didn't find the file. Without this file, HTTPs will not
 fileToCheck "${DEFAULT_CERT_KEY_DIR}" ${CRT_FILE_TYPE} "${MISSING_FILE_MESSAGE}"
 fileToCheck "${DEFAULT_CERT_KEY_DIR}" ${KEY_FILE_TYPE} "${MISSING_FILE_MESSAGE}"
 
+echo
+echo -e "Changing directories in to the front-end base directory for ng commands to work ..."
+echo
 cd "$SCRIPT_DIR/../.." || exit
+
 ng serve --ssl true --ssl-cert "${DEFAULT_CERT_KEY_DIR}/${DEFAULT_CERTIFICATE_FILE}" --ssl-key "${DEFAULT_CERT_KEY_DIR}/${DEFAULT_SERVER_KEY_FILE}"
