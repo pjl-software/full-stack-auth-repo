@@ -60,6 +60,6 @@ cd "$SCRIPT_DIR/../.." || exit
 
 requiredProgramCheck node "You'll need to install node (https://nodejs.org/en/download)."
 requiredProgramCheck npm "You'll need to install npm (https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)."
-requiredProgramCheck ng "You'll need to install ng -- the angular CLI (npm install -g @angular/cli)."
+requiredProgramCheck ng "You'll need to install ng, the angular CLI (npm install -g @angular/cli)."
 
 ng serve --ssl true --ssl-cert "${DEFAULT_CERT_KEY_DIR}/${DEFAULT_CERTIFICATE_FILE}" --ssl-key "${DEFAULT_CERT_KEY_DIR}/${DEFAULT_SERVER_KEY_FILE}"
