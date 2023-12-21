@@ -5,29 +5,24 @@ ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
 
 . "${ENV_CONFIG_FILE}"
 
-# Put the script in the required location to run mvnw and access the pom.xml file.
-cd "${SCRIPT_DIR}"/../../pjl-application/pjl-application-core/src/main/resources || exit
-
-mkdir "${DEFAULT_SSL_KEYSTORE_DIR}"
-cd "${DEFAULT_SSL_KEYSTORE_DIR}" || exit
-
 ############################################################
 # Help                                                     #
 ############################################################
 help() {
-  echo ""
-  echo -e "Docs and commands to get your local set up to run the Spring Boot server on HTTPS. This script will create ~9 files. Ultimately, it will only reference one, but I would leave all the files as-is." | fmt
-  echo -e "Also, be sure not to commit these to GitHub. Although they are development-only files, it's best practice not to commit this stuff regardless." | fmt
-  echo
-  echo -e "Note that this is solely for developmental purposes and not meant, in any way, to be used in a production environment" | fmt
-  echo
-  echo -e "References these Tutorials "
-  echo -e "\thttps://www.freecodecamp.org/news/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec/" | fmt
-  echo -e "\thttps://medium.com/javarevisited/how-to-enable-https-locally-without-getting-annoying-browser-privacyerrors-in-a-spring-boot-a6137dacbc0a" | fmt
-  echo ""
-  echo -e "Usage: $0 [-h]" | fmt
-  echo -e "\t-h\t Display this help message" | fmt
-  echo ""
+    echo ""
+    echo -e "Docs and commands to get your local set up to run the the web app on HTTPS. This script will create ~9 files. Ultimately, the back-end will only need one and the front-end two, but I would leave all the files as-is (as-are?)." | fmt
+    echo
+    echo -e "Also, be sure not to commit these to GitHub. Although they are development-only files, it's best practice not to commit this stuff regardless." | fmt
+    echo
+    echo -e "Note that this is solely for developmental purposes and not meant, in any way, to be used in a production environment" | fmt
+    echo
+    echo -e "References these Tutorials "
+    echo -e "\thttps://www.freecodecamp.org/news/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec/" | fmt
+    echo -e "\thttps://medium.com/javarevisited/how-to-enable-https-locally-without-getting-annoying-browser-privacyerrors-in-a-spring-boot-a6137dacbc0a" | fmt
+    echo ""
+    echo -e "Usage: $0 [-h]" | fmt
+    echo -e "\t-h\t Display this help message" | fmt
+    echo ""
 }
 
 ############################################################
@@ -37,43 +32,41 @@ help() {
 ############################################################
 
 while getopts "h" opt; do
-  case $opt in
-  h)
-    help
-    exit 0
-    ;;
-  \?)
-    echo "Invalid option: -$OPTARG" >&2
-    help
-    exit 1
-    ;;
-  :)
-    echo ""
-    echo "Option -$OPTARG requires an argument." >&2
-    help
-    exit 1
-    ;;
-  esac
+    case $opt in
+    h)
+        help
+        exit 0
+        ;;
+    \?)
+        echo "Invalid option: -$OPTARG" >&2
+        help
+        exit 1
+        ;;
+    :)
+        echo ""
+        echo "Option -$OPTARG requires an argument." >&2
+        help
+        exit 1
+        ;;
+    esac
 done
 
 echo
-
-read -r -p "Delete all files in ${DEFAULT_SSL_KEYSTORE_DIR}? (y/n) " yn
-case $yn in
-y | Y)
-  echo "Removing files from ${DEFAULT_SSL_KEYSTORE_DIR}..."
-  rm "${DEFAULT_SSL_KEYSTORE_DIR}"/*
-  ;;
-n | N)
-  echo "Proceeding without deleting files..."
-  ;;
-*)
-  echo "invalid response"
-  exit 1
-  ;;
-esac
+echo -e "Attempting to create the root, back-end and front-end SSL directories (they may already be there)..."
+echo
+mkdir "${DEFAULT_SSL_FILES_DIR}"
+mkdir "${DEFAULT_SSL_KEYSTORE_DIR}"
+mkdir "${DEFAULT_CERT_KEY_DIR}"
+echo
 
 echo
+echo -e "Changing directories into ${DEFAULT_SSL_FILES_DIR} so all files are generated there..."
+cd "${DEFAULT_SSL_FILES_DIR}" || exit
+echo
+
+deleteAllFilesInDirectoryCheck "${DEFAULT_SSL_FILES_DIR}"
+deleteAllFilesInDirectoryCheck "${DEFAULT_SSL_KEYSTORE_DIR}"
+deleteAllFilesInDirectoryCheck "${DEFAULT_CERT_KEY_DIR}"
 
 echo
 echo -e "Generate a RSA-2048 key and save it to a file: rootCA.key. This file will be used as the key to generate the Root SSL certificate. You will be prompted for a pass phrase which you’ll need to enter each time you use this particular key to generate a certificate." | fmt
@@ -96,7 +89,7 @@ echo -e "NOW YOU MUST TAKE A MANUAL STEP:" | fmt
 echo -e "We need to add the root certificate to any laptops, desktops, tablets, and phones that will be accessing your HTTPS sites (one time)." | fmt
 echo
 echo -e "For Mac Users" | fmt
-echo -e "Open Keychain Access on your Mac and go to the Certificates category in your System keychain. Once there, import the ${DEFAULT_ROOT_SSL_CERT_PEM_NAME} using File > Import Items. Double click the imported certificate and change the 'When using this certificate:' dropdown to 'Always Trust' in the 'Trust' section." | fmt
+echo -e "Open Keychain Access on your Mac and go to the Certificates category in your System keychain. Once there, import the ${DEFAULT_SSL_FILES_DIR}/${DEFAULT_ROOT_SSL_CERT_PEM_NAME} using File > Import Items. Double click the imported certificate and change the 'When using this certificate:' dropdown to 'Always Trust' in the 'Trust' section." | fmt
 echo
 echo -e "For None Mac Users" | fmt
 echo -e "Search how to manage certificates in your browser of choice and upload the ${DEFAULT_ROOT_SSL_CERT_PEM_NAME} to Trusted Root Certificates." | fmt
@@ -110,7 +103,7 @@ echo
 echo
 echo -e "Creating an OpenSSL configuration file (${DEFAULT_OPEN_SSL_CONFIGURATION_FILE}) so you can import these settings when creating a certificate instead of entering them on the command line" | fmt
 
-cat <<'EOF' >"${DEFAULT_SSL_KEYSTORE_DIR}"/"${DEFAULT_OPEN_SSL_CONFIGURATION_FILE}"
+cat <<'EOF' >"${DEFAULT_SSL_FILES_DIR}"/"${DEFAULT_OPEN_SSL_CONFIGURATION_FILE}"
 [req]
 default_bits = 2048
 prompt = no
@@ -128,13 +121,11 @@ CN = localhost
 
 EOF
 
-
-
 echo
 echo -e "Create a ${DEFAULT_V3_EXT_FILENAME} file in order to create a X509 v3 certificate. Notice how we’re specifying subjectAltName here." | fmt
 echo
 
-cat <<'EOF' >"${DEFAULT_SSL_KEYSTORE_DIR}"/"${DEFAULT_V3_EXT_FILENAME}"
+cat <<'EOF' >"${DEFAULT_SSL_FILES_DIR}"/"${DEFAULT_V3_EXT_FILENAME}"
 basicConstraints=CA:FALSE
 keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
 subjectAltName = @alt_names
@@ -161,11 +152,22 @@ echo -e "Convert the x.509 cert and key to a pkcs12 file for the spring-boot ser
 echo
 
 openssl pkcs12 -export -in "${DEFAULT_CERTIFICATE_FILE}" -inkey "${DEFAULT_SERVER_KEY_FILE}" \
-  -out "${DEFAULT_P12_FILE}" -name "${DEFAULT_P12_ALIAS}" \
-  -CAfile "${DEFAULT_CA_FILE}" -caname "${DEFAULT_CA_NAME}"
+    -out "${DEFAULT_P12_FILE}" -name "${DEFAULT_P12_ALIAS}" \
+    -CAfile "${DEFAULT_CA_FILE}" -caname "${DEFAULT_CA_NAME}"
 
 echo
-echo "Update application-local.properties file with the relevant info to enable HTTPS/SSL:"
+echo -e "Copying the ${DEFAULT_P12_FILE} file to the requisite Spring back-end directory ${DEFAULT_SSL_KEYSTORE_DIR}" | fmt
+cp "${DEFAULT_P12_FILE}" "${DEFAULT_SSL_KEYSTORE_DIR}"
+echo
+
+echo
+echo -e "Copying the ${DEFAULT_CERTIFICATE_FILE} and ${DEFAULT_SERVER_KEY_FILE} to the requisite Angular front-end directory ${DEFAULT_CERT_KEY_DIR}" | fmt
+cp "${DEFAULT_CERTIFICATE_FILE}" "${DEFAULT_CERT_KEY_DIR}"
+cp "${DEFAULT_SERVER_KEY_FILE}" "${DEFAULT_CERT_KEY_DIR}"
+echo
+
+echo
+echo "Update spring-back-end application-local.properties file with the relevant info to enable HTTPS/SSL:"
 echo -e "
 \tserver.port=8443
 
