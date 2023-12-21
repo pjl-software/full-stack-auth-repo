@@ -5,9 +5,6 @@ ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
 
 . "${ENV_CONFIG_FILE}"
 
-REPO_ROOT_DIR="${SCRIPT_DIR}/../.."
-SSL_FILES_DIR="${REPO_ROOT_DIR}/ssl-files"
-
 ############################################################
 # Help                                                     #
 ############################################################
@@ -57,17 +54,17 @@ done
 echo
 echo -e "Attempting to create the root, back-end and front-end SSL directories (they may already be there)..."
 echo
-mkdir "${SSL_FILES_DIR}"
+mkdir "${DEFAULT_SSL_FILES_DIR}"
 mkdir "${DEFAULT_SSL_KEYSTORE_DIR}"
 mkdir "${DEFAULT_CERT_KEY_DIR}"
 echo
 
 echo
-echo -e "Changing directories into ${SSL_FILES_DIR} so all files are generated there..."
-cd "${SSL_FILES_DIR}" || exit
+echo -e "Changing directories into ${DEFAULT_SSL_FILES_DIR} so all files are generated there..."
+cd "${DEFAULT_SSL_FILES_DIR}" || exit
 echo
 
-deleteAllFilesInDirectoryCheck "${SSL_FILES_DIR}"
+deleteAllFilesInDirectoryCheck "${DEFAULT_SSL_FILES_DIR}"
 deleteAllFilesInDirectoryCheck "${DEFAULT_SSL_KEYSTORE_DIR}"
 deleteAllFilesInDirectoryCheck "${DEFAULT_CERT_KEY_DIR}"
 
@@ -92,7 +89,7 @@ echo -e "NOW YOU MUST TAKE A MANUAL STEP:" | fmt
 echo -e "We need to add the root certificate to any laptops, desktops, tablets, and phones that will be accessing your HTTPS sites (one time)." | fmt
 echo
 echo -e "For Mac Users" | fmt
-echo -e "Open Keychain Access on your Mac and go to the Certificates category in your System keychain. Once there, import the ${SSL_FILES_DIR}/${DEFAULT_ROOT_SSL_CERT_PEM_NAME} using File > Import Items. Double click the imported certificate and change the 'When using this certificate:' dropdown to 'Always Trust' in the 'Trust' section." | fmt
+echo -e "Open Keychain Access on your Mac and go to the Certificates category in your System keychain. Once there, import the ${DEFAULT_SSL_FILES_DIR}/${DEFAULT_ROOT_SSL_CERT_PEM_NAME} using File > Import Items. Double click the imported certificate and change the 'When using this certificate:' dropdown to 'Always Trust' in the 'Trust' section." | fmt
 echo
 echo -e "For None Mac Users" | fmt
 echo -e "Search how to manage certificates in your browser of choice and upload the ${DEFAULT_ROOT_SSL_CERT_PEM_NAME} to Trusted Root Certificates." | fmt
@@ -106,7 +103,7 @@ echo
 echo
 echo -e "Creating an OpenSSL configuration file (${DEFAULT_OPEN_SSL_CONFIGURATION_FILE}) so you can import these settings when creating a certificate instead of entering them on the command line" | fmt
 
-cat <<'EOF' >"${SSL_FILES_DIR}"/"${DEFAULT_OPEN_SSL_CONFIGURATION_FILE}"
+cat <<'EOF' >"${DEFAULT_SSL_FILES_DIR}"/"${DEFAULT_OPEN_SSL_CONFIGURATION_FILE}"
 [req]
 default_bits = 2048
 prompt = no
@@ -128,7 +125,7 @@ echo
 echo -e "Create a ${DEFAULT_V3_EXT_FILENAME} file in order to create a X509 v3 certificate. Notice how we’re specifying subjectAltName here." | fmt
 echo
 
-cat <<'EOF' >"${SSL_FILES_DIR}"/"${DEFAULT_V3_EXT_FILENAME}"
+cat <<'EOF' >"${DEFAULT_SSL_FILES_DIR}"/"${DEFAULT_V3_EXT_FILENAME}"
 basicConstraints=CA:FALSE
 keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
 subjectAltName = @alt_names
