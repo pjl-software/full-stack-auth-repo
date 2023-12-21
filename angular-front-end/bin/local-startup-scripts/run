@@ -45,6 +45,13 @@ while getopts "h" opt; do
   esac
 done
 
-frontEndCertCheck
+CRT_FILE_TYPE=".crt"
+KEY_FILE_TYPE=".key"
 
-cd "$SCRIPT_DIR/../.." || exit; ng serve --ssl true --ssl-cert "${SSL_CERT_LOCATION}" --ssl-key "${SSL_KEY_LOCATION}";
+MISSING_FILE_MESSAGE="We didn't find the file. Without this file, HTTPs will not be enabled. When you try to open the app locally, your browser may not open saying: This site can’t provide a secure connection. To generate this file, run the 'enable-localhost-https' script"
+
+fileToCheck "${DEFAULT_SSL_KEYSTORE_DIR}" ${CRT_FILE_TYPE} "${MISSING_FILE_MESSAGE}"
+fileToCheck "${DEFAULT_SSL_KEYSTORE_DIR}" ${KEY_FILE_TYPE} "${MISSING_FILE_MESSAGE}"
+
+
+cd "$SCRIPT_DIR/../.." || exit; ng serve --ssl true --ssl-cert "${DEFAULT_SSL_KEYSTORE_DIR}/${DEFAULT_CERTIFICATE_FILE}" --ssl-key "${DEFAULT_SSL_KEYSTORE_DIR}/${DEFAULT_SERVER_KEY_FILE}";
