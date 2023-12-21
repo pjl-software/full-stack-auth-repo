@@ -55,7 +55,7 @@ while getopts "h" opt; do
 done
 
 echo
-echo -e "Attemptying to create the root, back-end and front-end SSL directories (they may already be there)..."
+echo -e "Attempting to create the root, back-end and front-end SSL directories (they may already be there)..."
 echo
 mkdir "${SSL_FILES_DIR}"
 mkdir "${DEFAULT_SSL_KEYSTORE_DIR}"
