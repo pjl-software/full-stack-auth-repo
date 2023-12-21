@@ -12,7 +12,7 @@ help() {
   echo ""
   echo -e "Run the angular front-end app locally over HTTPS." | fmt
   echo
-  echo -e "HTTPS Ref: https://www.freecodecamp.org/news/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec/"  | fmt
+  echo -e "HTTPS Ref: https://www.freecodecamp.org/news/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec/" | fmt
   echo
   echo -e "Usage: $0 [-h] | [-p profile]" | fmt
   echo -e "\t-h\t Display this help message" | fmt
@@ -50,8 +50,8 @@ KEY_FILE_TYPE=".key"
 
 MISSING_FILE_MESSAGE="We didn't find the file. Without this file, HTTPs will not be enabled. When you try to open the app locally, your browser may not open saying: This site can’t provide a secure connection. To generate this file, run the 'enable-localhost-https' script"
 
-fileToCheck "${DEFAULT_SSL_KEYSTORE_DIR}" ${CRT_FILE_TYPE} "${MISSING_FILE_MESSAGE}"
-fileToCheck "${DEFAULT_SSL_KEYSTORE_DIR}" ${KEY_FILE_TYPE} "${MISSING_FILE_MESSAGE}"
+fileToCheck "${DEFAULT_CERT_KEY_DIR}" ${CRT_FILE_TYPE} "${MISSING_FILE_MESSAGE}"
+fileToCheck "${DEFAULT_CERT_KEY_DIR}" ${KEY_FILE_TYPE} "${MISSING_FILE_MESSAGE}"
 
-
-cd "$SCRIPT_DIR/../.." || exit; ng serve --ssl true --ssl-cert "${DEFAULT_SSL_KEYSTORE_DIR}/${DEFAULT_CERTIFICATE_FILE}" --ssl-key "${DEFAULT_SSL_KEYSTORE_DIR}/${DEFAULT_SERVER_KEY_FILE}";
+cd "$SCRIPT_DIR/../.." || exit
+ng serve --ssl true --ssl-cert "${DEFAULT_CERT_KEY_DIR}/${DEFAULT_CERTIFICATE_FILE}" --ssl-key "${DEFAULT_CERT_KEY_DIR}/${DEFAULT_SERVER_KEY_FILE}"
