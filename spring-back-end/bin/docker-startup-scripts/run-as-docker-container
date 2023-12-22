@@ -49,7 +49,7 @@ done
 
 requiredProgramCheck docker "You'll need to install Docker (https://docs.docker.com/get-docker/) and ensure it is running before this command will work."
 
-sslFileCheck
+fileToCheck "${DEFAULT_SSL_KEYSTORE_DIR}" "${SSL_FILE_TYPE}" "${MISSING_FILE_MESSAGE}"
 
 cd "${SCRIPT_DIR}"/../.. || exit
 
