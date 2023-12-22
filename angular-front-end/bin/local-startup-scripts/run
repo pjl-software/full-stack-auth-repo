@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
+
+. "${ENV_CONFIG_FILE}"
+
+############################################################
+# Help                                                     #
+############################################################
+help() {
+  echo ""
+  echo -e "Run the angular front-end app locally over HTTPS." | fmt
+  echo
+  echo -e "HTTPS Ref: https://www.freecodecamp.org/news/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec/" | fmt
+  echo
+  echo -e "Usage: $0 [-h] | [-p profile]" | fmt
+  echo -e "\t-h\t Display this help message" | fmt
+  echo ""
+}
+
+############################################################
+############################################################
+# Main Program                                             #
+############################################################
+############################################################
+
+while getopts "h" opt; do
+  case $opt in
+  h)
+    help
+    exit 0
+    ;;
+  \?)
+    echo "Invalid option: -$OPTARG" >&2
+    help
+    exit 1
+    ;;
+  :)
+    echo ""
+    echo "Option -$OPTARG requires an argument." >&2
+    help
+    exit 1
+    ;;
+  esac
+done
+
+CRT_FILE_TYPE=".crt"
+KEY_FILE_TYPE=".key"
+
+MISSING_FILE_MESSAGE="We didn't find the file. Without this file, HTTPs will not be enabled. When you try to open the app locally, your browser may not open saying: This site can’t provide a secure connection. To generate this file, run the ${ENABLE_LOCALHOST_HTTPS_SCRIPT_LOCATION} script"
+
+fileToCheck "${DEFAULT_CERT_KEY_DIR}" ${CRT_FILE_TYPE} "${MISSING_FILE_MESSAGE}"
+fileToCheck "${DEFAULT_CERT_KEY_DIR}" ${KEY_FILE_TYPE} "${MISSING_FILE_MESSAGE}"
+
+echo
+echo -e "Changing directories in to the front-end base directory for ng commands to work ..."
+echo
+cd "$SCRIPT_DIR/../.." || exit
+
+requiredProgramCheck node "You'll need to install node (https://nodejs.org/en/download)."
+requiredProgramCheck npm "You'll need to install npm (https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)."
+requiredProgramCheck ng "You'll need to install ng, the angular CLI (npm install -g @angular/cli)."
+
+ng serve --ssl true --ssl-cert "${DEFAULT_CERT_KEY_DIR}/${DEFAULT_CERTIFICATE_FILE}" --ssl-key "${DEFAULT_CERT_KEY_DIR}/${DEFAULT_SERVER_KEY_FILE}"
