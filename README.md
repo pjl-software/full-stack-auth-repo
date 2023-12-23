@@ -22,6 +22,7 @@ option that will provide usage and documentation.
 - **00-spring-boot-setup-local** [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/00-spring-boot-setup-local) and [Code Review Video](https://youtu.be/b2kl8cu3tC8?si=anWga882uFXQ6MJC)
 - **01-run-server-local-on-https** [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/01-run-server-local-on-https) and [Code Review Video](https://youtu.be/qxVWOGYYFV0)
 - **02-run-server-on-docker** [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/02-run-server-on-docker) and [Code Review Video](https://youtu.be/ks2qhwnO-a4)
+- **03-mono-repo-management** [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/03-mono-repo-management) and [Code Review Video](https://youtu.be/LH2ajoHEdg0)
 
 ## Why Are you Building This?
 
