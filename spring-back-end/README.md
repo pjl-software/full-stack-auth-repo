@@ -7,8 +7,6 @@ machine out of the box. This branch has a health check endpoint that can be reac
 to https://localhost:8443/health. This demo is intended to help give you a starting point with Spring Boot
 to tinker and expand while learning the tech.
 
-[Code Review Video](https://youtu.be/b2kl8cu3tC8?si=anWga882uFXQ6MJC)
-
 ### Getting Started
 
 1. Clone this repo to your local machine
@@ -36,7 +34,7 @@ And Voilà! You have a back-end server up and running on HTTPS.
 
 Open a browers and navigate to https://localhost:8443/health
 
-## Start the Front-End
+#### Start the Front-End
 
 Open a separate terminal and follow the steps in the angular-front-end/README.md
 
