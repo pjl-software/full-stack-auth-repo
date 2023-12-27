@@ -1,27 +1,45 @@
-# AngularFrontEnd
+# Angular Front-End
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.7.
+## Overview
 
-## Development server
+This codebase represents a **complete** Angular (17) front-end that will run on your local
+machine out of the box. This branch has a simple application that is integrated with the Spring Boot back-end (`spring-back-end
+`) that is also part of this repo. When running, this app can be reached at `https://localhost:4200`.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+This demo is intended to help give you a starting point with Angular and a real back-end
+to tinker and expand while learning the tech.
 
-## Code scaffolding
+[Code Review Video](https://youtu.be/b2kl8cu3tC8?si=anWga882uFXQ6MJC)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Getting Started
 
-## Build
+1. Clone this repo to your local machine
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- `$ git clone https://github.com/pjl-software/full-stack-auth-repo.git`
 
-## Running unit tests
+2. Change directories into the codebase
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- `$ cd full-stack-auth-repo`
 
-## Running end-to-end tests
+3. Make sure you've created your SSL Cert and followed the instructions to run the app on HTTPS
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- `$ ./bin/ssl/enable-localhost-https` OR `make generate-ssl-cert`
 
-## Further help
+3. Run the application
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Locally
+  - `$ ./angular-front-end/local-startup-scripts/run` OR `cd angular-front-end && make run-local`
+
+And Voilà! You have an Angular front-end single page application running locally on HTTPS.
+
+### Test The Running Application
+
+Open a browers and navigate to https://localhost:4200
+
+## Start the Back-End
+
+Open a separate terminal and follow the steps in the spring-back-end/README.md
+
+### Issues
+
+If you experience issues, and things just aren't running for you, let me know by opening an issue.
