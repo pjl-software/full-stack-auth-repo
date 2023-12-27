@@ -6,29 +6,58 @@ and with minimal local requirements.
 
 ## To Get Started
 
+### Using Custom /bin Scripts
+
+This repo has a number of utility scripts in the `bin` directories located within this repo. Each script has a `-h` help
+option that will provide usage and documentation. We recommend using these scripts as they have more help and options than `make`.
+
+This mono-repo contains both the front-end and back-end code for the full-stack application. Although you can run both processes from one terminal by running them in the background, **we recommend running the back-end and front-end seperately in their own terminal to keep things clear.** Each sub-codebase has it's own `./bin` directory with scripts to get the code running.
+
+#### spring-back-end
+
+The Spring Boot back-end server codebase. The README.md file in this repo has instructions on getting it started.
+
+#### angular-front-end
+
+The Anglar front-end server codebase. The README.md file in this repo has instructions on getting it started.
+
+### Using Make
+
 - Open a terminal
 - `git clone https://github.com/pjl-software/full-stack-auth-repo.git`
 - `cd` into this repo
-- run `make build-and-run-local` or `make build-and-run-docker`
-
-`make` will build and run the application for you automatically. If you run it locally, it will run a check that you have [Java 17](https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/macos-install.html) installed locally on your computer. If you run it via Docker, you'll need [Docker](https://docs.docker.com/get-docker/) running locally (Enginer 19.03.0+).
-
-In addition to the `make` commands in the `Makefile`,
-the repo has a number of utility scripts in the `bin` directories located within this repo. Each script has a `-h` help
-option that will provide usage and documentation.
+- run `make build-and-run-local` (front-end and back-end) or `make build-and-run-docker` (back-end only)
 
 ## Code Review Branch Videos
 
-- **00-spring-boot-setup-local** [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/00-spring-boot-setup-local) and [Code Review Video](https://youtu.be/b2kl8cu3tC8?si=anWga882uFXQ6MJC)
-- **01-run-server-local-on-https** [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/01-run-server-local-on-https) and [Code Review Video](https://youtu.be/qxVWOGYYFV0)
-- **02-run-server-on-docker** [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/02-run-server-on-docker) and [Code Review Video](https://youtu.be/ks2qhwnO-a4)
-- **03-mono-repo-management** [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/03-mono-repo-management) and [Code Review Video](https://youtu.be/LH2ajoHEdg0)
+- **00-spring-boot-setup-local**
+  - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/00-spring-boot-setup-local)
+  - [Code Review Video](https://youtu.be/b2kl8cu3tC8?si=anWga882uFXQ6MJC)
+  - Summary: Setting up our back-end server codebase using Spring Boot. Build a GET request health check as our first API.
+- **01-run-server-local-on-https**
+  - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/01-run-server-local-on-https)
+  - [Code Review Video](https://youtu.be/qxVWOGYYFV0)
+  - Summary: Our API runs on HTTP, but we need it to run on HTTPS to be functional and mimic production. Here we enable SSL and generate the required files.
+- **02-run-server-on-docker**
+  - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/02-run-server-on-docker)
+  - [Code Review Video](https://youtu.be/ks2qhwnO-a4)
+  - Summary: So far, our Spring Boot API runs locally on HTTPS, but what if your local environment differs and this codebase won't run for you? We set up our Spring Boot API on Docker so that anyone with Docker can run this code out-of-the-box over Docker.
+- **03-mono-repo-management**
+  - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/03-mono-repo-management)
+  - [Code Review Video](https://youtu.be/LH2ajoHEdg0)
+  - We add an additional codebase to this repo for our Angular front-end application. This second codebase in our mono-repo required some refactoring remove redundancy and reuse code.
+- **04-angular-spring-local-integration**
+  - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/04-angular-spring-local-integration)
+  - [Code Review Video]()
+  - We refactor our Angular codebase to connect to our Spring Boot back-end health check API **creating a full stack web application**.
 
 ## Why Are you Building This?
 
 I don't like tutorials or reading raw documentation. What _I_ want when I'm learning something new, is a working
 replica that I can tinker with to learn and build upon through trial and error. My goal is to provide this to
 whoever learns like me in hopes that it helps them build some incredible stuff.
+
+I also find myself wanting more context than the code or tutorial provides, which is why I pair the code with video code reviews.
 
 ## How Are you Building This?
 
