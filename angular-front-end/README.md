@@ -9,8 +9,6 @@ machine out of the box. This branch has a simple application that is integrated 
 This demo is intended to help give you a starting point with Angular and a real back-end
 to tinker and expand while learning the tech.
 
-[Code Review Video](https://youtu.be/b2kl8cu3tC8?si=anWga882uFXQ6MJC)
-
 ### Getting Started
 
 1. Clone this repo to your local machine
@@ -36,7 +34,7 @@ And Voilà! You have an Angular front-end single page application running locall
 
 Open a browers and navigate to https://localhost:4200
 
-## Start the Back-End
+#### Start the Back-End
 
 Open a separate terminal and follow the steps in the spring-back-end/README.md
 
