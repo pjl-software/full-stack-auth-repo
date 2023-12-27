@@ -1,5 +1,12 @@
 <h1 *ngIf="false">Ng If!</h1>
-<router-outlet
-  >Hello {{ title }} in {{ environment }}. Our back-end server status is:
-  {{ backEndHealthStatus$ | async }}</router-outlet
+<router-outlet>
+  <p>
+    Hello, this is the <b>{{ title }}</b>
+  </p>
+  <p>
+    We are running the <b>{{ environment }}</b> environment configs.
+  </p>
+  <p>
+    Our back-end server status is: <b>{{ backEndHealthStatus$ | async }}</b>
+  </p></router-outlet
 >
