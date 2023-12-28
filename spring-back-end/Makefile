@@ -19,9 +19,6 @@ build-and-run-local:
 build-and-run-docker:
 	./${DOCKER_START_UP_DIR}/build-and-run-docker
 
-generate-ssl-cert:
-	./bin/ssl/enable-localhost-https
-
 help:
 	@echo "\nCheck the ./bin directory for utility scripts. Each one will have a [-h] option with help in addition to the code itself.\n" | fmt
 
