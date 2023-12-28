@@ -1,25 +1,41 @@
 # Full Stack Authentication Repo
 
+This codebase is a full-stack web application monorepo. It consists of a Spring Boot 3 back-end API with an Angular 17+ front-end. You can clone this repo, start the back-end and front-end, and begin tinkering with the code to understand how a full-stack web app works.
+
 This is will eventually be a fully fledged user authentication application built with a Spring Boot (3.2+) back-end,
 Angular front-end, and PostgreSQL datastore that will run on Docker. The repo will be runnable with a few key strokes
 and with minimal local requirements.
 
 ## To Get Started
 
-### Using Custom /bin Scripts
-
 This repo has a number of utility scripts in the `bin` directories located within this repo. Each script has a `-h` help
 option that will provide usage and documentation. We recommend using these scripts as they have more help and options than `make`.
 
-This mono-repo contains both the front-end and back-end code for the full-stack application. Although you can run both processes from one terminal by running them in the background, **we recommend running the back-end and front-end seperately in their own terminal to keep things clear.** Each sub-codebase has it's own `./bin` directory with scripts to get the code running.
+### Using Custom /bin Scripts
+
+This mono-repo contains both the front-end and back-end code for the full-stack application. Although you can run both processes from one terminal by running at least one in the background, **we recommend running the back-end and front-end seperately in their own terminal to keep things clear.** The `angular-front-end` and `spring-back-end` directories each have their own `./bin` directory with scripts to get the code running. Note that you may need to run `$ ./bin/ssl/enable-localhost-https` OR `make generate-ssl-cert` from the top-level of this repo to ensure SSL will work before you start the front and back-end.
 
 #### spring-back-end
 
-The Spring Boot back-end server codebase. The README.md file in this repo has instructions on getting it started.
+The Spring Boot back-end server codebase. The README.md file in this repo has instructions on getting it started. In general, you'd do something like the following:
+
+1. Open a new terminal and `cd` into this repo
+2. Run the spring-back-end:
+
+- Locally
+  - `$ ./spring-back-end/bin/local-startup-scripts/build-and-run` OR `cd spring-back-end && make build-and-run-local`
+- Docker
+  - `$ ./spring-back-end/bin/docker-startup-scripts/build-and-run-docker` OR `cd spring-back-end && make build-and-run-docker`
 
 #### angular-front-end
 
-The Anglar front-end server codebase. The README.md file in this repo has instructions on getting it started.
+The Anglar front-end server codebase. The README.md file in this repo has instructions on getting it started. In general, you'd do something like the following:
+
+1. Open a new terminal and `cd` into this repo
+2. Run the spring-back-end:
+
+- Locally
+  - `$ ./angular-front-end/local-startup-scripts/run` OR `cd angular-front-end && make run-local`
 
 ### Using Make
 
