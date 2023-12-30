@@ -64,7 +64,7 @@ The Anglar front-end server codebase. The README.md file in this repo has instru
   - We add an additional codebase to this repo for our Angular front-end application. This second codebase in our mono-repo required some refactoring remove redundancy and reuse code.
 - **04-angular-spring-local-integration**
   - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/04-angular-spring-local-integration)
-  - [Code Review Video]()
+  - [Code Review Video](https://youtu.be/D3C9SL-5cug?si=Xcq3o_gH_CW49HTk)
   - We refactor our Angular codebase to connect to our Spring Boot back-end health check API **creating a full stack web application**.
 
 ## Why Are you Building This?
