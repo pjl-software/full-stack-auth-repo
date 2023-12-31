@@ -66,6 +66,10 @@ The Anglar front-end server codebase. The README.md file in this repo has instru
   - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/04-angular-spring-local-integration)
   - [Code Review Video](https://youtu.be/D3C9SL-5cug?si=Xcq3o_gH_CW49HTk)
   - We refactor our Angular codebase to connect to our Spring Boot back-end health check API **creating a full stack web application**.
+- **05-spring-actuator-integration**
+  - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/05-spring-actuator-integration)
+  - [TBD Code Review Video TBD](TBD)
+  - We remove the health check API we created and replace it with the one Spring provides through the Spring Boot Starter Actuator library.
 
 ## Why Are you Building This?
 
