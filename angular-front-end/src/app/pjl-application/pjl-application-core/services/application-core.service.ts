@@ -11,7 +11,8 @@ export class ApplicationCoreSerivce {
 
   /**
    *
-   * @returns Observable string indicating the health of the back-end server
+   * @returns Observable string indicating the health of the back-end server using the URL assoiciated with the
+   * custom health check we've created manually.
    */
   getBackEndHealth(): Observable<string> {
     return this.http.get(`${environment.apiUrl}` + '/health', {}).pipe(
@@ -20,6 +21,22 @@ export class ApplicationCoreSerivce {
       }),
       catchError((err: HttpErrorResponse) => {
         return of('Not Healthy!');
+      })
+    );
+  }
+
+  /**
+   *
+   * @returns Observable string indicating the health of the back-end server utilizing the /actuator URL that comes with the
+   * Spring Boot Starter Actuator library
+   */
+  getBackEndHealthActuator(): Observable<string> {
+    return this.http.get(`${environment.apiUrl}` + '/actuator/health', {}).pipe(
+      map<any, string>((response) => {
+        return response.status;
+      }),
+      catchError((err: HttpErrorResponse) => {
+        return of('Actuator Not Healthy!');
       })
     );
   }
