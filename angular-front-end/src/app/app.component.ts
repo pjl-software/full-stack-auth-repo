@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const autoRefreshRateInMilliSeconds: number = 10000; // 10 seconds
+    const autoRefreshRateInMilliSeconds: number = 5000; // 5 seconds
     this.backEndHealthStatus$ = interval(autoRefreshRateInMilliSeconds).pipe(
       switchMap(() => this.applicationCoreSerivce.getBackEndHealth())
     );
