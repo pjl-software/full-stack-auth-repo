@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { environment } from '../environment-configs/environment.local';
-import { Observable, of } from 'rxjs';
+import { Observable, interval, of, switchMap } from 'rxjs';
 import { ApplicationCoreSerivce } from './pjl-application/pjl-application-core/services/application-core.service';
 
 @Component({
@@ -19,6 +19,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.backEndHealthStatus$ = this.applicationCoreSerivce.getBackEndHealth();
+    const autoRefreshRateInMilliSeconds: number = 10000; // 10 seconds
+    this.backEndHealthStatus$ = interval(autoRefreshRateInMilliSeconds).pipe(
+      switchMap(() => this.applicationCoreSerivce.getBackEndHealth())
+    );
   }
 }
