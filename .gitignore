@@ -11,6 +11,9 @@
 
 **/target/
 
+# Static files copied to Spring
+**/src/main/resources/static/
+
 # Logs
 *.log
 
