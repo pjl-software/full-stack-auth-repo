@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := build-and-run-docker
+.DEFAULT_GOAL := build-jar-and-run-docker
 
 SPRING_BACK_END_DIR := spring-back-end
 ANGULAR_FRONT_END_DIR := angular-front-end
@@ -17,8 +17,8 @@ build-and-run-local:
 	@echo "Starting the Angular front-end application. ctrl-c should quit both." | fmt
 	cd ./${ANGULAR_FRONT_END_DIR} && $(MAKE) run-local
 
-build-and-run-docker: # For now this is just the back-end, will be front-end too once built
-	cd ./${SPRING_BACK_END_DIR} && $(MAKE) build-and-run-docker
+build-jar-and-run-docker: # For now this is just the back-end, will be front-end too once built
+	cd ./${SPRING_BACK_END_DIR} && $(MAKE) build-jar-and-run-docker
 
 generate-ssl-cert:
 	./bin/ssl/enable-localhost-https

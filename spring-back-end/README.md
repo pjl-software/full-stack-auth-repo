@@ -26,7 +26,7 @@ to tinker and expand while learning the tech.
 - Locally
   - `$ ./spring-back-end/bin/local-startup-scripts/build-and-run` OR `cd spring-back-end && make build-and-run-local`
 - Docker
-  - `$ ./spring-back-end/bin/docker-startup-scripts/build-and-run-docker` OR `cd spring-back-end && make build-and-run-docker`
+  - `$ ./spring-back-end/bin/docker-startup-scripts/build-jar-and-run-docker` OR `cd spring-back-end && make build-jar-and-run-docker`
 
 And Voilà! You have a back-end server up and running on HTTPS.
 

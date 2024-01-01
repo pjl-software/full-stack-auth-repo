@@ -25,7 +25,7 @@ The Spring Boot back-end server codebase. The README.md file in this repo has in
 - Locally
   - `$ ./spring-back-end/bin/local-startup-scripts/build-and-run` OR `cd spring-back-end && make build-and-run-local`
 - Docker
-  - `$ ./spring-back-end/bin/docker-startup-scripts/build-and-run-docker` OR `cd spring-back-end && make build-and-run-docker`
+  - `$ ./spring-back-end/bin/docker-startup-scripts/build-jar-and-run-docker` OR `cd spring-back-end && make build-jar-and-run-docker`
 
 #### angular-front-end
 
@@ -42,7 +42,7 @@ The Anglar front-end server codebase. The README.md file in this repo has instru
 - Open a terminal
 - `git clone https://github.com/pjl-software/full-stack-auth-repo.git`
 - `cd` into this repo
-- run `make build-and-run-local` (front-end and back-end) or `make build-and-run-docker` (back-end only)
+- run `make build-and-run-local` (front-end and back-end) or `make build-jar-and-run-docker` (back-end only)
 
 ## Code Review Branch Videos
 
