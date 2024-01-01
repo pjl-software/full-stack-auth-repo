@@ -1,0 +1,21 @@
+version: '3.9'
+
+# Do not run this file directly. Use the ./bin/docker-startup-scripts instead
+# We leverage environment variables that must be exported first
+
+services:
+  app:
+    build: .
+    develop:
+      watch:
+        - action: sync
+          path: ./src/app
+          target: /docker-app/src/app
+          ignore:
+            - node_modules
+        - action: rebuild
+          path: package.json
+    image: angular-frontend:0.0.1
+    ports:
+      - "4200:4200"
+    container_name: angular-frontend
