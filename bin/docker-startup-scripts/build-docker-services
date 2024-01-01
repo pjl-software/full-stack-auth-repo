@@ -5,12 +5,14 @@ ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
 
 . "${ENV_CONFIG_FILE}"
 
+. "${SPRING_BACK_END_DIR}"/bin/.env
+
 ############################################################
 # Help                                                     #
 ############################################################
 help() {
     echo ""
-    echo -e "Start the entire full-stack application by running the docker-compose.yaml file in the ${REPO_ROOT_DIR} directory." | fmt
+    echo -e "Build or rebuild the Angular front-end and Spring Boot back-end Docker services. These services build an image from a Dockerfile." | fmt
     echo ""
     echo -e "Usage: $0 [-h] | [-p profile]" | fmt
     echo -e "\t-h\t Display this help message" | fmt
@@ -43,4 +45,14 @@ while getopts "h" opt; do
     esac
 done
 
-cd "${REPO_ROOT_DIR}" && docker-compose up --remove-orphans
+echo
+echo -e "Running docker-compose build in ${SPRING_BACK_END_DIR}" | fmt
+echo
+
+cd "${SPRING_BACK_END_DIR}" && docker-compose build
+
+echo
+echo -e "Running docker-compose build in ${ANGULAR_FRONT_END_DIR}" | fmt
+echo
+
+cd "${ANGULAR_FRONT_END_DIR}" && docker-compose build
