@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
+
+. "${ENV_CONFIG_FILE}"
+
+. "${SPRING_BACK_END_DIR}"/bin/.env
+
+cd "${SPRING_BACK_END_DIR}" && docker-compose build
+cd "${ANGULAR_FRONT_END_DIR}" && docker-compose build

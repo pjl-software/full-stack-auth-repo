@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  back_end_server:
+    build: .
+    image: full-stack-auth-repo-spring-back-end:0.0.1
+    ports:
+      - "8443:8443"
+    container_name: full-stack-auth-repo-spring-back-end
+  front_end_app:
+    build: .
+    # develop:
+      # watch:
+      #   - action: sync
+      #     path: ./src/app
+      #     target: /docker-app/src/app
+      #     ignore:
+      #       - node_modules
+      #   - action: rebuild
+      #     path: package.json
+    image: angular-frontend:0.0.1
+    ports:
+      - "4200:4200"
+    container_name: angular-frontend
+    depends_on:
+      - back_end_server
