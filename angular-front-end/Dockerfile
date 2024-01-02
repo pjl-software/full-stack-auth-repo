@@ -1,6 +1,10 @@
 FROM node:20
 
-WORKDIR /angular-app
+# Do not run this file directly. Use the ./bin/docker-startup-scripts instead
+# We leverage environment variables that must be passed in when calling build
+
+ARG ANGULAR_WORKDIR
+WORKDIR /$ANGULAR_WORKDIR
 
 COPY ./package*.json ./
 

@@ -5,12 +5,15 @@ version: '3.9'
 
 services:
   app:
-    build: .
+    build:
+      context: .
+      args:
+        ANGULAR_WORKDIR: ${DEFAULT_ANGULAR_DOCKER_WORKDIR}
     develop:
       watch:
         - action: sync
           path: ./src/app
-          target: /docker-app/src/app
+          target: /${DEFAULT_ANGULAR_DOCKER_WORKDIR}/src/app
           ignore:
             - node_modules
         - action: rebuild
