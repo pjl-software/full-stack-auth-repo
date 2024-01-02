@@ -10,7 +10,7 @@ ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
 ############################################################
 help() {
     echo ""
-    echo -e "Start the entire full-stack application by running the docker-compose.yaml file in the ${REPO_ROOT_DIR} directory." | fmt
+    echo -e "Start the entire full-stack application by running the docker-compose.yaml file in the ${REPO_ROOT_DIR} directory. This command will start all the containers for each service." | fmt
     echo ""
     echo -e "Usage: $0 [-h] | [-p profile]" | fmt
     echo -e "\t-h\t Display this help message" | fmt
@@ -43,4 +43,4 @@ while getopts "h" opt; do
     esac
 done
 
-cd "${REPO_ROOT_DIR}" && docker-compose up --remove-orphans
+cd "${REPO_ROOT_DIR}" && docker compose up --remove-orphans
