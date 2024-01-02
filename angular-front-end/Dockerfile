@@ -1,6 +1,6 @@
 FROM node:20
 
-WORKDIR /docker-app
+WORKDIR /angular-app
 
 COPY ./package*.json ./
 
@@ -9,8 +9,6 @@ RUN npm install
 RUN npm install -g @angular/cli
 
 COPY . .
-
-# RUN npm run build
 
 EXPOSE 4200
 
