@@ -17,6 +17,7 @@ help() {
   echo -e "This script will build the image from your current source code and then immediately run it. You can run '$ docker ps' in another terminal to view the running process." | fmt
   echo
   echo -e "Usage: $0 [-h] " | fmt
+  echo -e "\t-b\t Build only. By default we use docker compose watch for development purposes. This toggle will only build and run; meaning if you change code locally those changes will not automatically take affect on the running Docker container." | fmt
   echo -e "\t-h\t Display this help message" | fmt
   echo ""
 }
@@ -27,8 +28,14 @@ help() {
 ############################################################
 ############################################################
 
-while getopts "h" opt; do
+COMMAND="docker compose build"
+DOCKER_RUN_COMMAND="docker compose watch"
+
+while getopts "bh" opt; do
   case $opt in
+  b)
+    DOCKER_RUN_COMMAND="docker compose up --remove-orphans"
+    ;;
   h)
     help
     exit 0
@@ -54,4 +61,4 @@ fileToCheck "${DEFAULT_CERT_KEY_DIR}" "${KEY_FILE_TYPE}" "${MISSING_SSL_FILE_MES
 
 cd "${SCRIPT_DIR}"/../.. || exit
 
-docker compose build && docker compose up --remove-orphans
+eval "${COMMAND} &&" "${DOCKER_RUN_COMMAND}"
