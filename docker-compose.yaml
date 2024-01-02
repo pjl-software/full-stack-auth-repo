@@ -6,12 +6,15 @@ version: '3.9'
 services:
   back_end_server:
     build: ./spring-back-end
-    image: ${DEFAULT_SPRING_DOCKER_IMAGE_NAME}:0.0.1
+    image: ${SPRING_DOCKER_IMAGE_NAME_OUTER}:0.0.1
     ports:
       - "8443:8443"
-    container_name: ${DEFAULT_SPRING_DOCKER_IMAGE_NAME}
+    container_name: ${SPRING_DOCKER_IMAGE_NAME_OUTER}
   front_end_app:
-    build: ./angular-front-end
+    build:
+      context: ./angular-front-end
+      args:
+        ANGULAR_WORKDIR: ${DEFAULT_ANGULAR_DOCKER_WORKDIR}
     # develop:
       # watch:
       #   - action: sync
@@ -21,9 +24,9 @@ services:
       #       - node_modules
       #   - action: rebuild
       #     path: package.json
-    image: ${DEFAULT_ANGULAR_DOCKER_IMAGE_NAME}:0.0.1
+    image: ${ANGULAR_DOCKER_IMAGE_NAME_OUTER}:0.0.1
     ports:
       - "4200:4200"
-    container_name: ${DEFAULT_ANGULAR_DOCKER_IMAGE_NAME}
+    container_name: ${ANGULAR_DOCKER_IMAGE_NAME_OUTER}
     depends_on:
       - back_end_server

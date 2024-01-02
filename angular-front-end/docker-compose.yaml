@@ -18,7 +18,7 @@ services:
             - node_modules
         - action: rebuild
           path: package.json
-    image: ${DEFAULT_ANGULAR_DOCKER_IMAGE_NAME}:0.0.1
+    image: ${ANGULAR_DOCKER_IMAGE_NAME_INNER}:0.0.1
     ports:
       - "4200:4200"
-    container_name: ${DEFAULT_ANGULAR_DOCKER_IMAGE_NAME}
+    container_name: ${ANGULAR_DOCKER_IMAGE_NAME_INNER}
