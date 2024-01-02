@@ -46,13 +46,13 @@ while getopts "h" opt; do
 done
 
 echo
-echo -e "Running docker-compose build in ${SPRING_BACK_END_DIR}" | fmt
+echo -e "Running docker compose build in ${SPRING_BACK_END_DIR}" | fmt
 echo
 
-cd "${SPRING_BACK_END_DIR}" && docker-compose build
+cd "${SPRING_BACK_END_DIR}" && docker compose build
 
 echo
-echo -e "Running docker-compose build in ${ANGULAR_FRONT_END_DIR}" | fmt
+echo -e "Running docker compose build in ${ANGULAR_FRONT_END_DIR}" | fmt
 echo
 
-cd "${ANGULAR_FRONT_END_DIR}" && docker-compose build
+cd "${ANGULAR_FRONT_END_DIR}" && docker compose build

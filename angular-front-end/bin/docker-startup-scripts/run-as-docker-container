@@ -54,4 +54,4 @@ fileToCheck "${DEFAULT_CERT_KEY_DIR}" "${KEY_FILE_TYPE}" "${MISSING_SSL_FILE_MES
 
 cd "${SCRIPT_DIR}"/../.. || exit
 
-docker-compose build && docker-compose up --remove-orphans
+docker compose build && docker compose up --remove-orphans
