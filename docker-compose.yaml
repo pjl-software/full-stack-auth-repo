@@ -1,14 +1,17 @@
 version: '3.9'
 
+# Do not run this file directly. Use the ./bin/docker-startup-scripts instead
+# We leverage environment variables that must be exported first
+
 services:
   back_end_server:
-    build: .
-    image: full-stack-auth-repo-spring-back-end:0.0.1
+    build: ./spring-back-end
+    image: ${DEFAULT_SPRING_DOCKER_IMAGE_NAME}:0.0.1
     ports:
       - "8443:8443"
-    container_name: full-stack-auth-repo-spring-back-end
+    container_name: ${DEFAULT_SPRING_DOCKER_IMAGE_NAME}
   front_end_app:
-    build: .
+    build: ./angular-front-end
     # develop:
       # watch:
       #   - action: sync
@@ -18,9 +21,9 @@ services:
       #       - node_modules
       #   - action: rebuild
       #     path: package.json
-    image: angular-frontend:0.0.1
+    image: ${DEFAULT_ANGULAR_DOCKER_IMAGE_NAME}:0.0.1
     ports:
       - "4200:4200"
-    container_name: angular-frontend
+    container_name: ${DEFAULT_ANGULAR_DOCKER_IMAGE_NAME}
     depends_on:
       - back_end_server
