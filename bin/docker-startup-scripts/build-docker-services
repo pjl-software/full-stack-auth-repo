@@ -6,6 +6,7 @@ ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
 . "${ENV_CONFIG_FILE}"
 
 . "${SPRING_BACK_END_DIR}"/bin/.env
+. "${ANGULAR_FRONT_END_DIR}"/bin/.env
 
 ############################################################
 # Help                                                     #
