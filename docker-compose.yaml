@@ -15,15 +15,15 @@ services:
       context: ./angular-front-end
       args:
         ANGULAR_WORKDIR: ${DEFAULT_ANGULAR_DOCKER_WORKDIR}
-    # develop:
-      # watch:
-      #   - action: sync
-      #     path: ./src/app
-      #     target: /docker-app/src/app
-      #     ignore:
-      #       - node_modules
-      #   - action: rebuild
-      #     path: package.json
+    develop:
+      watch:
+        - action: sync
+          path: ./angular-front-end/src/app
+          target: /docker-app/src/app
+          ignore:
+            - ./angular-front-end/node_modules
+        - action: rebuild
+          path: ./angular-front-end/package.json
     image: ${ANGULAR_DOCKER_IMAGE_NAME_OUTER}:0.0.1
     ports:
       - "4200:4200"
