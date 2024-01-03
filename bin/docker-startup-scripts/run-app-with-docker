@@ -16,7 +16,7 @@ help() {
     echo -e "Start the entire full-stack application by running the docker-compose.yaml file in the ${REPO_ROOT_DIR} directory. This command will: \n\t- build or rebuild the front-end and  back-end Docker services. These services in turn build an image from a Dockerfile. \n\n\t- start all the container for each service listed inthe docker-compose.yaml file." | fmt
     echo ""
     echo -e "Usage: $0 [-b | -h]" | fmt
-    echo -e "\t-b\t Build only. By default we use 'docker compose watch' for development purposes. This toggle will only build and run; meaning if you change code locally those changes will not automatically take affect on the running Docker container." | fmt
+    echo -e "\t-b\t Build only. By default we use 'docker compose watch' for development purposes. This toggle will only build and run; meaning if you change code locally those changes will not automatically take affect on the running Docker container. You would need to rebuild and restart the front-end docker service to see the changes made." | fmt
     echo -e "\t-h\t Display this help message" | fmt
     echo ""
 }
@@ -57,6 +57,11 @@ requiredProgramCheck docker "${MISSING_DOCKER_MESSAGE}"
 
 fileToCheck "${DEFAULT_CERT_KEY_DIR}" "${CRT_FILE_TYPE}" "${MISSING_SSL_FILE_MESSAGE}"
 fileToCheck "${DEFAULT_CERT_KEY_DIR}" "${KEY_FILE_TYPE}" "${MISSING_SSL_FILE_MESSAGE}"
+
+echo
+echo "Building the Spring jar locally for docker"
+"${SPRING_BACK_END_DIR}"/bin/docker-startup-scripts/build-and-extract-jar
+echo
 
 cd "${REPO_ROOT_DIR}" || exit
 

@@ -7,4 +7,4 @@ run-local:
 	./${LOCAL_START_UP_DIR}/run
 
 run-docker:
-  ./${DOCKER_START_UP_DIR}/run-as-docker-container
+	./${DOCKER_START_UP_DIR}/run-as-docker-container -b
