@@ -20,7 +20,7 @@ This mono-repo contains both the front-end and back-end code for the full-stack 
 1. Open a new terminal and `cd` into this repo
 
 - Docker
-  - `./bin/docker-startup-scripts/run-app-with-docker`
+  - `./bin/docker-startup-scripts/run-app-with-docker -b`
 
 #### spring-back-end
 
@@ -44,7 +44,7 @@ The Anglar front-end server codebase. The README.md file in this repo has instru
 - Locally
   - `$ ./angular-front-end/bin/local-startup-scripts/run` OR `cd angular-front-end && make run-local`
 - Docker
-  - `$ ./angular-front-end/bin/docker-startup-scripts/run-as-docker-container` OR `cd angular-front-end && make run-docker`
+  - `$ ./angular-front-end/bin/docker-startup-scripts/run-as-docker-container -b` OR `cd angular-front-end && make run-docker`
 
 ### Using Make to Run the Full-Stack App
 
