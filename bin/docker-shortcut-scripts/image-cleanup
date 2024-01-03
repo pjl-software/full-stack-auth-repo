@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# https://docs.docker.com/config/pruning/
-
-docker image prune -a
