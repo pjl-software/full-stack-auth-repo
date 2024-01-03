@@ -15,6 +15,13 @@ option that will provide usage and documentation. We recommend using these scrip
 
 This mono-repo contains both the front-end and back-end code for the full-stack application. Although you can run both processes from one terminal by running at least one in the background, **we recommend running the back-end and front-end seperately in their own terminal to keep things clear.** The `angular-front-end` and `spring-back-end` directories each have their own `./bin` directory with scripts to get the code running. Note that you may need to run `$ ./bin/ssl/enable-localhost-https` OR `make generate-ssl-cert` from the top-level of this repo to ensure SSL will work before you start the front and back-end.
 
+#### full stack app
+
+1. Open a new terminal and `cd` into this repo
+
+- Docker
+  - `./bin/docker-startup-scripts/run-app-with-docker`
+
 #### spring-back-end
 
 The Spring Boot back-end server codebase. The README.md file in this repo has instructions on getting it started. In general, you'd do something like the following:
@@ -25,7 +32,7 @@ The Spring Boot back-end server codebase. The README.md file in this repo has in
 - Locally
   - `$ ./spring-back-end/bin/local-startup-scripts/build-and-run` OR `cd spring-back-end && make build-and-run-local`
 - Docker
-  - `$ ./spring-back-end/bin/docker-startup-scripts/build-and-run-docker` OR `cd spring-back-end && make build-and-run-docker`
+  - `$ ./spring-back-end/bin/docker-startup-scripts/build-jar-and-run-docker` OR `cd spring-back-end && make build-jar-and-run-docker`
 
 #### angular-front-end
 
@@ -35,14 +42,19 @@ The Anglar front-end server codebase. The README.md file in this repo has instru
 2. Run the spring-back-end:
 
 - Locally
-  - `$ ./angular-front-end/local-startup-scripts/run` OR `cd angular-front-end && make run-local`
+  - `$ ./angular-front-end/bin/local-startup-scripts/run` OR `cd angular-front-end && make run-local`
+- Docker
+  - `$ ./angular-front-end/bin/docker-startup-scripts/run-as-docker-container` OR `cd angular-front-end && make run-docker`
 
-### Using Make
+### Using Make to Run the Full-Stack App
 
 - Open a terminal
 - `git clone https://github.com/pjl-software/full-stack-auth-repo.git`
 - `cd` into this repo
-- run `make build-and-run-local` (front-end and back-end) or `make build-and-run-docker` (back-end only)
+  - Locally:
+    - $ `make build-and-run-local`
+  - Docker:
+    - $ `make build-and-run-docker`
 
 ## Code Review Branch Videos
 
@@ -68,7 +80,7 @@ The Anglar front-end server codebase. The README.md file in this repo has instru
   - We refactor our Angular codebase to connect to our Spring Boot back-end health check API **creating a full stack web application**.
 - **05-spring-actuator-integration**
   - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/05-spring-actuator-integration)
-  - [TBD Code Review Video TBD](TBD)
+  - [Code Review Video](https://youtu.be/EhpXXePOS9M)
   - We remove the health check API we created and replace it with the one Spring provides through the Spring Boot Starter Actuator library.
 
 ## Why Are you Building This?

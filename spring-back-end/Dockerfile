@@ -1,7 +1,7 @@
 # Do not run this Dockerfile directly
 # Instead, leverage:
-# $ make build-and-run-docker
-# $ ./bin/docker-startup-scripts/build-and-run-docker
+# $ make build-jar-and-run-docker
+# $ ./bin/docker-startup-scripts/build-jar-and-run-docker
 
 FROM amazoncorretto:17-alpine-jdk
 

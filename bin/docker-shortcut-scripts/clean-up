@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
+
+. "${ENV_CONFIG_FILE}"
+
+############################################################
+# Help                                                     #
+############################################################
+help() {
+    echo ""
+    echo -e "Leverage docker prune to clean up the local enviornment. Note that there is no default set, so you must provide an option if you want anything deleted." | fmt
+    echo
+    echo -e "Ref: https://docs.docker.com/config/pruning/"
+    echo
+    echo -e "Usage: $0 [-c | -h | -i | -n | -s | -v]" | fmt
+    echo -e "\t-h\c Prune containers." | fmt
+    echo -e "\t-h\t Display this help message" | fmt
+    echo -e "\t-h\i Prune images." | fmt
+    echo -e "\t-h\n Prune network." | fmt
+    echo -e "\t-h\s Prune system (everything)." | fmt
+    echo -e "\t-h\v Prune volumes." | fmt
+    echo ""
+}
+
+############################################################
+############################################################
+# Main Program                                             #
+############################################################
+############################################################
+
+DOCKER_COMMAND=""
+
+while getopts "chinsv" opt; do
+    case $opt in
+    c)
+        DOCKER_COMMAND="docker container prune -a"
+        ;;
+    h)
+        help
+        exit 0
+        ;;
+    i)
+        DOCKER_COMMAND="docker image prune -a"
+        ;;
+    n)
+        DOCKER_COMMAND="docker network prune -a"
+        ;;
+    s)
+        DOCKER_COMMAND="docker system prune -a"
+        ;;
+    v)
+        DOCKER_COMMAND="docker volume prune -a"
+        ;;
+    \?)
+        echo "Invalid option: -$OPTARG" >&2
+        help
+        exit 1
+        ;;
+    :)
+        echo ""
+        echo "Option -$OPTARG requires an argument." >&2
+        help
+        exit 1
+        ;;
+    esac
+done
+
+eval "${DOCKER_COMMAND}"

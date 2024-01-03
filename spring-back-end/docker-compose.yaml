@@ -6,10 +6,10 @@ version: '3.9'
 services:
   app:
     build: .
-    image: ${DEFAULT_DOCKER_IMAGE_NAME}:0.0.1
+    image: ${SPRING_DOCKER_IMAGE_NAME_INNER}:0.0.1
     ports:
       - "8443:8443"
       - "5001:5000" # Maps: local port:docker port
-    container_name: ${DEFAULT_DOCKER_IMAGE_NAME}
+    container_name: ${SPRING_DOCKER_IMAGE_NAME_INNER}
     environment:
       EXAMPLE: "example value"

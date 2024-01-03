@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := build-and-run-docker
+.DEFAULT_GOAL := build-jar-and-run-docker
 
 # Some `make` shortcut commands
 # For more options, run these bin commands directly from your terminal.
@@ -16,8 +16,8 @@ build-docker:
 build-and-run-local:
 	./${LOCAL_START_UP_DIR}/build-and-run
 
-build-and-run-docker:
-	./${DOCKER_START_UP_DIR}/build-and-run-docker
+build-jar-and-run-docker:
+	./${DOCKER_START_UP_DIR}/build-jar-and-run-docker
 
 help:
 	@echo "\nCheck the ./bin directory for utility scripts. Each one will have a [-h] option with help in addition to the code itself.\n" | fmt
