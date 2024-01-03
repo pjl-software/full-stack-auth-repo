@@ -35,7 +35,7 @@ DOCKER_COMMAND=""
 while getopts "chinsv" opt; do
     case $opt in
     c)
-        DOCKER_COMMAND="docker container prune -a"
+        DOCKER_COMMAND="docker container prune"
         ;;
     h)
         help
@@ -45,7 +45,7 @@ while getopts "chinsv" opt; do
         DOCKER_COMMAND="docker image prune -a"
         ;;
     n)
-        DOCKER_COMMAND="docker network prune -a"
+        DOCKER_COMMAND="docker network prune"
         ;;
     s)
         DOCKER_COMMAND="docker system prune -a"
