@@ -84,7 +84,7 @@ The Anglar front-end server codebase. The README.md file in this repo has instru
   - We remove the health check API we created and replace it with the one Spring provides through the Spring Boot Starter Actuator library.
 - **06-run-app-on-docker**
   - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/06-run-app-on-docker)
-  - [Code Review Video - TBD](TBD)
+  - [Code Review Video](https://youtu.be/mvV6jNWcrEg)
   - Use `docker compose` to dockerize the entire full-stack application. Update the `/bin` scripts and `makefiles` to start the Angular front-end, Spring Boot back-end, and then entire full-stack application with `docker`. Add `docker` utility scripts to manage the environment.
 
 ## Why Are you Building This?
