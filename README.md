@@ -58,6 +58,10 @@ The Anglar front-end server codebase. The README.md file in this repo has instru
 
 ## Code Review Branch Videos
 
+### Part 1
+
+In part 1, we set up our full-stack application with a Spring Boot back-end and an Angular front-end. We get both applications integrated with one another and dockerize the entire stack. This section sets the foundation as we start building out our user managment system.
+
 - **00-spring-boot-setup-local**
   - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/00-spring-boot-setup-local)
   - [Code Review Video](https://youtu.be/b2kl8cu3tC8?si=anWga882uFXQ6MJC)
