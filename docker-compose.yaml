@@ -19,7 +19,7 @@ services:
       watch:
         - action: sync
           path: ./angular-front-end/src/app
-          target: /docker-app/src/app
+          target: /${DEFAULT_ANGULAR_DOCKER_WORKDIR}/src/app
           ignore:
             - ./angular-front-end/node_modules
         - action: rebuild
