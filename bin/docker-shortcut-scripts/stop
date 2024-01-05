@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
+
+. "${ENV_CONFIG_FILE}"
+
+############################################################
+# Help                                                     #
+############################################################
+help() {
+    echo ""
+    echo -e "Leverage docker stop to stop running processes. Note that there is no defualt set; this means if no option is provided, nothing will happen." | fmt
+    echo
+    echo -e "Ref: https://docs.docker.com/config/pruning/"
+    echo
+    echo -e "Usage: $0 [-a | -f | -h | -s]" | fmt
+    echo -e "\t-a\t Stop the Angular container" | fmt
+    echo -e "\t-f\t Stop all running processes" | fmt
+    echo -e "\t-h\t Display this help message" | fmt
+    echo -e "\t-s\t Stop the Spring Boot container" | fmt
+    echo
+}
+
+############################################################
+############################################################
+# Main Program                                             #
+############################################################
+############################################################
+
+DOCKER_COMMAND=""
+
+while getopts "afhs" opt; do
+    case $opt in
+    a)
+        DOCKER_COMMAND="docker stop ${ANGULAR_DOCKER_RUNNING_IMAGE_CONTAINER_ID}"
+        ;;
+    f)
+        DOCKER_COMMAND="docker ps -aq | xargs docker stop"
+        ;;
+    h)
+        help
+        exit 0
+        ;;
+    s)
+        DOCKER_COMMAND="docker stop ${SPRING_DOCKER_RUNNING_IMAGE_CONTAINER_ID}"
+        ;;
+    \?)
+        echo "Invalid option: -$OPTARG" >&2
+        help
+        exit 1
+        ;;
+    :)
+        echo ""
+        echo "Option -$OPTARG requires an argument." >&2
+        help
+        exit 1
+        ;;
+    esac
+done
+
+eval "${DOCKER_COMMAND}"

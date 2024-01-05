@@ -48,10 +48,8 @@ done
 CRT_FILE_TYPE=".crt"
 KEY_FILE_TYPE=".key"
 
-MISSING_FILE_MESSAGE="We didn't find the file. Without this file, HTTPs will not be enabled. When you try to open the app locally, your browser may not open saying: This site can’t provide a secure connection. To generate this file, run the ${ENABLE_LOCALHOST_HTTPS_SCRIPT_LOCATION} script"
-
-fileToCheck "${DEFAULT_CERT_KEY_DIR}" ${CRT_FILE_TYPE} "${MISSING_FILE_MESSAGE}"
-fileToCheck "${DEFAULT_CERT_KEY_DIR}" ${KEY_FILE_TYPE} "${MISSING_FILE_MESSAGE}"
+fileToCheck "${DEFAULT_CERT_KEY_DIR}" "${CRT_FILE_TYPE}" "${MISSING_SSL_FILE_MESSAGE}"
+fileToCheck "${DEFAULT_CERT_KEY_DIR}" "${KEY_FILE_TYPE}" "${MISSING_SSL_FILE_MESSAGE}"
 
 echo
 echo -e "Changing directories in to the front-end base directory for ng commands to work ..."

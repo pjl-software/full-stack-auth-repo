@@ -17,8 +17,13 @@ build-and-run-local:
 	@echo "Starting the Angular front-end application. ctrl-c should quit both." | fmt
 	cd ./${ANGULAR_FRONT_END_DIR} && $(MAKE) run-local
 
-build-and-run-docker: # For now this is just the back-end, will be front-end too once built
-	cd ./${SPRING_BACK_END_DIR} && $(MAKE) build-and-run-docker
+build-and-run-docker:
+	@echo "This will use docker compose to build and run all the services found in the docker-compose.yaml file in this directory." | fmt
+	@echo
+	./bin/docker-startup-scripts/run-app-with-docker -b
 
 generate-ssl-cert:
 	./bin/ssl/enable-localhost-https
+
+help:
+	@echo "\nCheck the ./bin directory for utility scripts. Each one will have a [-h] option with help in addition to the code itself.\n" | fmt
