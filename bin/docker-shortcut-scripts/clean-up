@@ -14,13 +14,13 @@ help() {
     echo
     echo -e "Ref: https://docs.docker.com/config/pruning/"
     echo
-    echo -e "Usage: $0 [-c | -h | -i | -n | -s | -v]" | fmt
-    echo -e "\t-h\c Prune containers." | fmt
-    echo -e "\t-h\t Display this help message" | fmt
-    echo -e "\t-h\i Prune images." | fmt
-    echo -e "\t-h\n Prune network." | fmt
-    echo -e "\t-h\s Prune system (everything)." | fmt
-    echo -e "\t-h\v Prune volumes." | fmt
+    echo -e "Usage: $0 [-c | -h | -i | -n | -s | -v]"
+    echo -e "\t-c\t Prune containers"
+    echo -e "\t-h\t Display this help message"
+    echo -e "\t-i\t Prune images"
+    echo -e "\t-n\t Prune network"
+    echo -e "\t-s\t Prune system (everything)"
+    echo -e "\t-v\t Prune volumes"
     echo ""
 }
 
