@@ -5,4 +5,4 @@ import { NgModule } from '@angular/core';
   providers: [],
   declarations: [],
 })
-export class ApplicationCoreServiceModule {}
+export class PjlCoreModule {}
