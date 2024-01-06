@@ -7,6 +7,6 @@ import { RoutingModuleDemoB } from './pjl-demo-b.routing.module';
   imports: [PjlSharedModule, RoutingModuleDemoB],
   declarations: [DemoBComponent],
   providers: [],
-  exports: [],
+  exports: [DemoBComponent],
 })
 export class PjlDemoBModule {}
