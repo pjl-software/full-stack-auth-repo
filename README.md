@@ -91,6 +91,13 @@ In part 1, we set up our full-stack application with a Spring Boot back-end and 
   - [Code Review Video](https://youtu.be/mvV6jNWcrEg)
   - Use `docker compose` to dockerize the entire full-stack application. Update the `/bin` scripts and `makefiles` to start the Angular front-end, Spring Boot back-end, and then entire full-stack application with `docker`. Add `docker` utility scripts to manage the environment.
 
+### Part 2
+
+- **07-angular-repo-structure-overview**
+  - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/07-angular-repo-structure-overview)
+  - [Code Review Video](https://youtu.be/UI92yhRM4wA)
+  - Walk through the Angular repo structure and walkthrough examples of creating NgModules and components. Demonstrate how all the Angular components work together, and run through some of the most common errors and how to fix them.
+
 ## Why Are you Building This?
 
 I don't like tutorials or reading raw documentation. What _I_ want when I'm learning something new, is a working
