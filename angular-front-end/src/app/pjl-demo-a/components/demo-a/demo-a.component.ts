@@ -1,17 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable, of, switchMap, timer } from 'rxjs';
-import { environment } from '../environment-configs/environment.local';
-import { ApplicationCoreSerivce } from './pjl-core/services/application-core.service';
+import { ApplicationCoreSerivce } from '../../../pjl-core/services/application-core.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-demo-a',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  templateUrl: './demo-a.component.html',
+  styleUrl: './demo-a.component.scss',
 })
-export class AppComponent implements OnInit {
-  title = 'angular-front-end';
-  environment = environment.environment;
+export class DemoAComponent implements OnInit {
   backEndHealthStatus$: Observable<string>;
 
   constructor(private applicationCoreSerivce: ApplicationCoreSerivce) {
