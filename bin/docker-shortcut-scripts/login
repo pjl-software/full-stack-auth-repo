@@ -37,7 +37,6 @@ help() {
 ############################################################
 
 CUSTOM_COMMAND="/bin/sh"
-# DOCKER_COMMAND=""
 
 while getopts "c:hi:u:" opt; do
     case $opt in
