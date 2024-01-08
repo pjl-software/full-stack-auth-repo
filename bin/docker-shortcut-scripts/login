@@ -15,7 +15,7 @@ help() {
     echo ""
     echo -e "Log in to a running docker container. Used for debugging and exploratory purposes." | fmt
     echo
-    echo -e "Log in to a running docker container given the container ID or pre-loaded docker service and run the command provided as an option. The default command is /bin/ash if no [-c] command is provided." | fmt
+    echo -e "Log in to a running docker container given the container ID or pre-loaded docker service and run the command provided as an option. NOTE: The default command is /bin/sh if no [-c] command is provided; /bin/sh has less functionality than /bin/bash or /bin/ash (Alpine images)." | fmt
     echo
     echo -e "Ref: https://docs.docker.com/engine/reference/commandline/exec/"
     echo -e "Ref: https://docs.docker.com/engine/reference/commandline/ps/"
@@ -36,21 +36,21 @@ help() {
 ############################################################
 ############################################################
 
-CUSTOM_COMMAND="/bin/ash"
+CUSTOM_COMMAND="/bin/sh"
 # DOCKER_COMMAND=""
 
 while getopts "c:hi:u:" opt; do
     case $opt in
     u)
-        if [[ ${POSSIBLE_PREDEFINED_DOCKER_CONTAINERS[*]} =~ ${OPTARG} ]]; then
-            if [[ ${OPTARG} == "${SPRING_DOCKER_PREFIX}" ]]; then
-                RUNNING_IMAGE_CONTAINER_ID=${SPRING_DOCKER_RUNNING_IMAGE_CONTAINER_ID}
-            elif [[ ${OPTARG} == "${ANGULAR_DOCKER_PREFIX}" ]]; then
-                RUNNING_IMAGE_CONTAINER_ID=${ANGULAR_DOCKER_RUNNING_IMAGE_CONTAINER_ID}
-                CUSTOM_COMMAND="/bin/bash"
-            fi
+        echo "Checking for pre-loaded Docker service ${OPTARG}"
+        RUNNING_IMAGE_CONTAINER_ID=$("${SCRIPT_DIR}"/return-running-container-id -u "${OPTARG}")
+
+        RUNNING_IMAGE_CONTAINER_ID_STRING_LENGTH=${#RUNNING_IMAGE_CONTAINER_ID}
+        if [ "${RUNNING_IMAGE_CONTAINER_ID_STRING_LENGTH}" -gt 12 ]; then
+            echo "${RUNNING_IMAGE_CONTAINER_ID}"
+            exit 1
         else
-            listAvailableOptionsErrorMessage "${POSSIBLE_PREDEFINED_DOCKER_CONTAINERS[@]}"
+            echo "found running image container ID ${RUNNING_IMAGE_CONTAINER_ID}"
         fi
         ;;
     c)
