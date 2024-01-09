@@ -2,8 +2,10 @@
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
+DOCKER_SHORTCUT_SCRIPT_ENV_FILE="${SCRIPT_DIR}/.docker-shortcut-script-env"
 
 . "${ENV_CONFIG_FILE}"
+. "${DOCKER_SHORTCUT_SCRIPT_ENV_FILE}"
 
 POSSIBLE_PREDEFINED_DOCKER_CONTAINERS=(
     "${SPRING_DOCKER_PREFIX}" "${ANGULAR_DOCKER_PREFIX}"
@@ -20,12 +22,13 @@ help() {
     echo -e "Ref: https://docs.docker.com/engine/reference/commandline/exec/"
     echo -e "Ref: https://docs.docker.com/engine/reference/commandline/ps/"
     echo
-    echo -e "Usage: $0 [ -c | -h | -i | -u ]" | fmt
+    echo -e "Usage: $0 [ -c | -h | -i | -t | -u ]" | fmt
     echo -e "\t-c\t Shell command(s) to run from the image's shell once logged in (must be passed in double quotes)." | fmt
     echo -e "\t\tExamples:" | fmt
     echo -e "\t\t$ -c \"ls\"" | fmt
     echo -e "\t-h\t Display this help message" | fmt
-    echo -e "\t-i\t Runing image container ID (can be pulled from running 'docker ps')" | fmt
+    echo -e "\t-i\t Runing image container ID (can be found running 'docker ps')" | fmt
+    echo -e "\t-t\t Docker image name (can be a partial or complete match) to try and log in to (can be found  running 'docker ps')" | fmt
     echo -e "\t-u\t Pre-loaded Docker service. Must be one of these values: " "${POSSIBLE_PREDEFINED_DOCKER_CONTAINERS[@]}" | fmt
     echo
 }
@@ -38,19 +41,17 @@ help() {
 
 CUSTOM_COMMAND="/bin/sh"
 
-while getopts "c:hi:u:" opt; do
+while getopts "c:hi:t:u:" opt; do
     case $opt in
     u)
         echo "Checking for pre-loaded Docker service ${OPTARG}"
-        RUNNING_IMAGE_CONTAINER_ID=$("${SCRIPT_DIR}"/return-running-container-id -u "${OPTARG}")
-
-        RUNNING_IMAGE_CONTAINER_ID_STRING_LENGTH=${#RUNNING_IMAGE_CONTAINER_ID}
-        if [ "${RUNNING_IMAGE_CONTAINER_ID_STRING_LENGTH}" -gt 12 ]; then
-            echo "${RUNNING_IMAGE_CONTAINER_ID}"
-            exit 1
-        else
-            echo "found running image container ID ${RUNNING_IMAGE_CONTAINER_ID}"
-        fi
+        RUNNING_IMAGE_CONTAINER_ID=$(runningImageContainerWrapperScript "-u" "${OPTARG}")
+        echo "${RUNNING_IMAGE_CONTAINER_ID}"
+        ;;
+    t)
+        echo "Checking for running Docker services that match, or partial match: ${OPTARG}"
+        RUNNING_IMAGE_CONTAINER_ID=$(runningImageContainerWrapperScript "-i" "${OPTARG}")
+        echo "${RUNNING_IMAGE_CONTAINER_ID}"
         ;;
     c)
         CUSTOM_COMMAND=$OPTARG
