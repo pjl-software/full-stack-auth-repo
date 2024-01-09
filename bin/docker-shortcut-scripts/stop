@@ -12,7 +12,7 @@ help() {
     echo ""
     echo -e "Leverage docker stop to stop running processes. Note that there is no defualt set; this means if no option is provided, nothing will happen." | fmt
     echo
-    echo -e "Ref: https://docs.docker.com/config/pruning/"
+    echo -e "Ref: https://docs.docker.com/engine/reference/commandline/stop/"
     echo
     echo -e "Usage: $0 [-a | -f | -h | -s]" | fmt
     echo -e "\t-a\t Stop the Angular container" | fmt
