@@ -7,9 +7,6 @@ DOCKER_SHORTCUT_SCRIPT_ENV_FILE="${SCRIPT_DIR}/.docker-shortcut-script-env"
 . "${ENV_CONFIG_FILE}"
 . "${DOCKER_SHORTCUT_SCRIPT_ENV_FILE}"
 
-POSSIBLE_PREDEFINED_DOCKER_CONTAINERS=(
-    "${SPRING_DOCKER_PREFIX}" "${ANGULAR_DOCKER_PREFIX}"
-)
 ############################################################
 # Help                                                     #
 ############################################################

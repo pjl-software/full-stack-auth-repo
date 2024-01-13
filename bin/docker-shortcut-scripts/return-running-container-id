@@ -5,9 +5,6 @@ ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
 
 . "${ENV_CONFIG_FILE}"
 
-POSSIBLE_PREDEFINED_DOCKER_CONTAINERS=(
-    "${SPRING_DOCKER_PREFIX}" "${ANGULAR_DOCKER_PREFIX}"
-)
 ############################################################
 # Help                                                     #
 ############################################################
