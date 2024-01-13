@@ -15,7 +15,7 @@ import javax.sql.DataSource;
         "com.pjlsoftware.repository"
 })
 @EnableTransactionManagement
-@PropertySource("classpath:database.${profile:local}.properties")
+@PropertySource("classpath:database-${profile:local}.properties")
 public class DatabaseConfiguration {
     @Value("${jdbc.driver}")
     private String driverClassName;
