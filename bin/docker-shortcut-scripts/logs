@@ -19,7 +19,7 @@ help() {
     echo -e "Usage: $0 [ -f | -h | -i |-t | -u ]" | fmt
     echo -e "\t-f\t Enable the follow option, which will leave the logs running." | fmt
     echo -e "\t-h\t Display this help message" | fmt
-    echo -e "\t-i\t Runing image container ID (can be pulled from running 'docker ps')" | fmt
+    echo -e "\t-i\t Running image container ID (can be pulled from running 'docker ps')" | fmt
     echo -e "\t-t\t Docker image name (can be a partial or complete match) to try and log in to (can be found  running 'docker ps')" | fmt
     echo -e "\t-u\t Pre-loaded Docker service. Must be one of these values: " "${POSSIBLE_PREDEFINED_DOCKER_CONTAINERS[@]}" | fmt
     echo
