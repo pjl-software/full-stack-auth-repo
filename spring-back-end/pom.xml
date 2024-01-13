@@ -11,6 +11,7 @@
     <modules>
         <module>pjl-application</module>
         <module>pjl-application-database</module>
+        <module>pjl-authentication</module>
     </modules>
 
     <properties>

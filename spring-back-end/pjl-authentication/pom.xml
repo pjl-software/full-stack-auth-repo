@@ -10,6 +10,11 @@
     </parent>
 
     <artifactId>pjl-authentication</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>pjl-authentication-core</module>
+        <module>pjl-authentication-model</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
