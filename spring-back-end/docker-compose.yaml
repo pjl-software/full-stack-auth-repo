@@ -16,7 +16,7 @@ services:
       POSTGRES_PASSWORD: ${BACKEND_DATASOURCE_PASSWORD}
     volumes:
       - /var/tmp/db-data:/tmp # local directory:container directory
-  app:
+  back-end-server:
     build: .
     image: ${SPRING_DOCKER_IMAGE_NAME_INNER}:0.0.1
     ports:
