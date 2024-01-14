@@ -52,6 +52,8 @@ while getopts "hi:u:" opt; do
                 PRE_LOADED_IMAGE_CONTAINER_ID="${SPRING_DOCKER_RUNNING_IMAGE_CONTAINER_ID}"
             elif [[ ${OPTARG} == "${ANGULAR_DOCKER_PREFIX}" ]]; then
                 PRE_LOADED_IMAGE_CONTAINER_ID="${ANGULAR_DOCKER_RUNNING_IMAGE_CONTAINER_ID}"
+            elif [[ ${OPTARG} == "${POSTGRESQL_DOCKER_PREFIX}" ]]; then
+                PRE_LOADED_IMAGE_CONTAINER_ID="${POSTGRES_DOCKER_RUNNING_IMAGE_CONTAINER_ID}"
             fi
 
             isBlankCheck "${PRE_LOADED_IMAGE_CONTAINER_ID}" "${OPTARG}"

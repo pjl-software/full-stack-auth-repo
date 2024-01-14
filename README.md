@@ -98,6 +98,15 @@ In part 1, we set up our full-stack application with a Spring Boot back-end and 
   - [Code Review Video](https://youtu.be/UI92yhRM4wA)
   - Walk through the Angular repo structure and walkthrough examples of creating NgModules and components. Demonstrate how all the Angular components work together, and run through some of the most common errors and how to fix them.
 
+#### Mini-Series: Data Layer Integration
+
+Our full-stack application needs a data layer. In this mini-series, we'll be integrating PostgreSQL into our application locally using Docker.
+
+- **08-db-integration-a**
+- [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/08-db-integration-a)
+- [Code Review Video](https://youtu.be/OGHNGp9KJLU)
+- Integrating the PostgreSQL Docker image into our existing `docker-compose.yaml` file and linking it to our back-end Spring Boot service. Making sure we can start the DB with the rest of the application and easily access the image.
+
 ## Why Are you Building This?
 
 I don't like tutorials or reading raw documentation. What _I_ want when I'm learning something new, is a working
