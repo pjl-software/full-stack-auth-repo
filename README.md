@@ -104,7 +104,7 @@ Our full-stack application needs a data layer. In this mini-series, we'll be int
 
 - **08-db-integration-a**
 - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/08-db-integration-a)
-- [Code Review Video - TBD](TBD)
+- [Code Review Video](https://youtu.be/OGHNGp9KJLU)
 - Integrating the PostgreSQL Docker image into our existing `docker-compose.yaml` file and linking it to our back-end Spring Boot service. Making sure we can start the DB with the rest of the application and easily access the image.
 
 ## Why Are you Building This?
