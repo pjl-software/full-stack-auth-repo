@@ -5,7 +5,7 @@ version: '3.9'
 
 services:
   pjl-application-db:
-    image: "postgres"
+    image: "postgres" # https://hub.docker.com/_/postgres/
     restart: always
     container_name: ${POSTGRES_DOCKER_IMAGE_NAME_OUTER}
     ports:
@@ -16,7 +16,7 @@ services:
       POSTGRES_PASSWORD: ${BACKEND_DATASOURCE_PASSWORD}
     volumes:
       - /var/tmp/db-data:/tmp # local directory:container directory
-  back_end_server:
+  back-end-server:
     build: ./spring-back-end
     image: ${SPRING_DOCKER_IMAGE_NAME_OUTER}:0.0.1
     ports:
@@ -27,7 +27,7 @@ services:
       BACKEND_DATASOURCE_USERNAME: ${BACKEND_DATASOURCE_USERNAME}
       BACKEND_DATASOURCE_PASSWORD: ${BACKEND_DATASOURCE_PASSWORD}
       DATABASE_DOCKER_SERVICE_NAME: "pjl-application-db"
-  front_end_app:
+  front-end-app:
     build:
       context: ./angular-front-end
       args:
@@ -46,4 +46,4 @@ services:
       - "4200:4200"
     container_name: ${ANGULAR_DOCKER_IMAGE_NAME_OUTER}
     depends_on:
-      - back_end_server
+      - back-end-server
