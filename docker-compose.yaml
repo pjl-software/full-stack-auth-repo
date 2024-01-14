@@ -5,7 +5,7 @@ version: '3.9'
 
 services:
   pjl-application-db:
-    image: "postgres"
+    image: "postgres" # https://hub.docker.com/_/postgres/
     restart: always
     container_name: ${POSTGRES_DOCKER_IMAGE_NAME_OUTER}
     ports:
