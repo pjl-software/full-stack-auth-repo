@@ -29,7 +29,7 @@
         <!--        -->
         <dependency>
             <groupId>com.pjlsoftware</groupId>
-            <artifactId>pjl-application-database-resources</artifactId>
+            <artifactId>pjl-application-database-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

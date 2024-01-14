@@ -12,7 +12,7 @@
     <artifactId>pjl-application-database</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>pjl-application-database-resources</module>
+        <module>pjl-application-database-core</module>
     </modules>
 
     <properties>
