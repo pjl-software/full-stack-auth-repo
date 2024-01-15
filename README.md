@@ -107,6 +107,11 @@ Our full-stack application needs a data layer. In this mini-series, we'll be int
 - [Code Review Video](https://youtu.be/OGHNGp9KJLU)
 - Integrating the PostgreSQL Docker image into our existing `docker-compose.yaml` file and linking it to our back-end Spring Boot service. Making sure we can start the DB with the rest of the application and easily access the image.
 
+- **08-db-integration-b**
+- [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/08-db-integration-b)
+- [Code Review Video](https://youtu.be/OvDmhvy6xC8)
+- In this branch, we configure the Spring Boot `DataSource` to connect to our running `PostgreSQL` Docker image, we use `JPA` to create a `users` table, and we create an API `POST` request that will generate and save new `User` entitie to our database.
+
 ## Why Are you Building This?
 
 I don't like tutorials or reading raw documentation. What _I_ want when I'm learning something new, is a working
