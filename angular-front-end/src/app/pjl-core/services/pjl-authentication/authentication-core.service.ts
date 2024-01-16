@@ -8,6 +8,22 @@ import { UserDto } from '../../../pjl-authentication/pjl-authentication-models/u
 export class AuthenticationCoreSerivce {
   constructor(private http: HttpClient) {}
 
+  createUser(): Observable<string> {
+    return this.http
+      .post(
+        `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.UserController.createUser}`,
+        {}
+      )
+      .pipe(
+        map<any, string>((response) => {
+          return response.value;
+        }),
+        catchError((err: HttpErrorResponse) => {
+          return of('Failed to create new user');
+        })
+      );
+  }
+
   getEnabledUsers(): Observable<UserDto[]> {
     return this.http
       .get(
