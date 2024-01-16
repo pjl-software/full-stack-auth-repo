@@ -32,7 +32,7 @@ public class UserController {
     )
     public ResponseEntity<String> createUser() {
         userRepository.saveAndFlush(new User());
-        return new ResponseEntity<>("Created new user", HttpStatus.CREATED);
+        return new ResponseEntity<>("{\"value\": \"Created new user\"}", HttpStatus.CREATED);
     }
 
     @RequestMapping(
