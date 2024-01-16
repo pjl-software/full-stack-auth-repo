@@ -47,9 +47,9 @@ public class UserController {
             existingUser.setEnabled(false);
             userRepository.saveAndFlush(existingUser);
         } catch (Exception e) {
-            return new ResponseEntity<>("Nothing done. Check Logs.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("{\"value\": \"Nothing done. Check Logs.\"}", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(username + " has been disabled.", HttpStatus.OK);
+        return new ResponseEntity<>("{\"value\": \"" + username + " has been disabled.\"}", HttpStatus.OK);
     }
 
     @RequestMapping(
