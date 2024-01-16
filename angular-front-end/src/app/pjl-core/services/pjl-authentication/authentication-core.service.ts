@@ -24,6 +24,21 @@ export class AuthenticationCoreSerivce {
       );
   }
 
+  deleteUser(username: string): Observable<string> {
+    const path: string =
+      `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.UserController.deleteUser}/` +
+      username;
+
+    return this.http.put(path, {}).pipe(
+      map<any, string>((response) => {
+        return response.value;
+      }),
+      catchError((err: HttpErrorResponse) => {
+        return of('Failed to delete user.');
+      })
+    );
+  }
+
   getEnabledUsers(): Observable<UserDto[]> {
     return this.http
       .get(
