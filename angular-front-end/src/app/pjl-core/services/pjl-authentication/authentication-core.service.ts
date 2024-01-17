@@ -8,6 +8,11 @@ import { UserDto } from '../../../pjl-authentication/pjl-authentication-models/u
 export class AuthenticationCoreSerivce {
   constructor(private http: HttpClient) {}
 
+  /**
+   * Create a new user in our database.
+   *
+   * @returns - An Observable<string> indicating if the user was created.
+   */
   createUser(): Observable<string> {
     return this.http
       .post(
@@ -24,6 +29,12 @@ export class AuthenticationCoreSerivce {
       );
   }
 
+  /**
+   * Delete a user from our databse.
+   *
+   * @param username - Username value indicating the user we want to delete.
+   * @returns - An Observable<string> indicating if the user was deleted.
+   */
   deleteUser(username: string): Observable<string> {
     const path: string =
       `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.UserController.deleteUser}/` +
@@ -39,6 +50,11 @@ export class AuthenticationCoreSerivce {
     );
   }
 
+  /**
+   * Get a list of enabled users from the database.
+   *
+   * @returns - An Observable list of UserDto objects representing all the users in the database where enabled is true.
+   */
   getEnabledUsers(): Observable<UserDto[]> {
     return this.http
       .get(
