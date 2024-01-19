@@ -14,7 +14,7 @@ const routes: Routes = [
     path: 'delete-user',
     component: DeleteUserButtonComponent,
   },
-  { path: 'home', component: AuthenticationDashboardComponent },
+  { path: '', component: AuthenticationDashboardComponent },
   {
     path: 'view-users',
     component: ViewUsersComponent,
