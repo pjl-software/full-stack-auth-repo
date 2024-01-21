@@ -3,6 +3,7 @@ package com.pjlsoftware.configurations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -28,7 +29,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authz) -> authz
                         .anyRequest().authenticated()
                 )
-                .httpBasic(withDefaults());
+                .httpBasic(withDefaults()) // Ref: https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter/
+                .csrf(AbstractHttpConfigurer::disable) // Ref: https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html#servlet-csrf-configure-disable
+        ;
         return http.build();
     }
 }
