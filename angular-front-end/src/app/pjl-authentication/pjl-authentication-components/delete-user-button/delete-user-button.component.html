@@ -1,0 +1,12 @@
+<form>
+  <label for="username">Username:</label>
+  <input
+    type="text"
+    id="username"
+    name="username"
+    [(ngModel)]="usernameInput"
+  /><br /><br />
+  <input type="button" value="Delete User" (click)="deleteUser()" />
+</form>
+
+<p>{{ deleteUserResponse$ | async }}</p>

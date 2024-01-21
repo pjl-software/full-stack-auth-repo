@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable, of, switchMap, timer } from 'rxjs';
-import { ApplicationCoreSerivce } from '../../../pjl-core/services/application-core.service';
+import { ApplicationCoreSerivce } from '../../../pjl-core/services/pjl-application/application-core.service';
 
 @Component({
   selector: 'app-demo-b',

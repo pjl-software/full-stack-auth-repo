@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
-import { environment } from '../../../environment-configs/environment.local';
+import { environment } from '../../../../environment-configs/environment.local';
 
 @Injectable({ providedIn: 'root' })
 export class ApplicationCoreSerivce {

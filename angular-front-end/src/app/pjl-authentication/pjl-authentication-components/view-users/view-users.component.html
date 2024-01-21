@@ -1,0 +1,12 @@
+<table *ngIf="enabledUsers$ | async; let enabledUsers">
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Username</th>
+  </tr>
+  <tr *ngFor="let user of enabledUsers; index as i">
+    <td>{{ user.firstName }}</td>
+    <td>{{ user.lastName }}</td>
+    <td>{{ user.username }}</td>
+  </tr>
+</table>
