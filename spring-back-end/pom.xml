@@ -18,6 +18,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <!--        -->
+        <google-api-client.version>2.2.0</google-api-client.version>
         <spring.context.indexer.version>6.1.1</spring.context.indexer.version>
     </properties>
 
