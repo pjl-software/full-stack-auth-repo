@@ -42,6 +42,13 @@ public class User {
         this.enabled = true;
     }
 
+    public User(String firstName, String lastName, String username) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.enabled = true;
+    }
+
     //
     //
     //
@@ -100,6 +107,13 @@ public class User {
 
     @Override
     public String toString() {
-        return "User { }";
+        return "User{" +
+                "userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                '}';
     }
 }
