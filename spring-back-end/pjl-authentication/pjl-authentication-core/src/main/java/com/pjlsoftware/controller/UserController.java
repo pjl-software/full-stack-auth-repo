@@ -1,6 +1,7 @@
 package com.pjlsoftware.controller;
 
 import com.pjlsoftware.entity.User;
+import com.pjlsoftware.projection.UserProjection;
 import com.pjlsoftware.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,7 +58,7 @@ public class UserController {
             method = RequestMethod.GET,
             produces = {"application/json"}
     )
-    public ResponseEntity<List<User>> getEnabledUsers() {
+    public ResponseEntity<List<UserProjection>> getEnabledUsers() {
         return new ResponseEntity<>(userRepository.findByEnabledIsTrue()
                 .orElseThrow(() -> new RuntimeException("No enabled users found.")), HttpStatus.OK);
     }

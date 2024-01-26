@@ -127,7 +127,7 @@ To have fully functional user authentication and authorization, we need to secur
 
   - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/09-spring-security-configuration)
   - [Code Review Video - TBD](TBD)
-  - We need to take a quick detour to refactor our Angular application to use the latest features introduce in Angular 15. This will make integrating with Spring Security easier and future-proof our older Angular code against possible deprecation.
+  - We need to take a quick detour to refactor our Angular application to use the latest features introduced in Angular 15. This will make integrating with Spring Security easier and future-proof our older Angular code against possible deprecation. We also stop returning JPA Entities in our APIs and use Projection DTOs instead.
 
 ## Why Are you Building This?
 
