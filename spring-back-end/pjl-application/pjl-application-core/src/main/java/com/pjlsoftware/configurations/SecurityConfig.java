@@ -17,7 +17,7 @@ public class SecurityConfig {
      * password when the spring-boot starter starts (don't ever do in production). The username and password must be
      * formatted as base64 encoded username:password. E.g.
      * <p>
-     * curl -X GET -H "Authorization: Basic $(echo -n 'user:83b6a674-5f62-419e-8068-8bfc04231b4a' | base64)" \ https://localhost:8443/api/v1/users/
+     * curl -X GET -H "Authorization: Basic $(echo -n 'user:83b6a674-5f62-419e-8068-8bfc04231b4a' | base64)" https://localhost:8443/api/v1/users/ -i
      *
      * @param http
      * @return
@@ -26,6 +26,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors(withDefaults())
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/actuator/**").permitAll()
                         .anyRequest().authenticated()
