@@ -119,6 +119,16 @@ Our full-stack application needs a data layer. In this mini-series, we'll be int
   - [Code Review Video](https://youtu.be/cJNjbB3slSw)
   - In this branch, we create an API for deleting a user and viewing enabled users; then Angular front-end components for interacting with each API. This branch will give you a interactive UI for managing users in the PostgreSQL DB.
 
+#### Mini-Series: API/Spring Security Integration
+
+To have fully functional user authentication and authorization, we need to secure our APIs and modify our front-end services/http requests accordingly. We will be using Spring Security to secure our APIs and Angular interceptors to adjust our HTTP requests.
+
+- **09-spring-security-configuration-a**
+
+  - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/09-spring-security-configuration)
+  - [Code Review Video](https://youtu.be/wphsd2RGPWc)
+  - We need to take a quick detour to refactor our Angular application to use the latest features introduced in Angular 15. This will make integrating with Spring Security easier and future-proof our older Angular code against possible deprecation. We also stop returning JPA Entities in our APIs and use Projection DTOs instead.
+
 ## Why Are you Building This?
 
 I don't like tutorials or reading raw documentation. What _I_ want when I'm learning something new, is a working
