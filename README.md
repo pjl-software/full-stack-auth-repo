@@ -132,7 +132,7 @@ To have fully functional user authentication and authorization, we need to secur
 - **09-spring-security-configuration-b**
 
   - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/09-spring-security-configuration-b)
-  - [Code Review Video - TBD](TBD)
+  - [Code Review Video](https://youtu.be/p4Fn-xlzNEQ)
   - We dip our toe into Spring Security with our first SecurityFilterChain configuring HTTP Basic authentication on our UserController APIs. We add an HTTP Interceptor to Angular to include an Authorization header with each request to keep our components functional.
 
 ## Why Are you Building This?
