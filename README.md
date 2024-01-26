@@ -129,6 +129,12 @@ To have fully functional user authentication and authorization, we need to secur
   - [Code Review Video](https://youtu.be/wphsd2RGPWc)
   - We need to take a quick detour to refactor our Angular application to use the latest features introduced in Angular 15. This will make integrating with Spring Security easier and future-proof our older Angular code against possible deprecation. We also stop returning JPA Entities in our APIs and use Projection DTOs instead.
 
+- **09-spring-security-configuration-b**
+
+  - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/09-spring-security-configuration-b)
+  - [Code Review Video](https://youtu.be/p4Fn-xlzNEQ)
+  - We dip our toe into Spring Security with our first SecurityFilterChain configuring HTTP Basic authentication on our UserController APIs. We add an HTTP Interceptor to Angular to include an Authorization header with each request to keep our components functional.
+
 ## Why Are you Building This?
 
 I don't like tutorials or reading raw documentation. What _I_ want when I'm learning something new, is a working
