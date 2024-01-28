@@ -11,8 +11,6 @@ export class JwtService {
   }
 
   saveToken(token: String) {
-    console.log('saving token');
-    console.log(token);
     window.localStorage[this.tokenKey] = token;
   }
 

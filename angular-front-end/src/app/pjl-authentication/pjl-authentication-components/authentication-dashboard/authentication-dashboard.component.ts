@@ -38,9 +38,7 @@ export class AuthenticationDashboardComponent implements OnInit {
       this.user = user;
       this.loggedIn = user != null;
       if (user != null) {
-        console.log(user);
       }
-      console.log(user.idToken);
       this.jwtService.saveToken(user.idToken);
     });
   }
