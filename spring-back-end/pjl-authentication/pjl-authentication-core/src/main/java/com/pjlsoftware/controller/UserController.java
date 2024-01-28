@@ -7,7 +7,6 @@ import com.pjlsoftware.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,15 +33,19 @@ public class UserController {
             produces = {"application/json"}
     )
     public ResponseEntity<String> createGoogleUser(@RequestParam String credential) {
-        Optional<User> user = ValidateGoogleAuthToken.verifyGoogleAuthToken(credential);
+        User user = ValidateGoogleAuthToken.verifyGoogleAuthToken(credential)
+                .orElseThrow(() -> new RuntimeException("Failed to validate JWT."));
 
-        if (user.isPresent()) {
-            System.out.println(user.get().toString());
+        Optional<User> isAlreadyUser = userRepository.findByUsername(user.getUsername());
+
+        if (isAlreadyUser.isPresent()) {
+            user.setEnabled(true);
+            return new ResponseEntity<>("{\"value\": \"Re-enabled existing user\"}", HttpStatus.CREATED);
         } else {
-            System.out.println("failed to validate");
+            userRepository.saveAndFlush(user);
+            return new ResponseEntity<>("{\"value\": \"Created new user\"}", HttpStatus.CREATED);
         }
 
-        return new ResponseEntity<>("{\"value\": \"Created new user\"}", HttpStatus.CREATED);
     }
 
     @RequestMapping(
