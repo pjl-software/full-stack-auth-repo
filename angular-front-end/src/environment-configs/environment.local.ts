@@ -6,6 +6,7 @@ export const environment = {
   environment: 'local',
   backEndControllerPaths: {
     UserController: {
+      createGoogleUser: '/users/create/google',
       createUser: '/users/create',
       deleteUser: '/users/delete',
       getEnabledUsers: '/users/',
