@@ -2,6 +2,8 @@
   type="standard"
   size="medium"
 ></asl-google-signin-button>
+<br />
+<p>{{ createdGoogleUserResponse$ | async }}</p>
 <br /><br />
 <img src="{{ user.photoUrl }}" referrerpolicy="no-referrer" />
 <div>

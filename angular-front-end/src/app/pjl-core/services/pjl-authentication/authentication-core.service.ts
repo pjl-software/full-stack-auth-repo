@@ -9,6 +9,27 @@ export class AuthenticationCoreSerivce {
   constructor(private http: HttpClient) {}
 
   /**
+   * Create, or re-enable, a user in our database who used Google Sign-on
+   *
+   * @returns - An Observable<string> indicating if the user was created.
+   */
+  createGoogleUser(): Observable<string> {
+    return this.http
+      .post(
+        `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.UserController.createGoogleUser}`,
+        {}
+      )
+      .pipe(
+        map<any, string>((response) => {
+          return response.value;
+        }),
+        catchError((err: HttpErrorResponse) => {
+          return of('Failed to create new user');
+        })
+      );
+  }
+
+  /**
    * Create a new user in our database.
    *
    * @returns - An Observable<string> indicating if the user was created.
