@@ -111,8 +111,6 @@ public class User {
                 "userId=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", enabled=" + enabled +
                 '}';
     }
