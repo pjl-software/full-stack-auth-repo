@@ -46,7 +46,7 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
-        this.enabled = false;
+        this.enabled = true;
     }
 
     //
