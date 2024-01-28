@@ -139,7 +139,7 @@ To have fully functional user authentication and authorization, we need to secur
 
   - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/09-spring-security-configuration-c)
   - [Code Review Video](TBD)
-  - We ditch HTTP Basic authentication for OAuth2 with JSON Web Tokens (JWT). We integrate our OAuth2 authentication with Angular using `angularx-social-login` to get valid JWTs using Google accounts with Google Sign-in.
+  - We ditch HTTP Basic authentication for OAuth2 with JSON Web Tokens (JWT). We integrate our OAuth2 authentication with Angular using `angularx-social-login` to get valid JWTs using Google accounts with Google Sign-in. You will need a Google Provider ID from [https://console.cloud.google.com/](https://console.cloud.google.com/) > APIs and Services > Credentials > + Create Credentials > OAuth Client ID > Web Application > Create
 
 ## Why Are you Building This?
 
