@@ -12,7 +12,7 @@ import { routes } from './app.routes';
 import { jwtTokenAuthInterceptor } from './pjl-core/interceptors/jwt-token-auth.interceptor';
 
 const googleInitOptions: GoogleInitOptions = {
-  oneTapEnabled: true,
+  oneTapEnabled: false,
 };
 
 export const appConfig: ApplicationConfig = {
