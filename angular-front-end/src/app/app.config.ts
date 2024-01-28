@@ -7,6 +7,7 @@ import {
   SocialAuthServiceConfig,
 } from '@abacritt/angularx-social-login';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { secretEnvironmentVariables } from '../environment-configs/environment.secrets';
 import { routes } from './app.routes';
 import { jwtTokenAuthInterceptor } from './pjl-core/interceptors/jwt-token-auth.interceptor';
 
@@ -27,7 +28,7 @@ export const appConfig: ApplicationConfig = {
             {
               id: GoogleLoginProvider.PROVIDER_ID,
               provider: new GoogleLoginProvider(
-                '603021351518-d3kr8eie71dcfei6ud9531kmp8bbhqq3.apps.googleusercontent.com',
+                secretEnvironmentVariables.googleProviderId,
                 googleInitOptions
               ),
             },
