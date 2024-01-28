@@ -135,6 +135,12 @@ To have fully functional user authentication and authorization, we need to secur
   - [Code Review Video](https://youtu.be/p4Fn-xlzNEQ)
   - We dip our toe into Spring Security with our first SecurityFilterChain configuring HTTP Basic authentication on our UserController APIs. We add an HTTP Interceptor to Angular to include an Authorization header with each request to keep our components functional.
 
+- **09-spring-security-configuration-c**
+
+  - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/09-spring-security-configuration-c)
+  - [Code Review Video](TBD)
+  - We ditch HTTP Basic authentication for OAuth2 with JSON Web Tokens (JWT). We integrate our OAuth2 authentication with Angular using `angularx-social-login` to get valid JWTs using Google accounts with Google Sign-in.
+
 ## Why Are you Building This?
 
 I don't like tutorials or reading raw documentation. What _I_ want when I'm learning something new, is a working
