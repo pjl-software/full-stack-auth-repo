@@ -51,7 +51,7 @@ public class SecurityConfig {
     }
 
     /**
-     * For now, using the single decorder registration with Google since that's the only authentication I'm supporting
+     * For now, using the single decoder registration with Google since that's the only authentication I'm supporting
      * in this branch. Maybe you can add more.
      * <p>
      * Ref: <a href="https://github.com/spring-projects/spring-security/issues/10943">...</a>
