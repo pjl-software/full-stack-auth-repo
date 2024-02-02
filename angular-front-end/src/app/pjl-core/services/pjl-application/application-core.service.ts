@@ -1,7 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
-import { environment } from '../../../../environment-configs/environment.local';
 
 @Injectable({ providedIn: 'root' })
 export class ApplicationCoreSerivce {
@@ -13,7 +12,7 @@ export class ApplicationCoreSerivce {
    * Spring Boot Starter Actuator library
    */
   getBackEndHealth(): Observable<string> {
-    return this.http.get(`${environment.apiUrl}` + '/actuator/health', {}).pipe(
+    return this.http.get('https://localhost:8443/actuator/health', {}).pipe(
       map<any, string>((response) => {
         return response.status;
       }),

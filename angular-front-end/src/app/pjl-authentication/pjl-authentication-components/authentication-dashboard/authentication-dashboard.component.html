@@ -1,3 +1,14 @@
+<asl-google-signin-button
+  type="standard"
+  size="medium"
+></asl-google-signin-button>
+<br />
+<p>{{ createdGoogleUserResponse$ | async }}</p>
+<br /><br />
+<img src="{{ user.photoUrl }}" referrerpolicy="no-referrer" />
+<div>
+  <h4>{{ user.name }}</h4>
+</div>
 <app-create-user-button></app-create-user-button> <br /><br /><br />
 <app-view-users></app-view-users>
 <br /><br /><br />
