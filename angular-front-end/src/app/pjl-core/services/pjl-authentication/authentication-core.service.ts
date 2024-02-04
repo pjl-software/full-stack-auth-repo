@@ -16,7 +16,7 @@ export class AuthenticationCoreSerivce {
   createGoogleUser(): Observable<string> {
     return this.http
       .post(
-        `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.UserController.createGoogleUser}`,
+        `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.AuthController.createGoogleUser}`,
         {}
       )
       .pipe(
