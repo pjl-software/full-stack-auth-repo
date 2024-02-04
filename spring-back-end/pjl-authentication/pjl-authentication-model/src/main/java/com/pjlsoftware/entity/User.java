@@ -4,11 +4,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotBlank;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.annotations.NaturalId;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(
@@ -31,6 +38,15 @@ public class User {
     @NotBlank
     private String password;
     private boolean enabled;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "role_id"})
+    )
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
         this.firstName = RandomStringUtils.randomAlphabetic(8);
@@ -99,6 +115,14 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     //
