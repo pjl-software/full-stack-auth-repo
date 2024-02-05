@@ -28,6 +28,7 @@ public class AuthController {
     public ResponseEntity<String> createGoogleUser() {
         JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         String bearerToken = jwtAuthenticationToken.getToken().getTokenValue();
+        System.out.println("principal: " + jwtAuthenticationToken.getPrincipal());
 
         return this.userService.handleGoogleSignIn(bearerToken);
     }
