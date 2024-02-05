@@ -6,6 +6,8 @@ This is will eventually be a fully fledged user authentication application built
 Angular front-end, and PostgreSQL datastore that will run on Docker. The repo will be runnable with a few key strokes
 and with minimal local requirements.
 
+Please note, however, that **this code is intended for educational purposes only. It is not running in production, nor is it claiming to be "production-ready" code**. The code is simply intended to teach and allow you to learn frameworks through practical usage.
+
 ## To Get Started
 
 This repo has a number of utility scripts in the `bin` directories located within this repo. Each script has a `-h` help
@@ -146,6 +148,12 @@ To have fully functional user authentication and authorization, we need to secur
   - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/09-spring-security-configuration-d)
   - [Code Review Video](TBD)
   - Proper user management requires role-based access. In this branch, we introduce a Role entity and roles table in our PostgreSQL DB with a many-to-many relationship between Users and Roles using JPA. We mature our business logic by creating a dedicate UserService interface and subsequent implementation to handle users logging in via Google Sign-on.
+
+- **09-spring-security-configuration-e**
+
+  - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/09-spring-security-configuration-e)
+  - [Code Review Video](TBD)
+  - Enrich our JwtAuthenticationToken from Google with our managed GrantedAuthorities to use with the newly enabled @PreAuthorize annotation. Set up `@PreAuthorize("hasRole('ROLE_ADMIN')")` and `@PreAuthorize("hasRole('ROLE_FREE_USER')")` endpoints. Create a custom `@CurrentUser` annotation for loading the `User` entity associated with the valid JWT as the `@AuthenticationPrincipal`.
 
 ## Why Are you Building This?
 
