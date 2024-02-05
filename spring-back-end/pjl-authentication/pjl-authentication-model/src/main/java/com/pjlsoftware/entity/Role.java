@@ -1,6 +1,6 @@
 package com.pjlsoftware.entity;
 
-import com.pjlsoftware.constants.RoleName;
+import com.pjlsoftware.authenticationConstants.RoleName;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

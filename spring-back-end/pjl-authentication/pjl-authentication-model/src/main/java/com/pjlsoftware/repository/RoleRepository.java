@@ -1,6 +1,6 @@
 package com.pjlsoftware.repository;
 
-import com.pjlsoftware.constants.RoleName;
+import com.pjlsoftware.authenticationConstants.RoleName;
 import com.pjlsoftware.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
