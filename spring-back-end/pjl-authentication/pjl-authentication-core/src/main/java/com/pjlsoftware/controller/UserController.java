@@ -3,15 +3,18 @@ package com.pjlsoftware.controller;
 import com.pjlsoftware.entity.User;
 import com.pjlsoftware.projection.UserProjection;
 import com.pjlsoftware.repository.UserRepository;
+import com.pjlsoftware.security.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -24,16 +27,19 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
+    @PreAuthorize("hasRole('ROLE_FREE_USER')")
     @RequestMapping(
             value = "/create",
             method = RequestMethod.POST,
             produces = {"application/json"}
     )
-    public ResponseEntity<String> createUser() {
+    public ResponseEntity<String> createUser(@CurrentUser User user) {
+        System.out.println("current user: " + user);
         userRepository.saveAndFlush(new User());
         return new ResponseEntity<>("{\"value\": \"Created new user\"}", HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(
             value = "/delete/{username}",
             method = RequestMethod.PUT,
@@ -44,6 +50,7 @@ public class UserController {
             User existingUser = userRepository.findByUsername(username)
                     .orElseThrow(() -> new RuntimeException("No user found with username: " + username));
             existingUser.setEnabled(false);
+            existingUser.setRoles(Set.of());
             userRepository.saveAndFlush(existingUser);
         } catch (Exception e) {
             return new ResponseEntity<>("{\"value\": \"Nothing done. Check Logs.\"}", HttpStatus.BAD_REQUEST);
