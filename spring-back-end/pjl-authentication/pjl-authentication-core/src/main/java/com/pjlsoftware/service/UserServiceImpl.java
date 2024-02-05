@@ -1,6 +1,6 @@
 package com.pjlsoftware.service;
 
-import com.pjlsoftware.constants.RoleName;
+import com.pjlsoftware.authenticationConstants.RoleName;
 import com.pjlsoftware.entity.Role;
 import com.pjlsoftware.entity.User;
 import com.pjlsoftware.repository.RoleRepository;
