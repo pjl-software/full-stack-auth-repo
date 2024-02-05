@@ -21,15 +21,17 @@ import java.util.stream.Collectors;
 // Ref: https://github.com/spring-projects/spring-security/blob/main/oauth2/oauth2-resource-server/src/main/java/org/springframework/security/oauth2/server/resource/authentication/JwtAuthenticationConverter.java
 public class CustomConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public CustomConverter(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     private String principalClaimName = JwtClaimNames.SUB;
 
     @Override
     public final AbstractAuthenticationToken convert(Jwt jwt) {
-        System.out.println("processing JWT...");
-
         User user = ValidateGoogleAuthToken.verifyGoogleAuthToken(jwt.getTokenValue())
                 .orElseThrow(() -> new RuntimeException("Failed to validate JWT."));
         Optional<User> isAlreadyEnabledUser = userRepository.findByUsernameAndEnabledIsTrue(user.getUsername());
@@ -37,18 +39,13 @@ public class CustomConverter implements Converter<Jwt, AbstractAuthenticationTok
         List<GrantedAuthority> authorities = List.of();
 
         if (isAlreadyEnabledUser.isPresent()) {
-            System.out.println("Is a user: " + isAlreadyEnabledUser.get().toString());
-            System.out.println("Roles: " + isAlreadyEnabledUser.get().getRoles());
-            authorities = isAlreadyEnabledUser.get().getRoles().stream().map(role ->
+            User existingEnabledUser = isAlreadyEnabledUser.get();
+            authorities = existingEnabledUser.getRoles().stream().map(role ->
                     new SimpleGrantedAuthority(role.getName().name())
             ).collect(Collectors.toList());
         }
-        System.out.println("Authorities count: " + (long) authorities.size());
-
-//        Collection<GrantedAuthority> authorities = this.jwtGrantedAuthoritiesConverter.convert(jwt);
 
         String principalClaimValue = jwt.getClaimAsString(this.principalClaimName);
-        System.out.println("principalClaimValue: " + principalClaimValue);
         return new JwtAuthenticationToken(jwt, authorities, principalClaimValue);
     }
 
