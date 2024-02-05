@@ -1,7 +1,7 @@
 package com.pjlsoftware.configurations;
 
 import com.pjlsoftware.repository.UserRepository;
-import com.pjlsoftware.security.CustomConverter;
+import com.pjlsoftware.security.CustomJwtAuthenticationConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
@@ -35,8 +35,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    Converter<Jwt, AbstractAuthenticationToken> customConverter() {
-        return new CustomConverter(userRepository);
+    Converter<Jwt, AbstractAuthenticationToken> customJwtAuthenticationConverter() {
+        return new CustomJwtAuthenticationConverter(userRepository);
     }
 
     /**
@@ -71,7 +71,7 @@ public class SecurityConfig {
                 )
                 .oauth2ResourceServer((oauth2) -> oauth2
                         .jwt(jwt -> jwt
-                                .jwtAuthenticationConverter(customConverter())
+                                .jwtAuthenticationConverter(customJwtAuthenticationConverter())
                         )
 
                 )
