@@ -1,23 +1,34 @@
 package com.pjlsoftware.configurations;
 
+import com.pjlsoftware.security.CustomConverter;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+// OAuth 2.0 Resource Server JWT - https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html#oauth2resourceserver-jwt-authorization-extraction
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity // Enables @preAuthorize
 public class SecurityConfig {
+    @Bean
+    Converter<Jwt, AbstractAuthenticationToken> customConverter() {
+        return new CustomConverter();
+    }
+
     /**
      * Implementing OAuth2 authentication via JSON Web Tokens (JWT). Setting up the SecurityFilterChain with:
      * - CORS: May not be needed anymore, but was in previous versions of Spring
@@ -49,8 +60,12 @@ public class SecurityConfig {
                         .anyRequest().denyAll()
                 )
                 .oauth2ResourceServer((oauth2) -> oauth2
-                        .jwt(Customizer.withDefaults())
-                );
+                        .jwt(jwt -> jwt
+                                .jwtAuthenticationConverter(customConverter())
+                        )
+
+                )
+        ;
         return http.build();
     }
 
@@ -66,5 +81,13 @@ public class SecurityConfig {
     @Bean
     public JwtDecoder jwtDecoder() {
         return JwtDecoders.fromIssuerLocation("https://accounts.google.com");
+    }
+
+    @Bean
+    ApplicationListener<AuthenticationSuccessEvent> successfulEvent() {
+        return event -> {
+            System.out.println("Successful login: " + event.getAuthentication().getClass().getSimpleName() + " " +
+                    (long) event.getAuthentication().getAuthorities().size());
+        };
     }
 }
