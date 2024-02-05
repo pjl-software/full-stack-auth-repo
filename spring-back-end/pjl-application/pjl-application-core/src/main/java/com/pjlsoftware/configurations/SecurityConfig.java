@@ -1,6 +1,8 @@
 package com.pjlsoftware.configurations;
 
+import com.pjlsoftware.repository.UserRepository;
 import com.pjlsoftware.security.CustomConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,11 +24,19 @@ import static org.springframework.security.config.Customizer.withDefaults;
 // OAuth 2.0 Resource Server JWT - https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html#oauth2resourceserver-jwt-authorization-extraction
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity // Enables @preAuthorize
+@EnableMethodSecurity // Enables @PreAuthorize
 public class SecurityConfig {
+
+    private final UserRepository userRepository;
+
+    @Autowired
+    public SecurityConfig(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Bean
     Converter<Jwt, AbstractAuthenticationToken> customConverter() {
-        return new CustomConverter();
+        return new CustomConverter(userRepository);
     }
 
     /**
@@ -83,6 +93,13 @@ public class SecurityConfig {
         return JwtDecoders.fromIssuerLocation("https://accounts.google.com");
     }
 
+    /**
+     * Temporary override to better display and test the changes we are making to JWT Authentication and to validate
+     * that our changes are producing the output we expect. This can be deleted in the future as it has no functional
+     * purpose.
+     *
+     * @return - Prints a message to the console to manually validate authentication.
+     */
     @Bean
     ApplicationListener<AuthenticationSuccessEvent> successfulEvent() {
         return event -> {
