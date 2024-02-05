@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,5 +69,19 @@ public class UserServiceImpl implements UserService {
             LOGGER.info("Exception in handleGoogleSignIn", e);
             return new ResponseEntity<>("{\"value\": \"Google sign-in failed.\"}", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @Override
+    public User getUserFromJwt(JwtAuthenticationToken principal) {
+        System.out.println("in here getUserFromJwt");
+        try {
+            User user = ValidateGoogleAuthToken.verifyGoogleAuthToken(principal.getToken().getTokenValue())
+                    .orElseThrow(() -> new RuntimeException("Failed to validate JWT."));
+            return userRepository.findByUsername(user.getUsername())
+                    .orElseThrow(() -> new UsernameNotFoundException("Unable to getUserFromJwt"));
+        } catch (Exception e) {
+            LOGGER.info("Exception in getUserFromJwt", e);
+        }
+        return null;
     }
 }
