@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -44,6 +45,7 @@ public class UserController {
             User existingUser = userRepository.findByUsername(username)
                     .orElseThrow(() -> new RuntimeException("No user found with username: " + username));
             existingUser.setEnabled(false);
+            existingUser.setRoles(Set.of());
             userRepository.saveAndFlush(existingUser);
         } catch (Exception e) {
             return new ResponseEntity<>("{\"value\": \"Nothing done. Check Logs.\"}", HttpStatus.BAD_REQUEST);
