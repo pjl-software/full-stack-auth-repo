@@ -17,5 +17,9 @@ public interface UserService {
      */
     ResponseEntity<String> handleGoogleSignIn(final String jwt);
 
+    /**
+     * @param principal - Value from @AuthenticationPrincipal
+     * @return - A valid user from our database associated with the principal; otherwise null
+     */
     User getUserFromJwt(JwtAuthenticationToken principal);
 }
