@@ -73,7 +73,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserFromJwt(JwtAuthenticationToken principal) {
-        System.out.println("in here getUserFromJwt");
         try {
             User user = ValidateGoogleAuthToken.verifyGoogleAuthToken(principal.getToken().getTokenValue())
                     .orElseThrow(() -> new RuntimeException("Failed to validate JWT."));
