@@ -42,6 +42,10 @@ public class UserServiceImpl implements UserService {
             Role freeUserRole = roleRepository.findByName(RoleName.ROLE_FREE_USER)
                     .orElseThrow(() -> new RuntimeException("Couldn't find the " + RoleName.ROLE_FREE_USER +
                             " role. Are you sure you loaded the database?"));
+            Role adminUserRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                    .orElseThrow(() -> new RuntimeException("Couldn't find the " + RoleName.ROLE_ADMIN +
+                            " role. Are you sure you loaded the database?"));
+            Set<Role> googleUserRoles = new HashSet<>(Set.of(freeUserRole, adminUserRole));
 
             Optional<User> isAlreadyUser = userRepository.findByUsername(user.getUsername());
 
@@ -52,13 +56,13 @@ public class UserServiceImpl implements UserService {
                     return new ResponseEntity<>("{\"value\": \"Logging in active user\"}", HttpStatus.CREATED);
                 } else {
                     existingUser.setEnabled(true);
-                    existingUser.setRoles(new HashSet<>(Set.of(freeUserRole)));
+                    existingUser.setRoles(googleUserRoles);
 
                     userRepository.saveAndFlush(existingUser);
                     return new ResponseEntity<>("{\"value\": \"Re-enabled existing user\"}", HttpStatus.CREATED);
                 }
             } else {
-                user.setRoles(new HashSet<>(Set.of(freeUserRole)));
+                user.setRoles(googleUserRoles);
 
                 userRepository.saveAndFlush(user);
                 return new ResponseEntity<>("{\"value\": \"Created new user\"}", HttpStatus.CREATED);
