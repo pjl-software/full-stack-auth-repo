@@ -1,8 +1,8 @@
 package com.pjlsoftware.projection;
 
-import com.pjlsoftware.entity.Role;
-
 import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Value;
 
 public interface UserProjection {
     String getFirstName();
@@ -11,5 +11,6 @@ public interface UserProjection {
 
     String getUsername();
 
-    Set<RoleProjection> getRoles();
+    @Value("#{target.getRoleNames}")
+    Set<String> getRoleNames();
 }

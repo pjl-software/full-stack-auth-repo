@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from '../../../../environment-configs/environment.local';
 import { BackEndUserDto } from '../../../pjl-authentication/pjl-authentication-models/back-end/user-dto-back-end.model';
-import { FrontEndUserDto } from '../../../pjl-authentication/pjl-authentication-models/front-end/user-dto-front-end.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationCoreSerivce {
@@ -99,26 +98,16 @@ export class AuthenticationCoreSerivce {
    *
    * @returns - An Observable list of UserDto objects representing all the users in the database where enabled is true.
    */
-  getEnabledUsers(): Observable<FrontEndUserDto[]> {
+  getEnabledUsers(): Observable<BackEndUserDto[]> {
     return this.http
       .get(
         `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.UserController.getEnabledUsers}`,
         {}
       )
       .pipe(
-        map<any, FrontEndUserDto[]>((response) => {
+        map<any, BackEndUserDto[]>((response) => {
           const backEndUserDtos: BackEndUserDto[] = response;
-          const frontEndUserDtos: FrontEndUserDto[] = backEndUserDtos.map(
-            (backEndDto) => {
-              return {
-                firstName: backEndDto.firstName,
-                lastName: backEndDto.lastName,
-                username: backEndDto.username,
-                roles: backEndDto.roles.map((role) => role.name),
-              } as FrontEndUserDto;
-            }
-          );
-          return frontEndUserDtos;
+          return backEndUserDtos;
         }),
         catchError((err: HttpErrorResponse) => {
           return of([]);
