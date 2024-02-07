@@ -16,6 +16,7 @@ import org.hibernate.annotations.NaturalId;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(
@@ -123,6 +124,10 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<String> getRoleNames() {
+        return this.getRoles().stream().map(role -> role.getName().name()).collect(Collectors.toSet());
     }
 
     //
