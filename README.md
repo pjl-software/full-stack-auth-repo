@@ -152,7 +152,7 @@ To have fully functional user authentication and authorization, we need to secur
 - **09-spring-security-configuration-e**
 
   - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/09-spring-security-configuration-e)
-  - [Code Review Video](TBD)
+  - [Code Review Video](https://youtu.be/VOXno44nCkA)
   - Enrich our JwtAuthenticationToken from Google with our managed GrantedAuthorities to use with the newly enabled @PreAuthorize annotation. Set up `@PreAuthorize("hasRole('ROLE_ADMIN')")` and `@PreAuthorize("hasRole('ROLE_FREE_USER')")` endpoints. Create a custom `@CurrentUser` annotation for loading the `User` entity associated with the valid JWT as the `@AuthenticationPrincipal`.
 
 ## Why Are you Building This?
