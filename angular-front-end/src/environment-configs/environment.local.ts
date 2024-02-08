@@ -5,8 +5,10 @@ export const environment = {
   apiUrl: 'https://localhost:8443/api',
   environment: 'local',
   backEndControllerPaths: {
+    AuthController: {
+      createGoogleUser: '/auth/sign-in/google',
+    },
     UserController: {
-      createGoogleUser: '/users/create/google',
       createUser: '/users/create',
       deleteUser: '/users/delete',
       getEnabledUsers: '/users/',

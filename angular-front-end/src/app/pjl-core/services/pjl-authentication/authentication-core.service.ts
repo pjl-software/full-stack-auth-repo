@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from '../../../../environment-configs/environment.local';
-import { UserDto } from '../../../pjl-authentication/pjl-authentication-models/user-dto.model';
+import { BackEndUserDto } from '../../../pjl-authentication/pjl-authentication-models/back-end/user-dto-back-end.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationCoreSerivce {
@@ -16,7 +16,7 @@ export class AuthenticationCoreSerivce {
   createGoogleUser(): Observable<string> {
     return this.http
       .post(
-        `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.UserController.createGoogleUser}`,
+        `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.AuthController.createGoogleUser}`,
         {}
       )
       .pipe(
@@ -45,6 +45,15 @@ export class AuthenticationCoreSerivce {
           return response.value;
         }),
         catchError((err: HttpErrorResponse) => {
+          if (err.status === 401) {
+            return of(
+              `You are not authorized to perform this action. Check you're authenticated.`
+            );
+          } else if (err.status === 403) {
+            return of(
+              'You do not have the appropriate roles to perform this action.'
+            );
+          }
           return of('Failed to create new user');
         })
       );
@@ -66,6 +75,19 @@ export class AuthenticationCoreSerivce {
         return response.value;
       }),
       catchError((err: HttpErrorResponse) => {
+        if (err.status === 400) {
+          return of(
+            'Unable to delete that user. Are you sure you used the correct username?'
+          );
+        } else if (err.status === 401) {
+          return of(
+            `You are not authorized to perform this action. Check you're authenticated.`
+          );
+        } else if (err.status === 403) {
+          return of(
+            'You do not have the appropriate roles to perform this action.'
+          );
+        }
         return of('Failed to delete user.');
       })
     );
@@ -76,15 +98,16 @@ export class AuthenticationCoreSerivce {
    *
    * @returns - An Observable list of UserDto objects representing all the users in the database where enabled is true.
    */
-  getEnabledUsers(): Observable<UserDto[]> {
+  getEnabledUsers(): Observable<BackEndUserDto[]> {
     return this.http
       .get(
         `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.UserController.getEnabledUsers}`,
         {}
       )
       .pipe(
-        map<any, UserDto[]>((response) => {
-          return response;
+        map<any, BackEndUserDto[]>((response) => {
+          const backEndUserDtos: BackEndUserDto[] = response;
+          return backEndUserDtos;
         }),
         catchError((err: HttpErrorResponse) => {
           return of([]);

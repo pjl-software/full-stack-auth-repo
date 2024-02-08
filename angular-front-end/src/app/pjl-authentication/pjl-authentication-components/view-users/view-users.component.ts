@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable, of, switchMap, timer } from 'rxjs';
 import { AuthenticationCoreSerivce } from '../../../pjl-core/services/pjl-authentication/authentication-core.service';
 import { PjlSharedModule } from '../../../pjl-shared/shared.module';
-import { UserDto } from '../../pjl-authentication-models/user-dto.model';
+import { BackEndUserDto } from '../../pjl-authentication-models/back-end/user-dto-back-end.model';
 
 @Component({
   selector: 'app-view-users',
@@ -13,7 +13,7 @@ import { UserDto } from '../../pjl-authentication-models/user-dto.model';
   styleUrl: './view-users.component.scss',
 })
 export class ViewUsersComponent implements OnInit {
-  enabledUsers$: Observable<UserDto[]>;
+  enabledUsers$: Observable<BackEndUserDto[]>;
 
   constructor(private authenticationCoreSerivce: AuthenticationCoreSerivce) {
     this.enabledUsers$ = of([]);

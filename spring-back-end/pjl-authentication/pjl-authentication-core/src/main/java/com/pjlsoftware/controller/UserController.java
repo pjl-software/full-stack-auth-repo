@@ -1,55 +1,38 @@
-package com.pjlsoftware.controller.security;
+package com.pjlsoftware.controller;
 
+import com.pjlsoftware.authenticationConstants.RoleName;
+import com.pjlsoftware.entity.Role;
 import com.pjlsoftware.entity.User;
 import com.pjlsoftware.projection.UserProjection;
+import com.pjlsoftware.repository.RoleRepository;
 import com.pjlsoftware.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
-    }
-
-    @RequestMapping(
-            value = "/create/google",
-            method = RequestMethod.POST,
-            produces = {"application/json"}
-    )
-    public ResponseEntity<String> createGoogleUser() {
-        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        String bearerToken = jwtAuthenticationToken.getToken().getTokenValue();
-
-        User user = ValidateGoogleAuthToken.verifyGoogleAuthToken(bearerToken)
-                .orElseThrow(() -> new RuntimeException("Failed to validate JWT."));
-
-        Optional<User> isAlreadyUser = userRepository.findByUsername(user.getUsername());
-
-        if (isAlreadyUser.isPresent()) {
-            User existingUser = isAlreadyUser.get();
-            existingUser.setEnabled(true);
-            userRepository.saveAndFlush(existingUser);
-            return new ResponseEntity<>("{\"value\": \"Re-enabled existing user\"}", HttpStatus.CREATED);
-        } else {
-            userRepository.saveAndFlush(user);
-            return new ResponseEntity<>("{\"value\": \"Created new user\"}", HttpStatus.CREATED);
-        }
+        this.roleRepository = roleRepository;
     }
 
     @RequestMapping(
@@ -58,8 +41,14 @@ public class UserController {
             produces = {"application/json"}
     )
     public ResponseEntity<String> createUser() {
-        userRepository.saveAndFlush(new User());
-        return new ResponseEntity<>("{\"value\": \"Created new user\"}", HttpStatus.CREATED);
+        User newRandomUser = new User();
+        Role freeUserRole = roleRepository.findByName(RoleName.ROLE_FREE_USER)
+                .orElseThrow(() -> new RuntimeException("Couldn't find the " + RoleName.ROLE_FREE_USER +
+                        " role. Are you sure you loaded the database?"));
+        newRandomUser.setRoles(new HashSet<>(Set.of(freeUserRole)));
+
+        userRepository.saveAndFlush(newRandomUser);
+        return new ResponseEntity<>("{\"value\": \"Created new random user\"}", HttpStatus.CREATED);
     }
 
     @RequestMapping(
@@ -72,8 +61,10 @@ public class UserController {
             User existingUser = userRepository.findByUsername(username)
                     .orElseThrow(() -> new RuntimeException("No user found with username: " + username));
             existingUser.setEnabled(false);
+            existingUser.setRoles(new HashSet<>(Set.of()));
             userRepository.saveAndFlush(existingUser);
         } catch (Exception e) {
+            LOGGER.info("Exception in deleteUser: {}", e.getLocalizedMessage());
             return new ResponseEntity<>("{\"value\": \"Nothing done. Check Logs.\"}", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("{\"value\": \"" + username + " has been disabled.\"}", HttpStatus.OK);

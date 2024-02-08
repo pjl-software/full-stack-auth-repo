@@ -141,6 +141,12 @@ To have fully functional user authentication and authorization, we need to secur
   - [Code Review Video](https://youtu.be/NX6u7SIHHAA)
   - We ditch HTTP Basic authentication for OAuth2 with JSON Web Tokens (JWT). We integrate our OAuth2 authentication with Angular using `angularx-social-login` to get valid JWTs using Google accounts with Google Sign-in. You will need a Google Provider ID from [https://console.cloud.google.com/](https://console.cloud.google.com/) > APIs and Services > Credentials > + Create Credentials > OAuth Client ID > Web Application > Create
 
+- **09-spring-security-configuration-d**
+
+  - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/09-spring-security-configuration-d)
+  - [Code Review Video](https://youtu.be/AlFIYek3B5s)
+  - Proper user management requires role-based access. In this branch, we introduce a Role entity and roles table in our PostgreSQL DB with a many-to-many relationship between Users and Roles using JPA. We mature our business logic by creating a dedicate UserService interface and subsequent implementation to handle users logging in via Google Sign-on.
+
 ## Why Are you Building This?
 
 I don't like tutorials or reading raw documentation. What _I_ want when I'm learning something new, is a working
