@@ -146,7 +146,7 @@ To have fully functional user authentication and authorization, we need to secur
 - **09-spring-security-configuration-d**
 
   - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/09-spring-security-configuration-d)
-  - [Code Review Video](TBD)
+  - [Code Review Video](https://youtu.be/AlFIYek3B5s)
   - Proper user management requires role-based access. In this branch, we introduce a Role entity and roles table in our PostgreSQL DB with a many-to-many relationship between Users and Roles using JPA. We mature our business logic by creating a dedicate UserService interface and subsequent implementation to handle users logging in via Google Sign-on.
 
 - **09-spring-security-configuration-e**
