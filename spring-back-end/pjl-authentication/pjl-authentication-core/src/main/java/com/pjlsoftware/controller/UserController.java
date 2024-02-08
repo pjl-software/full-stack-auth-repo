@@ -6,11 +6,13 @@ import com.pjlsoftware.entity.User;
 import com.pjlsoftware.projection.UserProjection;
 import com.pjlsoftware.repository.RoleRepository;
 import com.pjlsoftware.repository.UserRepository;
+import com.pjlsoftware.security.CurrentUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,12 +37,14 @@ public class UserController {
         this.roleRepository = roleRepository;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(
             value = "/create",
             method = RequestMethod.POST,
             produces = {"application/json"}
     )
-    public ResponseEntity<String> createUser() {
+    public ResponseEntity<String> createUser(@CurrentUser User user) {
+        System.out.println("current user: " + user);
         User newRandomUser = new User();
         Role freeUserRole = roleRepository.findByName(RoleName.ROLE_FREE_USER)
                 .orElseThrow(() -> new RuntimeException("Couldn't find the " + RoleName.ROLE_FREE_USER +
@@ -51,6 +55,7 @@ public class UserController {
         return new ResponseEntity<>("{\"value\": \"Created new random user\"}", HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ROLE_SUBSCRIBED_USER')")
     @RequestMapping(
             value = "/delete/{username}",
             method = RequestMethod.PUT,
@@ -70,6 +75,7 @@ public class UserController {
         return new ResponseEntity<>("{\"value\": \"" + username + " has been disabled.\"}", HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_FREE_USER')")
     @RequestMapping(
             value = "/",
             method = RequestMethod.GET,

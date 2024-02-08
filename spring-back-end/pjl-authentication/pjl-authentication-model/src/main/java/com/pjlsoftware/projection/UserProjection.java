@@ -1,8 +1,8 @@
 package com.pjlsoftware.projection;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Value;
 
 public interface UserProjection {
     String getFirstName();

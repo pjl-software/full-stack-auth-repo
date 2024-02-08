@@ -1,6 +1,8 @@
 package com.pjlsoftware.service;
 
+import com.pjlsoftware.entity.User;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 public interface UserService {
 
@@ -14,4 +16,10 @@ public interface UserService {
      * @return - Response entity with JSON string indicating status.
      */
     ResponseEntity<String> handleGoogleSignIn(final String jwt);
+
+    /**
+     * @param principal - Value from @AuthenticationPrincipal
+     * @return - A valid user from our database associated with the principal; otherwise null
+     */
+    User getUserFromJwt(JwtAuthenticationToken principal);
 }
