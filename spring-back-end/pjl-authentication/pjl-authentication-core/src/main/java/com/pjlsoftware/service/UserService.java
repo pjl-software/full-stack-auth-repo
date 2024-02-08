@@ -6,8 +6,8 @@ public interface UserService {
 
     /**
      * Validate Google JWT, create User Entity from JWT info then:
-     * - Log in existing user
-     * - Re-enable disabled user adding back role(s)
+     * - Log in existing user OR
+     * - Re-enable disabled user adding back role(s) OR
      * - Create new user with role(s)
      *
      * @param jwt - Google JWT
