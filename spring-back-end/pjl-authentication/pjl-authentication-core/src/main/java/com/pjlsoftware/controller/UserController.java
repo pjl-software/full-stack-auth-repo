@@ -37,7 +37,7 @@ public class UserController {
         this.roleRepository = roleRepository;
     }
 
-    @PreAuthorize("hasRole('ROLE_FREE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(
             value = "/create",
             method = RequestMethod.POST,
@@ -55,7 +55,7 @@ public class UserController {
         return new ResponseEntity<>("{\"value\": \"Created new random user\"}", HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_SUBSCRIBED_USER')")
     @RequestMapping(
             value = "/delete/{username}",
             method = RequestMethod.PUT,
@@ -75,6 +75,7 @@ public class UserController {
         return new ResponseEntity<>("{\"value\": \"" + username + " has been disabled.\"}", HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_FREE_USER')")
     @RequestMapping(
             value = "/",
             method = RequestMethod.GET,
