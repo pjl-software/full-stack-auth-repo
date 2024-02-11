@@ -2,7 +2,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from '../../../../environment-configs/environment.local';
-import { BackEndAuthenticatedUserProjection } from '../../../pjl-authentication/pjl-authentication-models/back-end/back-end-authenticated-user-projection.model';
+import {
+  BackEndAuthenticatedUserProjection,
+  UnauthenticatedBackEndAuthenticatedUserProjection,
+} from '../../../pjl-authentication/pjl-authentication-models/back-end/back-end-authenticated-user-projection.model';
 import { BackEndGenericUserProjection } from '../../../pjl-authentication/pjl-authentication-models/back-end/back-end-generic-user-projection-dto.model';
 import { UserCoreSerivce } from './user-core.service';
 
@@ -29,10 +32,7 @@ export class AuthenticationCoreSerivce {
           }
         ),
         catchError((err: HttpErrorResponse) => {
-          return of({
-            isAuthenticated: false,
-            isNotAuthenticated: true,
-          } as BackEndAuthenticatedUserProjection);
+          return of(UnauthenticatedBackEndAuthenticatedUserProjection);
         })
       );
   }
