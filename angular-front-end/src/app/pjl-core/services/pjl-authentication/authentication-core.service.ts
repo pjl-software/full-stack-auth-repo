@@ -11,7 +11,7 @@ export class AuthenticationCoreSerivce {
   constructor(private http: HttpClient, private userService: UserCoreSerivce) {}
 
   /**
-   * Create, or re-enable, a user in our database who used Google Sign-on
+   * Create, log-in, or re-enable, a user in our database who used Google Sign-on
    *
    * @returns - An Observable<string> indicating if the user was created.
    */
