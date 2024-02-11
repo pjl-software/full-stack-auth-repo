@@ -53,16 +53,15 @@ public class UserServiceImpl implements UserService {
         try {
             return userRepository.returnUserInfoForEnabledUserByUsername(username);
         } catch (Exception e) {
-
+            LOGGER.info("Exception in getUserInformation", e);
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
     @Transactional
     public ResponseEntity<AuthenticatedUserProjection> handleGoogleSignIn(final String jwt) {
         try {
-            LOGGER.info("Made it here...");
             User user = ValidateGoogleAuthToken.verifyGoogleAuthToken(jwt)
                     .orElseThrow(() -> new RuntimeException("Failed to validate JWT."));
 
@@ -80,12 +79,12 @@ public class UserServiceImpl implements UserService {
                 User existingUser = isAlreadyUser.get();
 
                 if (existingUser.isEnabled()) {
-
+                    // do nothing special
                 } else {
+                    LOGGER.info("Automatically re-enabling a disabled user. Are we sure we want to do this?");
                     existingUser.setEnabled(true);
                     existingUser.setRoles(googleUserRoles);
                     userRepository.saveAndFlush(existingUser);
-
                 }
             } else {
                 user.setRoles(googleUserRoles);
