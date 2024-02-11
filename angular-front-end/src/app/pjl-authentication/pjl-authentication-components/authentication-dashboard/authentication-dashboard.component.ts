@@ -45,18 +45,16 @@ export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.userService.initalizeUserWithAppLoading();
     this.authService.authState.subscribe((user) => {
       this.loggedIn = user != null;
-      this.jwtService.saveToken(user.idToken);
       if (user != null) {
+        this.jwtService.saveToken(user.idToken);
         this.createGoogleUserSubscription = this.authenticationCoreSerivce
           .createGoogleUser()
           .subscribe({
-            next: (response) => {
-              this.userService.initalizeUserWithAppLoading();
+            next: (user) => {
+              // need to manually subscribe
             },
-            error: (error) => {},
           });
       }
     });
