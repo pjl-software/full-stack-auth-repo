@@ -26,9 +26,12 @@
   </div>
 
   <div *ngIf="user.isNotAuthenticated">
-    <asl-google-signin-button
-      type="standard"
-      size="medium"
-    ></asl-google-signin-button>
+    <div>
+      <h3>Please Sign-in with a valid Gmail to Continue</h3>
+      <asl-google-signin-button
+        type="standard"
+        size="medium"
+      ></asl-google-signin-button>
+    </div>
   </div>
 </div>
