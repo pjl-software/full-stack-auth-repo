@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Value;
 
-public interface UserProjection {
+public interface AuthenticatedUserProjection {
     String getFirstName();
 
     String getLastName();
