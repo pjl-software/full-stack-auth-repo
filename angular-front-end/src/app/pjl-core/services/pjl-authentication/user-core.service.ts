@@ -3,7 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, distinctUntilChanged, map } from 'rxjs';
 import { environment } from '../../../../environment-configs/environment.local';
-import { BackEndAuthenticatedUserProjection } from '../../../pjl-authentication/pjl-authentication-models/back-end/back-end-authenticated-user-projection.model';
+import {
+  BackEndAuthenticatedUserProjection,
+  UnauthenticatedBackEndAuthenticatedUserProjection,
+} from '../../../pjl-authentication/pjl-authentication-models/back-end/back-end-authenticated-user-projection.model';
 import { JwtService } from './jwt.service';
 
 @Injectable({ providedIn: 'root' })
@@ -28,7 +31,7 @@ export class UserCoreSerivce {
   constructor(
     private jwtService: JwtService,
     private http: HttpClient,
-    private authService: SocialAuthService
+    private socialAuthService: SocialAuthService
   ) {}
 
   //
@@ -36,19 +39,22 @@ export class UserCoreSerivce {
   //
 
   /**
-   * Name stinks. Rethink naming.
+   * Load an authenticated user's information with a valid JWT; otherwise sign out any remnants of a user.
    *
-   * @returns
+   * If there is an existing token in storage, try using it to get user information; otherwise signOut() the user.
+   *
+   * @returns - populated BackEndAuthenticatedUserProjection; otherwise unauthenticated BackEndAuthenticatedUserProjection
    */
-  initalizeUserWithAppLoading(): void {
+  initalizeUser(): BackEndAuthenticatedUserProjection {
     const existingToken = this.jwtService.getToken();
     if (existingToken) {
       this.getUserInfo().subscribe({
         next: (user: BackEndAuthenticatedUserProjection) => {
           if (user) {
-            this.setUser(user);
+            return this.updateCurrentUser(user);
           } else {
             this.purgeUser();
+            return UnauthenticatedBackEndAuthenticatedUserProjection;
           }
         },
         error: (error) => {
@@ -58,9 +64,15 @@ export class UserCoreSerivce {
     } else {
       this.signOut();
     }
-    return;
+    return UnauthenticatedBackEndAuthenticatedUserProjection;
   }
 
+  /**
+   * Update the currentUserSubject to the value passed in.
+   *
+   * @param backEndUserDto - New value for currentUserSubject
+   * @returns - a copy of the backEndUserDto
+   */
   updateCurrentUser(
     backEndUserDto: BackEndAuthenticatedUserProjection
   ): BackEndAuthenticatedUserProjection {
@@ -68,9 +80,12 @@ export class UserCoreSerivce {
     return { ...backEndUserDto };
   }
 
+  /**
+   * Purge the user and sign out from the SocialAuthService library.
+   */
   signOut(): void {
     this.purgeUser();
-    this.authService.signOut();
+    this.socialAuthService.signOut();
   }
 
   //
@@ -78,6 +93,7 @@ export class UserCoreSerivce {
   //
 
   /**
+   * Try to get a user's information using the JWT in the request.
    *
    * @returns - Observable<BackEndUserDto>; otherwise HttpError
    */
@@ -95,17 +111,16 @@ export class UserCoreSerivce {
       );
   }
 
+  /**
+   * Destroy the JWT from local storage. Update currentUserSubject to unauthenticated BackEndAuthenticatedUserProjection
+   *
+   * @returns
+   */
   private purgeUser(): void {
     this.jwtService.destroyToken();
-    this.currentUserSubject.next({
-      isAuthenticated: false,
-      isNotAuthenticated: true,
-    } as BackEndAuthenticatedUserProjection);
-    return;
-  }
-
-  private setUser(user: BackEndAuthenticatedUserProjection): void {
-    this.currentUserSubject.next(user);
+    this.currentUserSubject.next(
+      UnauthenticatedBackEndAuthenticatedUserProjection
+    );
     return;
   }
 }
