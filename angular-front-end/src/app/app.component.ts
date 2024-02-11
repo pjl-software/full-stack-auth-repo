@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   constructor(public userService: UserCoreSerivce) {}
 
   ngOnInit(): void {
-    this.userService.initalizeUserWithAppLoading();
+    this.userService.initalizeUser();
     return;
   }
 }
