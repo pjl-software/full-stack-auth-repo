@@ -1,5 +1,6 @@
 package com.pjlsoftware.controller;
 
+import com.pjlsoftware.projection.AuthenticatedUserProjection;
 import com.pjlsoftware.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class AuthController {
             method = RequestMethod.POST,
             produces = {"application/json"}
     )
-    public ResponseEntity<String> createGoogleUser() {
+    public ResponseEntity<AuthenticatedUserProjection> createGoogleUser() {
         JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         String bearerToken = jwtAuthenticationToken.getToken().getTokenValue();
 
