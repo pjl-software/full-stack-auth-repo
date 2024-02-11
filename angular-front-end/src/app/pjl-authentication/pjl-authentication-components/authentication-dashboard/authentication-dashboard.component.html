@@ -1,4 +1,4 @@
-<div *ngIf="userService.currentUser$ | async; let user">
+<div *ngIf="this.userService.currentUser$ | async; let user">
   <div *ngIf="user.isAuthenticated">
     <app-log-out-button></app-log-out-button>
     <br />
