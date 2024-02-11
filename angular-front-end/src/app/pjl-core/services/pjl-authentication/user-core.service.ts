@@ -86,6 +86,7 @@ export class UserCoreSerivce {
   signOut(): void {
     this.purgeUser();
     this.socialAuthService.signOut();
+    return;
   }
 
   //
