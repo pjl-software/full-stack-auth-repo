@@ -1,15 +1,21 @@
 import {
   GoogleSigninButtonModule,
   SocialAuthService,
-  SocialUser,
 } from '@abacritt/angularx-social-login';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { Subscription } from 'rxjs';
 import { AuthenticationCoreSerivce } from '../../../pjl-core/services/pjl-authentication/authentication-core.service';
 import { JwtService } from '../../../pjl-core/services/pjl-authentication/jwt.service';
+import { UserCoreSerivce } from '../../../pjl-core/services/pjl-authentication/user-core.service';
 import { PjlSharedModule } from '../../../pjl-shared/shared.module';
 import { CreateUserButtonComponent } from '../create-user-button/create-user-button.component';
 import { DeleteUserButtonComponent } from '../delete-user-button/delete-user-button.component';
+import { LogOutButtonComponent } from '../log-out-button/log-out-button.component';
 import { ViewUsersComponent } from '../view-users/view-users.component';
 
 @Component({
@@ -21,33 +27,42 @@ import { ViewUsersComponent } from '../view-users/view-users.component';
     ViewUsersComponent,
     PjlSharedModule,
     GoogleSigninButtonModule,
+    LogOutButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './authentication-dashboard.component.html',
   styleUrl: './authentication-dashboard.component.scss',
 })
-export class AuthenticationDashboardComponent implements OnInit {
-  user: SocialUser = {} as SocialUser;
+export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
+  createGoogleUserSubscription: Subscription = new Subscription();
   loggedIn: boolean = false;
-  createdGoogleUserResponse$: Observable<string>;
 
   constructor(
     private authService: SocialAuthService,
     private jwtService: JwtService,
-    private authenticationCoreSerivce: AuthenticationCoreSerivce
-  ) {
-    this.createdGoogleUserResponse$ = of('');
-  }
+    private authenticationCoreSerivce: AuthenticationCoreSerivce,
+    public userService: UserCoreSerivce
+  ) {}
 
   ngOnInit(): void {
+    this.userService.initalizeUserWithAppLoading();
     this.authService.authState.subscribe((user) => {
-      this.user = user;
       this.loggedIn = user != null;
       this.jwtService.saveToken(user.idToken);
       if (user != null) {
-        this.createdGoogleUserResponse$ =
-          this.authenticationCoreSerivce.createGoogleUser();
+        this.createGoogleUserSubscription = this.authenticationCoreSerivce
+          .createGoogleUser()
+          .subscribe({
+            next: (response) => {
+              this.userService.initalizeUserWithAppLoading();
+            },
+            error: (error) => {},
+          });
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.createGoogleUserSubscription.unsubscribe();
   }
 }
