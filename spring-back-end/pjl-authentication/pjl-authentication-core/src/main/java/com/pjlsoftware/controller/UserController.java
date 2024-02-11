@@ -3,10 +3,12 @@ package com.pjlsoftware.controller;
 import com.pjlsoftware.authenticationConstants.RoleName;
 import com.pjlsoftware.entity.Role;
 import com.pjlsoftware.entity.User;
-import com.pjlsoftware.projection.UserProjection;
+import com.pjlsoftware.projection.AuthenticatedUserProjection;
+import com.pjlsoftware.projection.GenericUserProjection;
 import com.pjlsoftware.repository.RoleRepository;
 import com.pjlsoftware.repository.UserRepository;
 import com.pjlsoftware.security.CurrentUser;
+import com.pjlsoftware.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +30,19 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-    private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserController(
+            UserRepository userRepository
+            , RoleRepository roleRepository
+            , UserService userService
+    ) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.userService = userService;
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -81,8 +89,19 @@ public class UserController {
             method = RequestMethod.GET,
             produces = {"application/json"}
     )
-    public ResponseEntity<List<UserProjection>> getEnabledUsers() {
+    public ResponseEntity<List<GenericUserProjection>> getEnabledUsers() {
         return new ResponseEntity<>(userRepository.findByEnabledIsTrue()
+                .orElseThrow(() -> new RuntimeException("No enabled users found.")), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_FREE_USER')")
+    @RequestMapping(
+            value = "/info",
+            method = RequestMethod.GET,
+            produces = {"application/json"}
+    )
+    public ResponseEntity<AuthenticatedUserProjection> getUserInformation(@CurrentUser User authenticatedUser) {
+        return new ResponseEntity<>(userService.getUserInformation(authenticatedUser.getUsername())
                 .orElseThrow(() -> new RuntimeException("No enabled users found.")), HttpStatus.OK);
     }
 }
