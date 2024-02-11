@@ -127,6 +127,9 @@ public class User {
         this.roles = roles;
     }
 
+    //
+    // Custom getters
+    //
     public Set<String> getRoleNames() {
         return this.getRoles().stream().map(role -> role.getName().name()).collect(Collectors.toSet());
     }
