@@ -1,15 +1,34 @@
-<asl-google-signin-button
-  type="standard"
-  size="medium"
-></asl-google-signin-button>
-<br />
-<p>{{ createdGoogleUserResponse$ | async }}</p>
-<br /><br />
-<img src="{{ user.photoUrl }}" referrerpolicy="no-referrer" />
-<div>
-  <h4>{{ user.name }}</h4>
+<div *ngIf="userService.currentUser$ | async; let user">
+  <div *ngIf="user.isAuthenticated">
+    <app-log-out-button></app-log-out-button>
+    <br />
+
+    <br /><br />
+
+    <div>
+      <h4>Welcome {{ user.firstName }}!</h4>
+    </div>
+
+    <div>
+      <app-create-user-button></app-create-user-button>
+    </div>
+    <br /><br /><br />
+
+    <div>
+      <app-view-users></app-view-users>
+    </div>
+    <br /><br /><br />
+
+    <div *ngIf="user.isAdmin">
+      <app-delete-user-button></app-delete-user-button>
+    </div>
+    <br /><br /><br />
+  </div>
+
+  <div *ngIf="user.isNotAuthenticated">
+    <asl-google-signin-button
+      type="standard"
+      size="medium"
+    ></asl-google-signin-button>
+  </div>
 </div>
-<app-create-user-button></app-create-user-button> <br /><br /><br />
-<app-view-users></app-view-users>
-<br /><br /><br />
-<app-delete-user-button></app-delete-user-button>
