@@ -5,7 +5,10 @@
     <th>Username</th>
     <th>Roles</th>
   </tr>
-  <tr *ngFor="let user of enabledUsers; index as i">
+  <tr
+    *ngFor="let user of enabledUsers; index as i"
+    class="odd:bg-white even:bg-slate-50"
+  >
     <td>{{ user.firstName }}</td>
     <td>{{ user.lastName }}</td>
     <td>{{ user.username }}</td>
