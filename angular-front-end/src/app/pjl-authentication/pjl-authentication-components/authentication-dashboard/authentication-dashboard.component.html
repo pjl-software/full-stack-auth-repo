@@ -4,7 +4,7 @@
     class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12"
   >
     <div
-      class="absolute inset-0 bg-[url(/img/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"
+      class="absolute inset-0 bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"
     ></div>
     <div
       class="relative bg-white px-6 pb-8 pt-10 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10"
@@ -17,7 +17,9 @@
         />
         <div class="divide-y divide-gray-300/50">
           <div class="space-y-6 py-8 text-base leading-7 text-gray-600">
-            <p>PJL Software's Full-stack Web Application Demo with:</p>
+            <h2 class="font-bold">
+              PJL Software's Full-stack Web Application Demo with:
+            </h2>
             <ul class="space-y-4">
               <li class="flex items-center">
                 <svg
@@ -89,6 +91,7 @@
                   >
                   available at the
                   <a
+                    class="text-blue-600 underline visited:text-purple-600 hover:text-blue-800"
                     href="https://github.com/pjl-software/full-stack-auth-repo"
                     target="_blank"
                     >PJL Software GitHub</a
@@ -99,6 +102,7 @@
                   >
                   on
                   <a
+                    class="text-blue-600 underline visited:text-purple-600 hover:text-blue-800"
                     href="https://www.youtube.com/@pjl-software/featured"
                     target="_blank"
                     >YouTube</a
@@ -107,8 +111,10 @@
               </li>
             </ul>
             <p>
-              Perfect for learning web apps by tinkering and skipping the
-              boilerplate to the value-add business functionality.
+              Perfect for learning web apps by tinkering and
+              <code class="text-sm font-bold text-gray-900"
+                >ready for the value-add business functionality</code
+              >.
             </p>
           </div>
           <div class="pt-8 text-base font-semibold leading-7">
@@ -127,8 +133,152 @@
       </div>
     </div>
   </div>
+  <!--  -->
+  <div *ngIf="user.isAuthenticated">
+    <nav class="bg-gray-800">
+      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+          <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+            <!-- Mobile menu button-->
+            <button
+              type="button"
+              class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+            >
+              <!--
+            Icon when menu is closed.
 
-  <div class="relative isolate px-6 pt-14 lg:px-8">
+            Menu open: "hidden", Menu closed: "block"
+          -->
+              <svg
+                class="block h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+              </svg>
+              <!--
+            Icon when menu is open.
+
+            Menu open: "block", Menu closed: "hidden"
+          -->
+              <svg
+                class="hidden h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+          <div
+            class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
+          >
+            <div class="flex flex-shrink-0 items-center">
+              <img
+                class="h-8 w-auto"
+                src="assets/photos/starship-only-transparency.png"
+                alt="Your Company"
+              />
+            </div>
+            <div class="hidden sm:ml-6 sm:block">
+              <div class="flex space-x-4">
+                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                <a
+                  href="#"
+                  class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
+                  aria-current="page"
+                  >User Dashboard</a
+                >
+                <a
+                  *ngIf="user.isAdmin"
+                  href="#"
+                  class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >Admin Dashboard</a
+                >
+              </div>
+            </div>
+          </div>
+          <div
+            class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
+          >
+            <!-- Profile dropdown -->
+            <div class="relative ml-3">
+              <div>
+                <button
+                  type="button"
+                  class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  id="user-menu-button"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  (click)="toggleMenu()"
+                >
+                  <span class="absolute -inset-1.5"></span>
+                  <span class="sr-only">Open user menu</span>
+                  <img
+                    class="h-8 w-8 rounded-full"
+                    src="{{ socialUser.photoUrl }}"
+                    alt=""
+                  />
+                </button>
+              </div>
+
+              <div
+                *ngIf="openDropdown"
+                class="absolute right-0 z-10 mt-2 w-48 origin-top-right scale-100 transform rounded-md bg-white py-1 opacity-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                role="menu"
+                aria-orientation="vertical"
+                aria-labelledby="user-menu-button"
+                tabindex="-1"
+              >
+                <a
+                  (click)="logOutUser()"
+                  href="#"
+                  class="block px-4 py-2 text-sm text-gray-700"
+                  role="menuitem"
+                  tabindex="-1"
+                  id="user-menu-item-2"
+                  >Sign out</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <header class="bg-white shadow">
+      <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">
+          {{ user.firstName }}'s Dashboard
+        </h1>
+      </div>
+    </header>
+    <main>
+      <div class="mx-auto max-w-7xl py-6 pb-10 pt-10 sm:px-6 lg:px-8">
+        <app-view-users></app-view-users>
+        <div class="columns-3 justify-center">
+          <app-create-user-button></app-create-user-button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- <div>
     <div *ngIf="user.isAuthenticated">
       <app-log-out-button></app-log-out-button>
       <br />
@@ -154,19 +304,6 @@
       </div>
       <br /><br /><br />
     </div>
-
-    <!-- <div *ngIf="user.isNotAuthenticated">
-      <div class="">
-        <h3 class="text-center text-4xl font-semibold">
-          Please Sign-in with a valid Gmail to Continue
-        </h3>
-        <div class="flex items-center justify-center">
-          <asl-google-signin-button
-            type="standard"
-            size="medium"
-          ></asl-google-signin-button>
-        </div>
-      </div>
-    </div> -->
   </div>
+</div> -->
 </div>

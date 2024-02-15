@@ -1,17 +1,24 @@
-<table *ngIf="enabledUsers$ | async; let enabledUsers">
-  <tr>
-    <th>First Name</th>
-    <th>Last Name</th>
-    <th>Username</th>
-    <th>Roles</th>
-  </tr>
-  <tr
-    *ngFor="let user of enabledUsers; index as i"
-    class="odd:bg-white even:bg-slate-50"
+<div
+  class="y-12 sm:p relative flex flex-col justify-center overflow-hidden bg-gray-50 py-6"
+>
+  <table
+    class="table-auto border"
+    *ngIf="enabledUsers$ | async; let enabledUsers"
   >
-    <td>{{ user.firstName }}</td>
-    <td>{{ user.lastName }}</td>
-    <td>{{ user.username }}</td>
-    <td>{{ user.roleNames }}</td>
-  </tr>
-</table>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Username</th>
+      <th>Roles</th>
+    </tr>
+    <tr
+      *ngFor="let user of enabledUsers; index as i"
+      class="odd:bg-white even:bg-gray-200"
+    >
+      <td>{{ user.firstName }}</td>
+      <td>{{ user.lastName }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.roleNames }}</td>
+    </tr>
+  </table>
+</div>
