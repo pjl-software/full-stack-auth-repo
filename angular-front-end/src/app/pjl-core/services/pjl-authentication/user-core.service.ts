@@ -18,7 +18,7 @@ export class UserCoreSerivce {
   private currentUserSubject =
     new BehaviorSubject<BackEndAuthenticatedUserProjection>({
       isAuthenticated: false,
-      isNotAuthenticated: true,
+      isNotAuthenticated: false,
     } as BackEndAuthenticatedUserProjection);
   public currentUser$ = this.currentUserSubject
     .asObservable()
@@ -31,7 +31,7 @@ export class UserCoreSerivce {
   constructor(
     private jwtService: JwtService,
     private http: HttpClient,
-    private socialAuthService: SocialAuthService
+    private socialAuthService: SocialAuthService,
   ) {}
 
   //
@@ -74,7 +74,7 @@ export class UserCoreSerivce {
    * @returns - a copy of the backEndUserDto
    */
   updateCurrentUser(
-    backEndUserDto: BackEndAuthenticatedUserProjection
+    backEndUserDto: BackEndAuthenticatedUserProjection,
   ): BackEndAuthenticatedUserProjection {
     this.currentUserSubject.next(backEndUserDto);
     return { ...backEndUserDto };
@@ -102,13 +102,13 @@ export class UserCoreSerivce {
     return this.http
       .get(
         `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.UserController.getUserInformation}`,
-        {}
+        {},
       )
       .pipe(
         map<any, BackEndAuthenticatedUserProjection>((response) => {
           const backEndUserDtos: BackEndAuthenticatedUserProjection = response;
           return backEndUserDtos;
-        })
+        }),
       );
   }
 
@@ -120,7 +120,7 @@ export class UserCoreSerivce {
   private purgeUser(): void {
     this.jwtService.destroyToken();
     this.currentUserSubject.next(
-      UnauthenticatedBackEndAuthenticatedUserProjection
+      UnauthenticatedBackEndAuthenticatedUserProjection,
     );
     return;
   }

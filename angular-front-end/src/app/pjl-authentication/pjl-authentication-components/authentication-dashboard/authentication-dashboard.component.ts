@@ -1,7 +1,6 @@
 import {
   GoogleSigninButtonModule,
   SocialAuthService,
-  SocialUser,
 } from '@abacritt/angularx-social-login';
 import {
   ChangeDetectionStrategy,
@@ -35,7 +34,6 @@ import { ViewUsersComponent } from '../view-users/view-users.component';
   styleUrl: './authentication-dashboard.component.scss',
 })
 export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
-  socialUser: SocialUser = {} as SocialUser;
   createGoogleUserSubscription: Subscription = new Subscription();
   loggedIn: boolean = false;
   openDropdown: boolean = false;
@@ -49,10 +47,8 @@ export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authService.authState.subscribe((user) => {
-      console.log(user);
       this.loggedIn = user != null;
       if (user != null) {
-        this.socialUser = user;
         this.jwtService.saveToken(user.idToken);
         this.createGoogleUserSubscription = this.authenticationCoreSerivce
           .createGoogleUser()
@@ -71,7 +67,6 @@ export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
   }
 
   toggleMenu(): boolean {
-    console.log('hi?');
     this.openDropdown = !this.openDropdown;
     return this.openDropdown;
   }
