@@ -6,7 +6,7 @@ This web application demonstrated `Spring Security OAuth2` with `JWTs` using `Go
 
 Please note, however, that **this code is intended for educational purposes only. It is not running in production, nor is it claiming to be "production-ready" code**. The code is simply intended to teach and allow you to learn frameworks through practical usage.
 
-![Alt Text](https://s3.amazonaws.com/htscodelookup.com/github/pjl-software/spring-angular-auth-repo/10-improving-user-login-flow-b/demo-gif-720.gif)
+![Alt Text](https://s3.amazonaws.com/htscodelookup.com/github/pjl-software/spring-angular-auth-repo/10-improving-user-login-flow-b/front-end-demo-720.gif)
 
 ## To Get Started
 
