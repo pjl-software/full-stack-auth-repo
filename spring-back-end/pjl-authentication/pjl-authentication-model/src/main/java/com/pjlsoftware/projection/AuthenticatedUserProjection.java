@@ -11,6 +11,8 @@ public interface AuthenticatedUserProjection {
 
     String getUsername();
 
+    String getPhotoUrl();
+
     @Value("#{target.getRoleNames}")
     Set<String> getRoleNames();
 

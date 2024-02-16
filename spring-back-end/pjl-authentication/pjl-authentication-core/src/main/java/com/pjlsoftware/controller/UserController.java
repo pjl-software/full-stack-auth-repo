@@ -45,7 +45,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_FREE_USER')")
     @RequestMapping(
             value = "/create",
             method = RequestMethod.POST,
@@ -63,7 +63,7 @@ public class UserController {
         return new ResponseEntity<>("{\"value\": \"Created new random user\"}", HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ROLE_SUBSCRIBED_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(
             value = "/delete/{username}",
             method = RequestMethod.PUT,
