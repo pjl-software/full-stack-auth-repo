@@ -155,7 +155,7 @@ To have fully functional user authentication and authorization, we need to secur
   - [Code Review Video](https://youtu.be/VOXno44nCkA)
   - Enrich our JwtAuthenticationToken from Google with our managed GrantedAuthorities to use with the newly enabled @PreAuthorize annotation. Set up `@PreAuthorize("hasRole('ROLE_ADMIN')")` and `@PreAuthorize("hasRole('ROLE_FREE_USER')")` endpoints. Create a custom `@CurrentUser` annotation for loading the `User` entity associated with the valid JWT as the `@AuthenticationPrincipal`.
 
-## Why Are you Building This?
+## Why Did I Build This?
 
 I don't like tutorials or reading raw documentation. What _I_ want when I'm learning something new, is a working
 replica that I can tinker with to learn and build upon through trial and error. My goal is to provide this to
@@ -163,7 +163,7 @@ whoever learns like me in hopes that it helps them build some incredible stuff.
 
 I also find myself wanting more context than the code or tutorial provides, which is why I pair the code with video code reviews.
 
-## How Are you Building This?
+## How I'm Building This?
 
 I'm starting small by breaking up logical chunks of the total effort into standalone branches that you can use
 to follow along as the codebase builds up in complexity. If you don't care, no problem! Just checkout the `master`
