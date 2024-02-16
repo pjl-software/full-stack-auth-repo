@@ -1,12 +1,12 @@
 # Full Stack Authentication Repo
 
-This codebase is a full-stack web application monorepo. It consists of a Spring Boot 3 back-end API with an Angular 17+ front-end. You can clone this repo, start the back-end and front-end, and begin tinkering with the code to understand how a full-stack web app works.
+This codebase is a full-stack web application monorepo. It consists of a `Spring Boot 3` back-end API with an `Angular 17+` front-end and a `PostgreSQL` data layer -- all running on `Docker` and styled with `Tailwind CSS`. You can clone this repo, start the back-end, front-end, and database, and begin tinkering with the code to understand how a full-stack web app works.
 
-This is will eventually be a fully fledged user authentication application built with a Spring Boot (3.2+) back-end,
-Angular front-end, and PostgreSQL datastore that will run on Docker. The repo will be runnable with a few key strokes
-and with minimal local requirements.
+This web application demonstrated `Spring Security OAuth2` with `JWTs` using `Google SSO` as our authentication server.
 
 Please note, however, that **this code is intended for educational purposes only. It is not running in production, nor is it claiming to be "production-ready" code**. The code is simply intended to teach and allow you to learn frameworks through practical usage.
+
+![Alt Text](https://s3.amazonaws.com/htscodelookup.com/github/pjl-software/spring-angular-auth-repo/10-improving-user-login-flow-b/demo-gif-720.gif)
 
 ## To Get Started
 
