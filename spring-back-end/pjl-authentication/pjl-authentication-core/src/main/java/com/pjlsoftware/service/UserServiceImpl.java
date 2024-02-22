@@ -84,11 +84,12 @@ public class UserServiceImpl implements UserService {
                     LOGGER.info("Automatically re-enabling a disabled user. Are we sure we want to do this?");
                     existingUser.setEnabled(true);
                     existingUser.setRoles(googleUserRoles);
-                    userRepository.saveAndFlush(existingUser);
+                    userRepository.update(existingUser);
                 }
             } else {
+                LOGGER.info("Creating new user.");
                 user.setRoles(googleUserRoles);
-                userRepository.saveAndFlush(user);
+                userRepository.persistAndFlush(user);
             }
 
             return new ResponseEntity<>(userRepository.returnUserInfoForEnabledUserByUsername(user.getUsername())
