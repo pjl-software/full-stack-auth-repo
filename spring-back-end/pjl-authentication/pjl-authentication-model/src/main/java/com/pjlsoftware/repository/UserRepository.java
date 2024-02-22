@@ -3,7 +3,7 @@ package com.pjlsoftware.repository;
 import com.pjlsoftware.entity.User;
 import com.pjlsoftware.projection.AuthenticatedUserProjection;
 import com.pjlsoftware.projection.GenericUserProjection;
-import org.springframework.data.jpa.repository.JpaRepository;
+import io.hypersistence.utils.spring.repository.BaseJpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends BaseJpaRepository<User, Long> {
     Optional<List<GenericUserProjection>> findByEnabledIsTrue();
 
     Optional<User> findByUsername(String username);
