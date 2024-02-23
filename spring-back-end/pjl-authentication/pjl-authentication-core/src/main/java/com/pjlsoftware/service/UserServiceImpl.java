@@ -87,9 +87,9 @@ public class UserServiceImpl implements UserService {
                     userRepository.update(existingUser);
                 }
             } else {
-                LOGGER.info("Creating new user.");
+                LOGGER.info("Creating new Google user.");
                 user.setRoles(googleUserRoles);
-                userRepository.persistAndFlush(user);
+                userRepository.persist(user);
             }
 
             return new ResponseEntity<>(userRepository.returnUserInfoForEnabledUserByUsername(user.getUsername())

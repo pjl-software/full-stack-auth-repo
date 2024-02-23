@@ -18,7 +18,9 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <!--        -->
+        <commons-lang3.version>3.14.0</commons-lang3.version>
         <google-api-client.version>2.2.0</google-api-client.version>
+        <hypersistence-utils-hibernate-60.version>3.7.3</hypersistence-utils-hibernate-60.version>
         <spring.context.indexer.version>6.1.1</spring.context.indexer.version>
         <hypersistence-utils-hibernate-60.version>3.7.3</hypersistence-utils-hibernate-60.version>
         <commons-lang3.version>3.14.0</commons-lang3.version>

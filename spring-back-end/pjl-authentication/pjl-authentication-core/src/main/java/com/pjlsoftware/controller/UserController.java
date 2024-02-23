@@ -59,7 +59,8 @@ public class UserController {
                         " role. Are you sure you loaded the database?"));
         newRandomUser.setRoles(new HashSet<>(Set.of(freeUserRole)));
 
-        userRepository.persistAndFlush(newRandomUser);
+        userRepository.persist(newRandomUser);
+
         return new ResponseEntity<>("{\"value\": \"Created new random user\"}", HttpStatus.CREATED);
     }
 
@@ -75,7 +76,7 @@ public class UserController {
                     .orElseThrow(() -> new RuntimeException("No user found with username: " + username));
             existingUser.setEnabled(false);
             existingUser.setRoles(new HashSet<>(Set.of()));
-            userRepository.persistAndFlush(existingUser);
+            userRepository.update(existingUser);
         } catch (Exception e) {
             LOGGER.info("Exception in deleteUser: {}", e.getLocalizedMessage());
             return new ResponseEntity<>("{\"value\": \"Nothing done. Check Logs.\"}", HttpStatus.BAD_REQUEST);

@@ -4,7 +4,6 @@ import com.pjlsoftware.entity.User;
 import com.pjlsoftware.projection.AuthenticatedUserProjection;
 import com.pjlsoftware.projection.GenericUserProjection;
 import io.hypersistence.utils.spring.repository.BaseJpaRepository;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
