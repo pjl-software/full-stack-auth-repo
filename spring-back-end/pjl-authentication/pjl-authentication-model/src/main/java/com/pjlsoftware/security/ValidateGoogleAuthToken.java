@@ -52,8 +52,8 @@ public class ValidateGoogleAuthToken {
                 // Use or store profile information
                 // ...
                 User user = new User(
-                        givenName.substring(0, Math.min(givenName.length(), 25)),
-                        familyName.substring(0, Math.min(familyName.length(), 30)),
+                        (givenName == null) ? " " : givenName.substring(0, Math.min(givenName.length(), 25)),
+                        (familyName == null) ? " " : familyName.substring(0, Math.min(familyName.length(), 30)),
                         email.substring(0, Math.min(email.length(), 40)),
                         pictureUrl
                 );
