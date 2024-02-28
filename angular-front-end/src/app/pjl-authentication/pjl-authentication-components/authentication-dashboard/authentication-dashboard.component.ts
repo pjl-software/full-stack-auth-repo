@@ -37,6 +37,7 @@ export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
   createGoogleUserSubscription: Subscription = new Subscription();
   loggedIn: boolean = false;
   openDropdown: boolean = false;
+  openMobileMenu: boolean = false;
 
   constructor(
     private authService: SocialAuthService,
@@ -69,6 +70,11 @@ export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
   toggleMenu(): boolean {
     this.openDropdown = !this.openDropdown;
     return this.openDropdown;
+  }
+
+  toggleMobileMenu(): boolean {
+    this.openMobileMenu = !this.openMobileMenu;
+    return this.openMobileMenu;
   }
 
   ngOnDestroy(): void {
