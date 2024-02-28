@@ -1,7 +1,7 @@
 <div *ngIf="this.userService.currentUser$ | async; let user">
   <div
     *ngIf="user.isNotAuthenticated"
-    class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12"
+    class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-10"
   >
     <div
       class="absolute inset-0 bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"
@@ -150,7 +150,7 @@
     </div>
   </div>
   <!--  -->
-  <div *ngIf="user.isAuthenticated === true">
+  <div *ngIf="user.isAuthenticated === true" class="min-h-screen">
     <nav class="bg-gray-800">
       <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
@@ -336,33 +336,4 @@
       </div>
     </main>
   </div>
-
-  <!-- <div>
-    <div *ngIf="user.isAuthenticated">
-      <app-log-out-button></app-log-out-button>
-      <br />
-
-      <br /><br />
-
-      <div>
-        <h4>Welcome {{ user.firstName }}!</h4>
-      </div>
-
-      <div>
-        <app-create-user-button></app-create-user-button>
-      </div>
-      <br /><br /><br />
-
-      <div>
-        <app-view-users></app-view-users>
-      </div>
-      <br /><br /><br />
-
-      <div *ngIf="user.isAdmin">
-        <app-delete-user-button></app-delete-user-button>
-      </div>
-      <br /><br /><br />
-    </div>
-  </div>
-</div> -->
 </div>
