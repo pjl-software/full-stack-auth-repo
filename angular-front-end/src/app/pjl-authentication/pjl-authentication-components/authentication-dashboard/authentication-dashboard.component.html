@@ -161,14 +161,13 @@
               class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
               aria-controls="mobile-menu"
               aria-expanded="false"
+              (click)="toggleMobileMenu()"
             >
-              <!--
-            Icon when menu is closed.
-
-            Menu open: "hidden", Menu closed: "block"
-          -->
+              <span class="absolute -inset-0.5"></span>
+              <span class="sr-only">Open main menu</span>
               <svg
-                class="block h-6 w-6"
+                class="h-6 w-6"
+                [ngClass]="{ block: !openMobileMenu, hidden: openMobileMenu }"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
@@ -181,13 +180,9 @@
                   d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                 />
               </svg>
-              <!--
-            Icon when menu is open.
-
-            Menu open: "block", Menu closed: "hidden"
-          -->
               <svg
-                class="hidden h-6 w-6"
+                class="h-6 w-6"
+                [ngClass]="{ hidden: !openMobileMenu, block: openMobileMenu }"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
@@ -274,6 +269,36 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <!-- Mobile menu, show/hide based on menu state. -->
+      <div
+        [ngClass]="{ hidden: !openMobileMenu, block: openMobileMenu }"
+        id="mobile-menu"
+      >
+        <div class="space-y-1 px-2 pb-3 pt-2">
+          <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+          <a
+            href="#"
+            class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
+            aria-current="page"
+            >User Dashboard</a
+          >
+          <!-- <a
+            href="#"
+            class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+            >Team</a
+          >
+          <a
+            href="#"
+            class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+            >Projects</a
+          >
+          <a
+            href="#"
+            class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+            >Calendar</a
+          > -->
         </div>
       </div>
     </nav>
