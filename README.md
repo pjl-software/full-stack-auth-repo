@@ -8,7 +8,6 @@ Please note, however, that **this code is intended for educational purposes only
 
 ![front-end-demo-720](https://github.com/pjl-software/full-stack-auth-repo/assets/4131196/c3481974-4af7-406d-90d3-4ac4d2237bea)
 
-
 ## To Get Started
 
 This repo has a number of utility scripts in the `bin` directories located within this repo. Each script has a `-h` help
@@ -156,7 +155,21 @@ To have fully functional user authentication and authorization, we need to secur
   - [Code Review Video](https://youtu.be/VOXno44nCkA)
   - Enrich our JwtAuthenticationToken from Google with our managed GrantedAuthorities to use with the newly enabled @PreAuthorize annotation. Set up `@PreAuthorize("hasRole('ROLE_ADMIN')")` and `@PreAuthorize("hasRole('ROLE_FREE_USER')")` endpoints. Create a custom `@CurrentUser` annotation for loading the `User` entity associated with the valid JWT as the `@AuthenticationPrincipal`.
 
-## Why Did I Build This?
+### Part 3 - Refining the Web App
+
+- **10-improving-user-login-flow-a**
+
+  - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/10-improving-user-login-flow-a)
+  - [Code Review Video - TBD]()
+  - Enhance front-end view based on the user's state. Extend the back-end to return an enriched user info and leverage that user info to control the front-end view with Angular. Replace `JpaRepository` with `BaseJpaRepository`.
+
+- **10-improving-user-login-flow-b**
+
+  - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/10-improving-user-login-flow-b)
+  - [Code Review Video - TBD]()
+  -
+
+## Why did I Build This?
 
 I don't like tutorials or reading raw documentation. What _I_ want when I'm learning something new, is a working
 replica that I can tinker with to learn and build upon through trial and error. My goal is to provide this to

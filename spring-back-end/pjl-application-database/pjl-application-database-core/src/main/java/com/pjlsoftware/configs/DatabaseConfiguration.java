@@ -1,5 +1,6 @@
 package com.pjlsoftware.configs;
 
+import io.hypersistence.utils.spring.repository.BaseJpaRepositoryImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,9 +12,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {
-        "com.pjlsoftware.repository"
-})
+@EnableJpaRepositories(
+        value = "com.pjlsoftware.repository",
+        repositoryBaseClass = BaseJpaRepositoryImpl.class
+)
 @EnableTransactionManagement
 @PropertySource("classpath:database-${profile:local}.properties")
 public class DatabaseConfiguration {
