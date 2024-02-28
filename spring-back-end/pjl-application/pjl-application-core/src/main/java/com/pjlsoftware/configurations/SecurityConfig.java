@@ -13,7 +13,6 @@ import org.springframework.security.authentication.event.AuthenticationSuccessEv
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
@@ -41,11 +40,13 @@ public class SecurityConfig {
 
     /**
      * Implementing OAuth2 authentication via JSON Web Tokens (JWT). Setting up the SecurityFilterChain with:
+     * - CSRF: Not needed. "By using the oauth2ResourceServer() DSL, you are telling Spring Security that you are not
+     * using cookie-based authentication, therefore you do not need CSRF protection."
+     * Ref: https://stackoverflow.com/questions/71781409/spring-webflux-with-jwt-csrf-token/71782433#71782433
      * - CORS: May not be needed anymore, but was in previous versions of Spring
-     * - CSRF: Disabled to allow default disable HTTP Methods like POST to work with valid authentication
      * - Authorization: Deny all request by default while allowing specific path patterns
      * - The actuator health check is publicly accessible without authentication
-     * - The Custom Controller requires authentication and supports GET/POST/PUT requests only.
+     * - The Custom Controllers requires authentication and supports GET/POST/PUT requests only.
      * <p>
      * Example Authorization Usage:
      * curl -X GET -H "Authorization: Bearer {JWT}"  https://localhost:8443/api/v1/users/
@@ -57,8 +58,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                // .csrf(withDefaults())
                 .cors(withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                         //
