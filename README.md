@@ -167,7 +167,7 @@ To have fully functional user authentication and authorization, we need to secur
 
   - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/10-improving-user-login-flow-b)
   - [Code Review Video - TBD]()
-  -
+  - Add `tailwind css` styling to the HTML. Improve HTML layout and flow.
 
 ## Why did I Build This?
 
