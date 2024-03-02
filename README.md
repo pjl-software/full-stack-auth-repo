@@ -155,6 +155,14 @@ To have fully functional user authentication and authorization, we need to secur
   - [Code Review Video](https://youtu.be/VOXno44nCkA)
   - Enrich our JwtAuthenticationToken from Google with our managed GrantedAuthorities to use with the newly enabled @PreAuthorize annotation. Set up `@PreAuthorize("hasRole('ROLE_ADMIN')")` and `@PreAuthorize("hasRole('ROLE_FREE_USER')")` endpoints. Create a custom `@CurrentUser` annotation for loading the `User` entity associated with the valid JWT as the `@AuthenticationPrincipal`.
 
+### Part 3 - Refining the Web App
+
+- **10-improving-user-login-flow-a**
+
+  - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/10-improving-user-login-flow-a)
+  - [Code Review Video](https://youtu.be/fF8BvbWG_Z8)
+  - Enhance front-end view based on the user's state. Extend the back-end to return an enriched user info and leverage that user info to control the front-end view with Angular. Replace `JpaRepository` with `BaseJpaRepository`.
+
 ## Why Are you Building This?
 
 I don't like tutorials or reading raw documentation. What _I_ want when I'm learning something new, is a working

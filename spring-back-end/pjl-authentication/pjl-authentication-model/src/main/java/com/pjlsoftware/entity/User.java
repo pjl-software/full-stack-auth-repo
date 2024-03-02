@@ -1,5 +1,6 @@
 package com.pjlsoftware.entity;
 
+import com.pjlsoftware.authenticationConstants.RoleName;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -126,8 +127,27 @@ public class User {
         this.roles = roles;
     }
 
+    //
+    // Custom getters
+    //
     public Set<String> getRoleNames() {
         return this.getRoles().stream().map(role -> role.getName().name()).collect(Collectors.toSet());
+    }
+
+    public Boolean getIsAuthenticated() {
+        return true;
+    }
+
+    public Boolean getIsNotAuthenticated() {
+        return !this.getIsAuthenticated();
+    }
+
+    public Boolean getIsAdmin() {
+        return this.getRoleNames().contains(RoleName.ROLE_ADMIN.name());
+    }
+
+    public Boolean getIsNotAdmin() {
+        return !this.getIsAdmin();
     }
 
     //

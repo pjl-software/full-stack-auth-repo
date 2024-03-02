@@ -3,10 +3,12 @@ package com.pjlsoftware.controller;
 import com.pjlsoftware.authenticationConstants.RoleName;
 import com.pjlsoftware.entity.Role;
 import com.pjlsoftware.entity.User;
-import com.pjlsoftware.projection.UserProjection;
+import com.pjlsoftware.projection.AuthenticatedUserProjection;
+import com.pjlsoftware.projection.GenericUserProjection;
 import com.pjlsoftware.repository.RoleRepository;
 import com.pjlsoftware.repository.UserRepository;
 import com.pjlsoftware.security.CurrentUser;
+import com.pjlsoftware.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +30,19 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-    private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserController(
+            UserRepository userRepository
+            , RoleRepository roleRepository
+            , UserService userService
+    ) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.userService = userService;
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -51,11 +59,11 @@ public class UserController {
                         " role. Are you sure you loaded the database?"));
         newRandomUser.setRoles(new HashSet<>(Set.of(freeUserRole)));
 
-        userRepository.saveAndFlush(newRandomUser);
+        userRepository.persist(newRandomUser);
         return new ResponseEntity<>("{\"value\": \"Created new random user\"}", HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ROLE_SUBSCRIBED_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(
             value = "/delete/{username}",
             method = RequestMethod.PUT,
@@ -67,7 +75,7 @@ public class UserController {
                     .orElseThrow(() -> new RuntimeException("No user found with username: " + username));
             existingUser.setEnabled(false);
             existingUser.setRoles(new HashSet<>(Set.of()));
-            userRepository.saveAndFlush(existingUser);
+            userRepository.update(existingUser);
         } catch (Exception e) {
             LOGGER.info("Exception in deleteUser: {}", e.getLocalizedMessage());
             return new ResponseEntity<>("{\"value\": \"Nothing done. Check Logs.\"}", HttpStatus.BAD_REQUEST);
@@ -81,8 +89,19 @@ public class UserController {
             method = RequestMethod.GET,
             produces = {"application/json"}
     )
-    public ResponseEntity<List<UserProjection>> getEnabledUsers() {
+    public ResponseEntity<List<GenericUserProjection>> getEnabledUsers() {
         return new ResponseEntity<>(userRepository.findByEnabledIsTrue()
+                .orElseThrow(() -> new RuntimeException("No enabled users found.")), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_FREE_USER')")
+    @RequestMapping(
+            value = "/info",
+            method = RequestMethod.GET,
+            produces = {"application/json"}
+    )
+    public ResponseEntity<AuthenticatedUserProjection> getUserInformation(@CurrentUser User authenticatedUser) {
+        return new ResponseEntity<>(userService.getUserInformation(authenticatedUser.getUsername())
                 .orElseThrow(() -> new RuntimeException("No enabled users found.")), HttpStatus.OK);
     }
 }

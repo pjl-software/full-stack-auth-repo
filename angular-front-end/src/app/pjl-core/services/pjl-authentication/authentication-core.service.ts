@@ -2,29 +2,37 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from '../../../../environment-configs/environment.local';
-import { BackEndUserDto } from '../../../pjl-authentication/pjl-authentication-models/back-end/user-dto-back-end.model';
+import {
+  BackEndAuthenticatedUserProjection,
+  UnauthenticatedBackEndAuthenticatedUserProjection,
+} from '../../../pjl-authentication/pjl-authentication-models/back-end/back-end-authenticated-user-projection.model';
+import { BackEndGenericUserProjection } from '../../../pjl-authentication/pjl-authentication-models/back-end/back-end-generic-user-projection-dto.model';
+import { UserCoreSerivce } from './user-core.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationCoreSerivce {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UserCoreSerivce) {}
 
   /**
-   * Create, or re-enable, a user in our database who used Google Sign-on
+   * Create, log-in, or re-enable, a user in our database who used Google Sign-on
    *
    * @returns - An Observable<string> indicating if the user was created.
    */
-  createGoogleUser(): Observable<string> {
+  createGoogleUser(): Observable<BackEndAuthenticatedUserProjection> {
     return this.http
       .post(
         `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.AuthController.createGoogleUser}`,
         {}
       )
       .pipe(
-        map<any, string>((response) => {
-          return response.value;
-        }),
+        map<any, BackEndAuthenticatedUserProjection>(
+          (user: BackEndAuthenticatedUserProjection) => {
+            this.userService.updateCurrentUser(user);
+            return user;
+          }
+        ),
         catchError((err: HttpErrorResponse) => {
-          return of('Failed to create new user');
+          return of(UnauthenticatedBackEndAuthenticatedUserProjection);
         })
       );
   }
@@ -98,15 +106,15 @@ export class AuthenticationCoreSerivce {
    *
    * @returns - An Observable list of UserDto objects representing all the users in the database where enabled is true.
    */
-  getEnabledUsers(): Observable<BackEndUserDto[]> {
+  getEnabledUsers(): Observable<BackEndGenericUserProjection[]> {
     return this.http
       .get(
         `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.UserController.getEnabledUsers}`,
         {}
       )
       .pipe(
-        map<any, BackEndUserDto[]>((response) => {
-          const backEndUserDtos: BackEndUserDto[] = response;
+        map<any, BackEndGenericUserProjection[]>((response) => {
+          const backEndUserDtos: BackEndGenericUserProjection[] = response;
           return backEndUserDtos;
         }),
         catchError((err: HttpErrorResponse) => {

@@ -12,6 +12,7 @@ export const environment = {
       createUser: '/users/create',
       deleteUser: '/users/delete',
       getEnabledUsers: '/users/',
+      getUserInformation: '/users/info',
     },
   },
 };

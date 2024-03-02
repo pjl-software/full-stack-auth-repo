@@ -3,6 +3,7 @@ package com.pjlsoftware.service;
 import com.pjlsoftware.authenticationConstants.RoleName;
 import com.pjlsoftware.entity.Role;
 import com.pjlsoftware.entity.User;
+import com.pjlsoftware.projection.AuthenticatedUserProjection;
 import com.pjlsoftware.repository.RoleRepository;
 import com.pjlsoftware.repository.UserRepository;
 import com.pjlsoftware.security.ValidateGoogleAuthToken;
@@ -35,8 +36,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserFromJwt(JwtAuthenticationToken principal) {
+        try {
+            User user = ValidateGoogleAuthToken.verifyGoogleAuthToken(principal.getToken().getTokenValue())
+                    .orElseThrow(() -> new RuntimeException("Failed to validate JWT."));
+            return userRepository.findByUsername(user.getUsername())
+                    .orElseThrow(() -> new UsernameNotFoundException("Unable to getUserFromJwt"));
+        } catch (Exception e) {
+            LOGGER.info("Exception in getUserFromJwt", e);
+        }
+        return new User();
+    }
+
+    @Override
+    public Optional<AuthenticatedUserProjection> getUserInformation(String username) {
+        try {
+            return userRepository.returnUserInfoForEnabledUserByUsername(username);
+        } catch (Exception e) {
+            LOGGER.info("Exception in getUserInformation", e);
+        }
+        return Optional.empty();
+    }
+
+    @Override
     @Transactional
-    public ResponseEntity<String> handleGoogleSignIn(final String jwt) {
+    public ResponseEntity<AuthenticatedUserProjection> handleGoogleSignIn(final String jwt) {
         try {
             User user = ValidateGoogleAuthToken.verifyGoogleAuthToken(jwt)
                     .orElseThrow(() -> new RuntimeException("Failed to validate JWT."));
@@ -47,7 +71,7 @@ public class UserServiceImpl implements UserService {
             Role adminUserRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
                     .orElseThrow(() -> new RuntimeException("Couldn't find the " + RoleName.ROLE_ADMIN +
                             " role. Are you sure you loaded the database?"));
-            Set<Role> googleUserRoles = new HashSet<>(Set.of(freeUserRole, adminUserRole));
+            Set<Role> googleUserRoles = new HashSet<>(Set.of(freeUserRole));
 
             Optional<User> isAlreadyUser = userRepository.findByUsername(user.getUsername());
 
@@ -55,36 +79,25 @@ public class UserServiceImpl implements UserService {
                 User existingUser = isAlreadyUser.get();
 
                 if (existingUser.isEnabled()) {
-                    return new ResponseEntity<>("{\"value\": \"Logging in active user\"}", HttpStatus.CREATED);
+                    // do nothing special
                 } else {
+                    LOGGER.info("Automatically re-enabling a disabled user. Are we sure we want to do this?");
                     existingUser.setEnabled(true);
                     existingUser.setRoles(googleUserRoles);
-
-                    userRepository.saveAndFlush(existingUser);
-                    return new ResponseEntity<>("{\"value\": \"Re-enabled existing user\"}", HttpStatus.CREATED);
+                    userRepository.update(existingUser);
                 }
             } else {
+                LOGGER.info("Creating new Google user.");
                 user.setRoles(googleUserRoles);
-
-                userRepository.saveAndFlush(user);
-                return new ResponseEntity<>("{\"value\": \"Created new user\"}", HttpStatus.CREATED);
+                userRepository.persist(user);
             }
+
+            return new ResponseEntity<>(userRepository.returnUserInfoForEnabledUserByUsername(user.getUsername())
+                    .orElseThrow(() -> new RuntimeException("Failed to get username"))
+                    , HttpStatus.CREATED);
         } catch (Exception e) {
             LOGGER.info("Exception in handleGoogleSignIn", e);
-            return new ResponseEntity<>("{\"value\": \"Google sign-in failed.\"}", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-    }
-
-    @Override
-    public User getUserFromJwt(JwtAuthenticationToken principal) {
-        try {
-            User user = ValidateGoogleAuthToken.verifyGoogleAuthToken(principal.getToken().getTokenValue())
-                    .orElseThrow(() -> new RuntimeException("Failed to validate JWT."));
-            return userRepository.findByUsername(user.getUsername())
-                    .orElseThrow(() -> new UsernameNotFoundException("Unable to getUserFromJwt"));
-        } catch (Exception e) {
-            LOGGER.info("Exception in getUserFromJwt", e);
-        }
-        return null;
     }
 }
