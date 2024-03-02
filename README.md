@@ -160,7 +160,7 @@ To have fully functional user authentication and authorization, we need to secur
 - **10-improving-user-login-flow-a**
 
   - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/10-improving-user-login-flow-a)
-  - [Code Review Video - TBD]()
+  - [Code Review Video](https://youtu.be/fF8BvbWG_Z8)
   - Enhance front-end view based on the user's state. Extend the back-end to return an enriched user info and leverage that user info to control the front-end view with Angular. Replace `JpaRepository` with `BaseJpaRepository`.
 
 ## Why Are you Building This?
