@@ -19,7 +19,9 @@
     "@angular/platform-browser": "^17.0.0",
     "@angular/platform-browser-dynamic": "^17.0.0",
     "@angular/router": "^17.0.0",
+    "@tailwindcss/forms": "^0.5.7",
     "rxjs": "~7.8.0",
+    "tailwindcss": "^3.4.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
   },
@@ -27,7 +29,6 @@
     "@angular-devkit/build-angular": "^17.0.7",
     "@angular/cli": "^17.0.7",
     "@angular/compiler-cli": "^17.0.0",
-    "@tailwindcss/forms": "^0.5.7",
     "@types/jasmine": "~5.1.0",
     "autoprefixer": "^10.4.17",
     "jasmine-core": "~5.1.0",
@@ -39,7 +40,6 @@
     "postcss": "^8.4.35",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
-    "tailwindcss": "^3.4.1",
     "typescript": "~5.2.2"
   }
 }
