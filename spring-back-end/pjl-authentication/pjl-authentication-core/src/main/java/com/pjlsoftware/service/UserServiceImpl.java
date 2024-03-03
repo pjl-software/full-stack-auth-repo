@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
             return userRepository.findByUsername(user.getUsername())
                     .orElseThrow(() -> new UsernameNotFoundException("Unable to getUserFromJwt"));
         } catch (Exception e) {
-            LOGGER.info("Exception in getUserFromJwt", e);
+            LOGGER.info("Exception in getUserFromJwt: {}", e.getLocalizedMessage());
         }
         return null;
     }
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userRepository.returnUserInfoForEnabledUserByUsername(username);
         } catch (Exception e) {
-            LOGGER.info("Exception in getUserInformation", e);
+            LOGGER.info("Exception in getUserInformation: {}", e.getLocalizedMessage());
         }
         return Optional.empty();
     }
@@ -78,7 +78,6 @@ public class UserServiceImpl implements UserService {
 
             if (isAlreadyUser.isPresent()) {
                 User existingUser = isAlreadyUser.get();
-                existingUser.setLastLogin(Instant.now());
                 if (existingUser.isEnabled()) {
                     // do nothing special
                 } else {
@@ -97,7 +96,7 @@ public class UserServiceImpl implements UserService {
                     .orElseThrow(() -> new RuntimeException("Failed to get username"))
                     , HttpStatus.CREATED);
         } catch (Exception e) {
-            LOGGER.info("Exception in handleGoogleSignIn", e);
+            LOGGER.info("Exception in handleGoogleSignIn: {}", e.getLocalizedMessage());
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
