@@ -17,7 +17,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -34,6 +33,22 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+    }
+
+    @Override
+    @Transactional
+    public Optional<User> softDeleteUser(String username) {
+        try {
+            User userToDelete = userRepository.findByUsernameAndEnabledIsTrue(username)
+                    .orElseThrow(() -> new RuntimeException("No enabled user found to delete with username " + username));
+            userToDelete.setEnabled(false);
+            userToDelete.setRoles(new HashSet<>(Set.of()));
+
+            return Optional.of(userRepository.update(userToDelete));
+        } catch (Exception e) {
+            LOGGER.info("exception in softDeleteUser: {}", e.getLocalizedMessage());
+        }
+        return Optional.empty();
     }
 
     @Override

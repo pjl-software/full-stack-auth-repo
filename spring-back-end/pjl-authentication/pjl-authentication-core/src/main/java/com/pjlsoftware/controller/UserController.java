@@ -71,15 +71,11 @@ public class UserController {
             produces = {"application/json"}
     )
     public ResponseEntity<String> deleteMe(@CurrentUser User authenticatedUser) {
-        try {
-            authenticatedUser.setEnabled(false);
-            authenticatedUser.setRoles(new HashSet<>(Set.of()));
-            userRepository.update(authenticatedUser);
-        } catch (Exception e) {
-            LOGGER.info("Exception in deleteMe: {}", e.getLocalizedMessage());
-            return new ResponseEntity<>("{\"value\": \"Nothing done. Check Logs.\"}", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>("{\"value\": \"Your account has been deleted.\"}", HttpStatus.OK);
+        return (userService.softDeleteUser(authenticatedUser.getUsername())
+                .isPresent()) ? new ResponseEntity<>("{\"value\": \"Your account has been deleted.\"}", HttpStatus.OK) :
+                new ResponseEntity<>("{\"value\": \"Nothing done. Check Logs.\"}", HttpStatus.BAD_REQUEST);
+
+
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -89,17 +85,9 @@ public class UserController {
             produces = {"application/json"}
     )
     public ResponseEntity<String> deleteUser(@PathVariable String username) {
-        try {
-            User existingUser = userRepository.findByUsername(username)
-                    .orElseThrow(() -> new RuntimeException("No user found with username: " + username));
-            existingUser.setEnabled(false);
-            existingUser.setRoles(new HashSet<>(Set.of()));
-            userRepository.update(existingUser);
-        } catch (Exception e) {
-            LOGGER.info("Exception in deleteUser: {}", e.getLocalizedMessage());
-            return new ResponseEntity<>("{\"value\": \"Nothing done. Check Logs.\"}", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>("{\"value\": \"" + username + " has been disabled.\"}", HttpStatus.OK);
+        return (userService.softDeleteUser(username)
+                .isPresent()) ? new ResponseEntity<>("{\"value\": \"" + username + " has been disabled.\"}", , HttpStatus.OK) :
+                new ResponseEntity<>("{\"value\": \"Nothing done. Check Logs.\"}", HttpStatus.BAD_REQUEST);
     }
 
     @PreAuthorize("hasRole('ROLE_FREE_USER')")
