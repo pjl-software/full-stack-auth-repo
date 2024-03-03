@@ -1,5 +1,6 @@
 package com.pjlsoftware.projection;
 
+import java.time.Instant;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,8 @@ public interface AuthenticatedUserProjection {
     String getUsername();
 
     String getPhotoUrl();
+
+    Instant getLastLogin();
 
     @Value("#{target.getRoleNames}")
     Set<String> getRoleNames();
