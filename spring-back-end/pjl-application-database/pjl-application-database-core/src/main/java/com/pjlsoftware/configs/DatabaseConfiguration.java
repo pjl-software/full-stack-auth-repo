@@ -17,7 +17,7 @@ import javax.sql.DataSource;
         repositoryBaseClass = BaseJpaRepositoryImpl.class
 )
 @EnableTransactionManagement
-@PropertySource("classpath:database-${profile:local}.properties")
+@PropertySource("classpath:database-${spring.profiles.active:local}.properties")
 public class DatabaseConfiguration {
     @Value("${jdbc.driver}")
     private String driverClassName;
