@@ -41,7 +41,7 @@ export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
   openDropdown: boolean = false;
   openMobileMenu: boolean = false;
 
-  accountDeleted: boolean = false
+  accountDeleted: boolean = false;
   accountDeletedMessage: string = '';
 
   constructor(
@@ -60,6 +60,7 @@ export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
           .createGoogleUser()
           .subscribe({
             next: (user) => {
+              this.accountDeleted = false;
               // need to manually subscribe
             },
           });
@@ -68,23 +69,23 @@ export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
   }
 
   deleteAccount(): void {
-    this.accountDeletedSubscription = this.userService.deleteMe().subscribe( {
+    this.accountDeletedSubscription = this.userService.deleteMe().subscribe({
       next: (response: string) => {
         this.accountDeleted = true;
         this.accountDeletedMessage = response;
-        this.logOutUser()
+        this.logOutUser();
       },
       error: (response: string) => {
         this.accountDeleted = true;
         this.accountDeletedMessage = response;
-        this.logOutUser()
-      }
-    })
+        this.logOutUser();
+      },
+    });
 
     return;
   }
 
-  logOutUser():void {
+  logOutUser(): void {
     this.openDropdown = false;
     this.userService.signOut();
 
