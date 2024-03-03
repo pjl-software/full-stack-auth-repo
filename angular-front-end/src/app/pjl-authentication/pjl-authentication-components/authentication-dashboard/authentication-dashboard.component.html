@@ -3,7 +3,12 @@
     *ngIf="user.isNotAuthenticated"
     class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-10"
   >
-  <p *ngIf="accountDeleted" class="text-red-600 text-2xl font-bold mt-10 text-center">{{accountDeletedMessage}}</p>
+    <p
+      *ngIf="accountDeleted"
+      class="mt-10 text-center text-2xl font-bold text-red-600"
+    >
+      {{ accountDeletedMessage }}
+    </p>
     <div
       class="absolute inset-0 bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"
     ></div>
@@ -12,12 +17,12 @@
     >
       <div class="mx-auto max-w-md">
         <a href="https://pjlindustries.com" target="_blank">
-        <img
-          src="assets/photos/long-form-logo-transparency.png"
-          class="h-6"
-          alt="Tailwind Play"
-        />
-      </a>
+          <img
+            src="assets/photos/long-form-logo-transparency.png"
+            class="h-6"
+            alt="Tailwind Play"
+          />
+        </a>
         <div class="divide-y divide-gray-300/50">
           <div class="space-y-6 py-8 text-base leading-7 text-gray-600">
             <h2 class="font-bold">
@@ -240,7 +245,7 @@
                   id="user-menu-button"
                   aria-expanded="false"
                   aria-haspopup="true"
-                  (click)="toggleMenu()"
+                  (click)="toggleBrowserMenu()"
                 >
                   <span class="absolute -inset-1.5"></span>
                   <span class="sr-only">Open user menu</span>
@@ -260,7 +265,7 @@
                 aria-labelledby="user-menu-button"
                 tabindex="-1"
               >
-                  <a
+                <a
                   (click)="deleteAccount()"
                   href="#"
                   class="block px-4 py-2 text-sm text-red-700"
@@ -320,7 +325,7 @@
         <h1 class="text-3xl font-bold tracking-tight text-gray-900">
           {{ user.firstName }}'s Dashboard
         </h1>
-        <p>(Account Creation Date: {{user.createdAt |  date:'long'}})</p>
+        <p>(Account Creation Date: {{ user.createdAt | date: "long" }})</p>
       </div>
     </header>
     <main>

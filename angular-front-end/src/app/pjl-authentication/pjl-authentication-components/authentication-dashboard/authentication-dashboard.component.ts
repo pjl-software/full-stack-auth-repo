@@ -92,7 +92,7 @@ export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
     return;
   }
 
-  toggleMenu(): boolean {
+  toggleBrowserMenu(): boolean {
     this.openDropdown = !this.openDropdown;
     return this.openDropdown;
   }
