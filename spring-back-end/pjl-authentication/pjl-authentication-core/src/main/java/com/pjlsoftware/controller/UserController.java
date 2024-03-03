@@ -86,7 +86,7 @@ public class UserController {
     )
     public ResponseEntity<String> deleteUser(@PathVariable String username) {
         return (userService.softDeleteUser(username)
-                .isPresent()) ? new ResponseEntity<>("{\"value\": \"" + username + " has been disabled.\"}", , HttpStatus.OK) :
+                .isPresent()) ? new ResponseEntity<>("{\"value\": \"" + username + " has been disabled.\"}", HttpStatus.OK) :
                 new ResponseEntity<>("{\"value\": \"Nothing done. Check Logs.\"}", HttpStatus.BAD_REQUEST);
     }
 
