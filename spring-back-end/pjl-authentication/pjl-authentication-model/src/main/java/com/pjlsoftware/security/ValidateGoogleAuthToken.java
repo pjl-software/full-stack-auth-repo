@@ -17,7 +17,7 @@ import java.util.Optional;
 @Component
 public class ValidateGoogleAuthToken {
     private static final Logger LOG = LoggerFactory.getLogger(ValidateGoogleAuthToken.class);
-    private static final String CLIENT_ID = System.getenv("GOOGLE_PROVIDER_ID");
+    private static final String CLIENT_ID = "603021351518-d3kr8eie71dcfei6ud9531kmp8bbhqq3.apps.googleusercontent.com";
 
     private static final NetHttpTransport transport = new NetHttpTransport();
     private static final JsonFactory jsonFactory = new GsonFactory();

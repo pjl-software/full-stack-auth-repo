@@ -2,7 +2,7 @@ export const environment = {
   production: true,
   //
   apiVersion: '/v1',
-  apiUrl: 'https://api.demo.pjlindustries.com',
+  apiUrl: 'https://api.demo.pjlindustries.com:9081/api',
   appUrl: 'https://demo.pjlindustries.com',
   environment: 'prod',
   backEndControllerPaths: {
