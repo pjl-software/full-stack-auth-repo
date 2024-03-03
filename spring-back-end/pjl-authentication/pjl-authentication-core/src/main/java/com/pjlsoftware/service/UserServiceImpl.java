@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -45,7 +46,7 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             LOGGER.info("Exception in getUserFromJwt", e);
         }
-        return new User();
+        return null;
     }
 
     @Override
@@ -77,15 +78,15 @@ public class UserServiceImpl implements UserService {
 
             if (isAlreadyUser.isPresent()) {
                 User existingUser = isAlreadyUser.get();
-
+                existingUser.setLastLogin(Instant.now());
                 if (existingUser.isEnabled()) {
                     // do nothing special
                 } else {
                     LOGGER.info("Automatically re-enabling a disabled user. Are we sure we want to do this?");
                     existingUser.setEnabled(true);
                     existingUser.setRoles(googleUserRoles);
-                    userRepository.update(existingUser);
                 }
+                userRepository.update(existingUser);
             } else {
                 LOGGER.info("Creating new Google user.");
                 user.setRoles(googleUserRoles);
