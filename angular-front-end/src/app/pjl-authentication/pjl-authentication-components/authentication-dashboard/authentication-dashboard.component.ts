@@ -58,10 +58,10 @@ export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
         this.jwtService.saveToken(user.idToken);
         this.createGoogleUserSubscription = this.authenticationCoreSerivce
           .createGoogleUser()
+          // need to manually subscribe to make the API call
           .subscribe({
             next: (user) => {
               this.accountDeleted = false;
-              // need to manually subscribe
             },
           });
       }
