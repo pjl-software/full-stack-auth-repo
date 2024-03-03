@@ -91,7 +91,7 @@ public class UserController {
             produces = {"application/json"}
     )
     public ResponseEntity<List<GenericUserProjection>> getEnabledUsers() {
-        return new ResponseEntity<>(userRepository.findByEnabledIsTrue()
+        return new ResponseEntity<>(userRepository.findNonGmailUsersByEnabledIsTrue()
                 .orElseThrow(() -> new RuntimeException("No enabled users found.")), HttpStatus.OK);
     }
 
