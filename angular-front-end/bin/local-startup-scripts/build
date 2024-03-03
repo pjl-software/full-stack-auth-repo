@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+ENV_CONFIG_FILE="${SCRIPT_DIR}/../.env"
+
+. "${ENV_CONFIG_FILE}"
+
+############################################################
+# Help                                                     #
+############################################################
+help() {
+  echo ""
+  echo -e "Method for running ng-build --configuration [environment] to create the production files for deployment." | fmt
+  echo -e "The -e option is mandatory. Valid options are 'local' and 'prod' (case-sensitive)" | fmt
+  echo ""
+  echo -e "Usage: $0 [-h] [-e [local/prod]]" | fmt
+  echo -e "\t-h\t Display this help message" | fmt
+  echo -e "\t-e\t Environment configuration file to use [local or prod]" | fmt
+  echo ""
+  echo ""
+  echo ""
+}
+
+############################################################
+############################################################
+# Main Program                                             #
+############################################################
+############################################################
+
+POSSIBLE_ENVIRONMENT_VALUES_ARRAY=("local" "prod")
+
+while getopts ":he:" opt; do
+  case $opt in
+  h)
+    help
+    exit 0
+    ;;
+  e)
+    if [[ ${POSSIBLE_ENVIRONMENT_VALUES_ARRAY[*]} =~ ${OPTARG} ]]; then
+      if [[ ${OPTARG} == "local" ]]; then
+        EVIRONMENT_PROPERTIES_TO_USE="development"
+        echo "Ok, building with environment.${EVIRONMENT_PROPERTIES_TO_USE}.ts"
+      elif [[ ${OPTARG} == "prod" ]]; then
+        EVIRONMENT_PROPERTIES_TO_USE="production"
+        echo "Ok, building with environment.${EVIRONMENT_PROPERTIES_TO_USE}.ts"
+      fi
+    else
+      listAvailableOptionsErrorMessage "${POSSIBLE_ENVIRONMENT_VALUES_ARRAY[@]}"
+      exit 1
+    fi
+    ;;
+  \?)
+    echo "Invalid option: -$OPTARG" >&2
+    help
+    exit 1
+    ;;
+  :)
+    echo ""
+    echo "Option -$OPTARG requires an argument." >&2
+    help
+    exit 1
+    ;;
+  esac
+done
+
+requiredOptionCheck "${EVIRONMENT_PROPERTIES_TO_USE}" "-e"
+
+echo
+echo -e "Changing directories in to the front-end base directory for ng commands to work ..."
+echo
+cd "$SCRIPT_DIR/../.." || exit
+
+ng build --configuration "${EVIRONMENT_PROPERTIES_TO_USE}"
