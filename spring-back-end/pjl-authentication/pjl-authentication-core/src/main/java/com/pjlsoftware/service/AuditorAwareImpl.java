@@ -1,25 +1,20 @@
 package com.pjlsoftware.service;
 
 import com.pjlsoftware.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pjlsoftware.security.ValidateGoogleAuthToken;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 import java.util.Optional;
 
-public class AuditAwareImpl implements AuditorAware<User> {
-    private final UserService userService;
-
-    @Autowired
-    public AuditAwareImpl(UserService userService) {
-        this.userService = userService;
-    }
+public class AuditorAwareImpl implements AuditorAware<String> {
 
     @Override
-    public Optional<User> getCurrentAuditor() {
+    public Optional<String> getCurrentAuditor() {
         JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> userFromToken = ValidateGoogleAuthToken.verifyGoogleAuthToken(jwtAuthenticationToken.getToken().getTokenValue());
 
-        return (userService.getUserFromJwt(jwtAuthenticationToken) == null) ? Optional.empty() : Optional.of(userService.getUserFromJwt(jwtAuthenticationToken));
+        return userFromToken.map(User::getUsername).or(() -> Optional.of("unknown"));
     }
 }
