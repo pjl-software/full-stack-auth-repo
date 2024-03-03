@@ -177,7 +177,7 @@ whoever learns like me in hopes that it helps them build some incredible stuff.
 
 I also find myself wanting more context than the code or tutorial provides, which is why I pair the code with video code reviews.
 
-## How I'm Building This?
+## How I'm Building This
 
 I'm starting small by breaking up logical chunks of the total effort into standalone branches that you can use
 to follow along as the codebase builds up in complexity. If you don't care, no problem! Just checkout the `master`
