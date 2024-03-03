@@ -64,6 +64,24 @@ public class UserController {
         return new ResponseEntity<>("{\"value\": \"Created new random user\"}", HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ROLE_FREE_USER')")
+    @RequestMapping(
+            value = "/delete",
+            method = RequestMethod.PUT,
+            produces = {"application/json"}
+    )
+    public ResponseEntity<String> deleteMe(@CurrentUser User authenticatedUser) {
+        try {
+            authenticatedUser.setEnabled(false);
+            authenticatedUser.setRoles(new HashSet<>(Set.of()));
+            userRepository.update(authenticatedUser);
+        } catch (Exception e) {
+            LOGGER.info("Exception in deleteMe: {}", e.getLocalizedMessage());
+            return new ResponseEntity<>("{\"value\": \"Nothing done. Check Logs.\"}", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("{\"value\": \"Your account has been deleted.\"}", HttpStatus.OK);
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(
             value = "/delete/{username}",
