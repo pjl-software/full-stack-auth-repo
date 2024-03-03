@@ -1,6 +1,7 @@
 package com.pjlsoftware.entity;
 
 import com.pjlsoftware.authenticationConstants.RoleName;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ import jakarta.validation.constraints.NotBlank;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.annotations.NaturalId;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,7 +30,7 @@ import java.util.stream.Collectors;
                 })
         }
 )
-public class User {
+public class User extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -50,6 +52,9 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     private String photoUrl;
+
+    @Column(nullable = false)
+    private Instant lastLogin = Instant.now();
 
     public User() {
         this.firstName = RandomStringUtils.randomAlphabetic(8);
@@ -135,6 +140,14 @@ public class User {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public Instant getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Instant lastLogin) {
+        this.lastLogin = lastLogin;
     }
 
     //
