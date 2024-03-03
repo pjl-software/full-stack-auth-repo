@@ -35,9 +35,14 @@ import { ViewUsersComponent } from '../view-users/view-users.component';
 })
 export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
   createGoogleUserSubscription: Subscription = new Subscription();
+  accountDeletedSubscription: Subscription = new Subscription();
+
   loggedIn: boolean = false;
   openDropdown: boolean = false;
   openMobileMenu: boolean = false;
+
+  accountDeleted: boolean = false
+  accountDeletedMessage: string = '';
 
   constructor(
     private authService: SocialAuthService,
@@ -62,9 +67,28 @@ export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  logOutUser() {
+  deleteAccount(): void {
+    this.accountDeletedSubscription = this.userService.deleteMe().subscribe( {
+      next: (response: string) => {
+        this.accountDeleted = true;
+        this.accountDeletedMessage = response;
+        this.logOutUser()
+      },
+      error: (response: string) => {
+        this.accountDeleted = true;
+        this.accountDeletedMessage = response;
+        this.logOutUser()
+      }
+    })
+
+    return;
+  }
+
+  logOutUser():void {
     this.openDropdown = false;
     this.userService.signOut();
+
+    return;
   }
 
   toggleMenu(): boolean {
@@ -79,5 +103,6 @@ export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.createGoogleUserSubscription.unsubscribe();
+    this.accountDeletedSubscription.unsubscribe();
   }
 }

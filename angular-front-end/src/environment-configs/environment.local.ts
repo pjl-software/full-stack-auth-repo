@@ -10,6 +10,7 @@ export const environment = {
     },
     UserController: {
       createUser: '/users/create',
+      deleteMe: '/users/delete',
       deleteUser: '/users/delete',
       getEnabledUsers: '/users/',
       getUserInformation: '/users/info',

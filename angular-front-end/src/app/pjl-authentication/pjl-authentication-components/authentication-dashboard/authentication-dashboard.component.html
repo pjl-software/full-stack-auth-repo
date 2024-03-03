@@ -3,6 +3,7 @@
     *ngIf="user.isNotAuthenticated"
     class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-10"
   >
+  <p *ngIf="accountDeleted" class="text-red-600 text-2xl font-bold mt-10 text-center">{{accountDeletedMessage}}</p>
     <div
       class="absolute inset-0 bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"
     ></div>
@@ -257,6 +258,15 @@
                 aria-labelledby="user-menu-button"
                 tabindex="-1"
               >
+                  <a
+                  (click)="deleteAccount()"
+                  href="#"
+                  class="block px-4 py-2 text-sm text-red-700"
+                  role="menuitem"
+                  tabindex="-1"
+                  id="user-menu-item-2"
+                  >Delete Account</a
+                >
                 <a
                   (click)="logOutUser()"
                   href="#"
@@ -308,7 +318,7 @@
         <h1 class="text-3xl font-bold tracking-tight text-gray-900">
           {{ user.firstName }}'s Dashboard
         </h1>
-        <p>(Last Login: {{user.lastLogin |  date:'long'}})</p>
+        <p>(Account Creation Date: {{user.createdAt |  date:'long'}})</p>
       </div>
     </header>
     <main>
