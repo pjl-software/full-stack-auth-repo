@@ -12,11 +12,12 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends BaseJpaRepository<User, Long> {
-    Optional<List<GenericUserProjection>> findByEnabledIsTrue();
+    @Query(value = "SELECT user FROM User user WHERE user.enabled = true AND user.username NOT LIKE '%gmail.com%'")
+    Optional<List<GenericUserProjection>> findNonGmailUsersByEnabledIsTrue();
 
     Optional<User> findByUsername(String username);
 
-    @Query(value = "SELECT user from User user where user.username = :username and user.enabled = true ")
+    @Query(value = "SELECT user FROM User user WHERE user.username = :username AND user.enabled = true ")
     Optional<AuthenticatedUserProjection> returnUserInfoForEnabledUserByUsername(String username);
 
     Optional<User> findByUsernameAndEnabledIsTrue(String username);
