@@ -1,7 +1,6 @@
 package com.pjlsoftware.entity;
 
 import com.pjlsoftware.authenticationConstants.RoleName;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +15,6 @@ import jakarta.validation.constraints.NotBlank;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.annotations.NaturalId;
 
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,7 +28,7 @@ import java.util.stream.Collectors;
                 })
         }
 )
-public class User extends DateAudit {
+public class User extends AbstractAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;

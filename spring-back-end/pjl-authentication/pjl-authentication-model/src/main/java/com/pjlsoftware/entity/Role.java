@@ -13,7 +13,7 @@ import org.hibernate.annotations.NaturalId;
 
 @Entity
 @Table(name = "roles")
-public class Role extends DateAudit {
+public class Role extends AbstractAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roleId;

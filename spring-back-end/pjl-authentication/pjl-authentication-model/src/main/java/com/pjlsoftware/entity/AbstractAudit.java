@@ -13,7 +13,7 @@ import java.time.Instant;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class DateAudit implements Serializable {
+public abstract class AbstractAudit implements Serializable {
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
@@ -25,7 +25,7 @@ public abstract class DateAudit implements Serializable {
     @CreatedBy
     private String createdBy;
 
-    public DateAudit() {
+    public AbstractAudit() {
     }
 
     public Instant getCreatedAt() {
