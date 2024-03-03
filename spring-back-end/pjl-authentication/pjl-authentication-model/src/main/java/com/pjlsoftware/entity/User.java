@@ -53,9 +53,6 @@ public class User extends DateAudit {
 
     private String photoUrl;
 
-    @Column(nullable = false)
-    private Instant lastLogin = Instant.now();
-
     public User() {
         this.firstName = RandomStringUtils.randomAlphabetic(8);
         this.lastName = RandomStringUtils.randomAlphabetic(12);
@@ -140,14 +137,6 @@ public class User extends DateAudit {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
-    }
-
-    public Instant getLastLogin() {
-        return lastLogin;
-    }
-
-    public void setLastLogin(Instant lastLogin) {
-        this.lastLogin = lastLogin;
     }
 
     //
