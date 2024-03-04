@@ -52,7 +52,7 @@ public class UserController {
             produces = {"application/json"}
     )
     public ResponseEntity<String> createUser(@CurrentUser User user) {
-        System.out.println("current user: " + user);
+        LOGGER.info("current user: {}", user);
         User newRandomUser = new User();
         Role freeUserRole = roleRepository.findByName(RoleName.ROLE_FREE_USER)
                 .orElseThrow(() -> new RuntimeException("Couldn't find the " + RoleName.ROLE_FREE_USER +
@@ -108,6 +108,7 @@ public class UserController {
             produces = {"application/json"}
     )
     public ResponseEntity<AuthenticatedUserProjection> getUserInformation(@CurrentUser User authenticatedUser) {
+        LOGGER.info("authenticatedUser user: {}", authenticatedUser);
         return new ResponseEntity<>(userService.getUserInformation(authenticatedUser.getUsername())
                 .orElseThrow(() -> new RuntimeException("No enabled users found.")), HttpStatus.OK);
     }
