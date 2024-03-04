@@ -167,7 +167,7 @@ To have fully functional user authentication and authorization, we need to secur
 
   - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/10-improving-user-login-flow-b)
   - [Code Review Video - TBD]()
-  - Add `tailwind css` styling to the HTML. Add example audit logging to my JPA entities. Add Google Analytics. Improve applicaiton for a live release by hiding real users from the `ViewUsersComponent` and letting users `Delete Account`.
+  - Add `tailwind css` styling to the HTML. Enhance the back and front-end flow to host on AWS.
 
 ## Why did I Build This?
 
