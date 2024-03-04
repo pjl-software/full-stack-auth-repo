@@ -22,7 +22,7 @@ export class DeleteUserButtonComponent {
 
   deleteUser() {
     this.deleteUserResponse$ = this.authenticationCoreSerivce.deleteUser(
-      this.usernameInput
+      this.usernameInput,
     );
   }
 }
