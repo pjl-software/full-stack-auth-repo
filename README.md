@@ -166,7 +166,7 @@ To have fully functional user authentication and authorization, we need to secur
 - **10-improving-user-login-flow-b**
 
   - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/10-improving-user-login-flow-b)
-  - [Code Review Video - TBD]()
+  - [Code Review Video](https://youtu.be/rBbwS5ZVd0Q)
   - Add `tailwind css` styling to the HTML. Enhance the back and front-end flow to host on AWS.
 
 ## Why did I Build This?
