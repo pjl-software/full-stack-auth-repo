@@ -1,7 +1,7 @@
 <div *ngIf="this.userService.currentUser$ | async; let user">
   <div
     *ngIf="user.isNotAuthenticated"
-    class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-10"
+    class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 pb-20 sm:py-10"
   >
     <p
       *ngIf="accountDeleted"
@@ -331,7 +331,7 @@
     <main>
       <div class="mx-auto max-w-7xl py-6 pb-10 pt-10 sm:px-6 lg:px-8">
         <app-view-users></app-view-users>
-        <div class="md:columns-3 justify-center">
+        <div class="justify-center md:columns-3">
           <app-create-user-button></app-create-user-button>
         </div>
       </div>
