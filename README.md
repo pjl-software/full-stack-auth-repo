@@ -6,7 +6,7 @@ This web application demonstrated `Spring Security OAuth2` with `JWTs` using `Go
 
 Please note, however, that **this code is intended for educational purposes only. It is not running in production, nor is it claiming to be "production-ready" code**. The code is simply intended to teach and allow you to learn frameworks through practical usage.
 
-![front-end-demo-720](https://github.com/pjl-software/full-stack-auth-repo/assets/4131196/c3481974-4af7-406d-90d3-4ac4d2237bea)
+![front-end-demo-720-01](https://github.com/pjl-software/full-stack-auth-repo/assets/4131196/7611d15a-65a5-4cb5-aaf1-3ef388f40595)
 
 ## To Get Started
 
