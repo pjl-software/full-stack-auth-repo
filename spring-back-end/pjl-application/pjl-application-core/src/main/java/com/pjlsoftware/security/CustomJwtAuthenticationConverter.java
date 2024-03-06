@@ -2,7 +2,6 @@ package com.pjlsoftware.security;
 
 import com.pjlsoftware.entity.User;
 import com.pjlsoftware.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,7 +22,6 @@ public class CustomJwtAuthenticationConverter implements Converter<Jwt, Abstract
 
     private final UserRepository userRepository;
 
-    @Autowired
     public CustomJwtAuthenticationConverter(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

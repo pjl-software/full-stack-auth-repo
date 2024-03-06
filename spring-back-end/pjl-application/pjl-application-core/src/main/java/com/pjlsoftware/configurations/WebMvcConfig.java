@@ -11,7 +11,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         long MAX_AGE_SECS = 3600;
         registry
                 .addMapping("/**")
-                .allowedOrigins("https://localhost:4200")
+                .allowedOrigins("https://localhost:4200", "https://demo.pjlindustries.com")
                 .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
                 .allowedHeaders("Authorization", "Cache-Control", "Content-Type")
                 .maxAge(MAX_AGE_SECS)

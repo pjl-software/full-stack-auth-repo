@@ -1,7 +1,7 @@
 import { SocialAuthService } from '@abacritt/angularx-social-login';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, distinctUntilChanged, map } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, distinctUntilChanged, map, of } from 'rxjs';
 import { environment } from '../../../../environment-configs/environment.local';
 import {
   BackEndAuthenticatedUserProjection,
@@ -18,7 +18,7 @@ export class UserCoreSerivce {
   private currentUserSubject =
     new BehaviorSubject<BackEndAuthenticatedUserProjection>({
       isAuthenticated: false,
-      isNotAuthenticated: true,
+      isNotAuthenticated: false,
     } as BackEndAuthenticatedUserProjection);
   public currentUser$ = this.currentUserSubject
     .asObservable()
@@ -31,12 +31,44 @@ export class UserCoreSerivce {
   constructor(
     private jwtService: JwtService,
     private http: HttpClient,
-    private socialAuthService: SocialAuthService
+    private socialAuthService: SocialAuthService,
   ) {}
 
   //
   // Public Functions
   //
+
+  /**
+   * Method for an authenticated user to soft delete themselves by marking their account disabled.
+   *
+   * @returns - An Observable<string> message indicating if the delete process was successful.
+   */
+  deleteMe(): Observable<string> {
+    const path: string =
+      `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.UserController.deleteMe}`;
+
+    return this.http.put(path, {}).pipe(
+      map<any, string>((response) => {
+        return response.value;
+      }),
+      catchError((err: HttpErrorResponse) => {
+        if (err.status === 400) {
+          return of(
+            'Unable to delete you. Are you logged in?'
+          );
+        } else if (err.status === 401) {
+          return of(
+            `You are not authorized to perform this action. Check you're authenticated.`
+          );
+        } else if (err.status === 403) {
+          return of(
+            'You do not have the appropriate roles to perform this action.'
+          );
+        }
+        return of('Failed to delete yourself.');
+      })
+    );
+  }
 
   /**
    * Load an authenticated user's information with a valid JWT; otherwise sign out any remnants of a user.
@@ -74,7 +106,7 @@ export class UserCoreSerivce {
    * @returns - a copy of the backEndUserDto
    */
   updateCurrentUser(
-    backEndUserDto: BackEndAuthenticatedUserProjection
+    backEndUserDto: BackEndAuthenticatedUserProjection,
   ): BackEndAuthenticatedUserProjection {
     this.currentUserSubject.next(backEndUserDto);
     return { ...backEndUserDto };
@@ -102,13 +134,13 @@ export class UserCoreSerivce {
     return this.http
       .get(
         `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.UserController.getUserInformation}`,
-        {}
+        {},
       )
       .pipe(
         map<any, BackEndAuthenticatedUserProjection>((response) => {
           const backEndUserDtos: BackEndAuthenticatedUserProjection = response;
           return backEndUserDtos;
-        })
+        }),
       );
   }
 
@@ -120,7 +152,7 @@ export class UserCoreSerivce {
   private purgeUser(): void {
     this.jwtService.destroyToken();
     this.currentUserSubject.next(
-      UnauthenticatedBackEndAuthenticatedUserProjection
+      UnauthenticatedBackEndAuthenticatedUserProjection,
     );
     return;
   }

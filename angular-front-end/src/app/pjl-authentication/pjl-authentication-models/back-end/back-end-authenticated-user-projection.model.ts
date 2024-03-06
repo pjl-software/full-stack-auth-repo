@@ -2,6 +2,8 @@ export interface BackEndAuthenticatedUserProjection {
   firstName: string;
   lastName: string;
   username: string;
+  photoUrl: string;
+  createdAt: Date;
   roleNames: string[];
   isAuthenticated: boolean;
   isNotAuthenticated: boolean;
@@ -14,6 +16,8 @@ export const UnauthenticatedBackEndAuthenticatedUserProjection: BackEndAuthentic
     firstName: '',
     lastName: '',
     username: '',
+    photoUrl: '',
+    createdAt: new Date(),
     roleNames: [],
     isAuthenticated: false,
     isNotAuthenticated: true,

@@ -17,7 +17,7 @@ import java.util.Optional;
 @Component
 public class ValidateGoogleAuthToken {
     private static final Logger LOG = LoggerFactory.getLogger(ValidateGoogleAuthToken.class);
-    private static final String CLIENT_ID = System.getenv("GOOGLE_PROVIDER_ID");
+    private static final String CLIENT_ID = "603021351518-d3kr8eie71dcfei6ud9531kmp8bbhqq3.apps.googleusercontent.com";
 
     private static final NetHttpTransport transport = new NetHttpTransport();
     private static final JsonFactory jsonFactory = new GsonFactory();
@@ -54,7 +54,8 @@ public class ValidateGoogleAuthToken {
                 User user = new User(
                         (givenName == null) ? " " : givenName.substring(0, Math.min(givenName.length(), 25)),
                         (familyName == null) ? " " : familyName.substring(0, Math.min(familyName.length(), 30)),
-                        email.substring(0, Math.min(email.length(), 40))
+                        email.substring(0, Math.min(email.length(), 40)),
+                        pictureUrl
                 );
                 return Optional.of(user);
             } else {

@@ -20,9 +20,9 @@ export class ViewUsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const autoRefreshRateInMilliSeconds: number = 10000;
+    const autoRefreshRateInMilliSeconds: number = 3000;
     this.enabledUsers$ = timer(0, autoRefreshRateInMilliSeconds).pipe(
-      switchMap(() => this.authenticationCoreSerivce.getEnabledUsers())
+      switchMap(() => this.authenticationCoreSerivce.getEnabledUsers()),
     );
   }
 }

@@ -36,6 +36,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
+    public Optional<User> softDeleteUser(String username) {
+        try {
+            User userToDelete = userRepository.findByUsernameAndEnabledIsTrue(username)
+                    .orElseThrow(() -> new RuntimeException("No enabled user found to delete with username " + username));
+            userToDelete.setEnabled(false);
+            userToDelete.setRoles(new HashSet<>(Set.of()));
+
+            return Optional.of(userRepository.update(userToDelete));
+        } catch (Exception e) {
+            LOGGER.info("exception in softDeleteUser: {}", e.getLocalizedMessage());
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public User getUserFromJwt(JwtAuthenticationToken principal) {
         try {
             User user = ValidateGoogleAuthToken.verifyGoogleAuthToken(principal.getToken().getTokenValue())
@@ -43,9 +59,9 @@ public class UserServiceImpl implements UserService {
             return userRepository.findByUsername(user.getUsername())
                     .orElseThrow(() -> new UsernameNotFoundException("Unable to getUserFromJwt"));
         } catch (Exception e) {
-            LOGGER.info("Exception in getUserFromJwt", e);
+            LOGGER.info("Exception in getUserFromJwt: {}", e.getLocalizedMessage());
         }
-        return new User();
+        return null;
     }
 
     @Override
@@ -53,7 +69,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userRepository.returnUserInfoForEnabledUserByUsername(username);
         } catch (Exception e) {
-            LOGGER.info("Exception in getUserInformation", e);
+            LOGGER.info("Exception in getUserInformation: {}", e.getLocalizedMessage());
         }
         return Optional.empty();
     }
@@ -77,15 +93,14 @@ public class UserServiceImpl implements UserService {
 
             if (isAlreadyUser.isPresent()) {
                 User existingUser = isAlreadyUser.get();
-
                 if (existingUser.isEnabled()) {
                     // do nothing special
                 } else {
                     LOGGER.info("Automatically re-enabling a disabled user. Are we sure we want to do this?");
                     existingUser.setEnabled(true);
                     existingUser.setRoles(googleUserRoles);
-                    userRepository.update(existingUser);
                 }
+                userRepository.update(existingUser);
             } else {
                 LOGGER.info("Creating new Google user.");
                 user.setRoles(googleUserRoles);
@@ -96,7 +111,7 @@ public class UserServiceImpl implements UserService {
                     .orElseThrow(() -> new RuntimeException("Failed to get username"))
                     , HttpStatus.CREATED);
         } catch (Exception e) {
-            LOGGER.info("Exception in handleGoogleSignIn", e);
+            LOGGER.info("Exception in handleGoogleSignIn: {}", e.getLocalizedMessage());
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }

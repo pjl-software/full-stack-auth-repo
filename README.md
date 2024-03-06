@@ -1,12 +1,12 @@
-# Full Stack Authentication Repo
+# Full Stack Authentication Repo ([Live Demo](https://demo.pjlindustries.com))
 
-This codebase is a full-stack web application monorepo. It consists of a Spring Boot 3 back-end API with an Angular 17+ front-end. You can clone this repo, start the back-end and front-end, and begin tinkering with the code to understand how a full-stack web app works.
+This codebase is a full-stack web application monorepo. It consists of a `Spring Boot 3` back-end API with an `Angular 17+` front-end and a `PostgreSQL` data layer -- all running on `Docker` and styled with `Tailwind CSS`. You can clone this repo, start the back-end, front-end, and database, and begin tinkering with the code to understand how a full-stack web app works.
 
-This is will eventually be a fully fledged user authentication application built with a Spring Boot (3.2+) back-end,
-Angular front-end, and PostgreSQL datastore that will run on Docker. The repo will be runnable with a few key strokes
-and with minimal local requirements.
+This web application demonstrated `Spring Security OAuth2` with `JWTs` using `Google SSO` as our authentication server.
 
 Please note, however, that **this code is intended for educational purposes only. It is not running in production, nor is it claiming to be "production-ready" code**. The code is simply intended to teach and allow you to learn frameworks through practical usage.
+
+![front-end-demo-720-01](https://github.com/pjl-software/full-stack-auth-repo/assets/4131196/7611d15a-65a5-4cb5-aaf1-3ef388f40595)
 
 ## To Get Started
 
@@ -163,7 +163,13 @@ To have fully functional user authentication and authorization, we need to secur
   - [Code Review Video](https://youtu.be/fF8BvbWG_Z8)
   - Enhance front-end view based on the user's state. Extend the back-end to return an enriched user info and leverage that user info to control the front-end view with Angular. Replace `JpaRepository` with `BaseJpaRepository`.
 
-## Why Are you Building This?
+- **10-improving-user-login-flow-b**
+
+  - [Branch](https://github.com/pjl-software/full-stack-auth-repo/tree/10-improving-user-login-flow-b)
+  - [Code Review Video](https://youtu.be/rBbwS5ZVd0Q)
+  - Add `tailwind css` styling to the HTML. Enhance the back and front-end flow to host on AWS.
+
+## Why did I Build This?
 
 I don't like tutorials or reading raw documentation. What _I_ want when I'm learning something new, is a working
 replica that I can tinker with to learn and build upon through trial and error. My goal is to provide this to
@@ -171,7 +177,7 @@ whoever learns like me in hopes that it helps them build some incredible stuff.
 
 I also find myself wanting more context than the code or tutorial provides, which is why I pair the code with video code reviews.
 
-## How Are you Building This?
+## How I'm Building This
 
 I'm starting small by breaking up logical chunks of the total effort into standalone branches that you can use
 to follow along as the codebase builds up in complexity. If you don't care, no problem! Just checkout the `master`

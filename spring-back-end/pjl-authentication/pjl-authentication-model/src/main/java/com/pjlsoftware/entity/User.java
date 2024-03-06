@@ -28,11 +28,10 @@ import java.util.stream.Collectors;
                 })
         }
 )
-public class User {
+public class User extends AbstractAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-
     private String firstName;
     private String lastName;
     @NaturalId(mutable = true)
@@ -50,6 +49,8 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
+    private String photoUrl;
+
     public User() {
         this.firstName = RandomStringUtils.randomAlphabetic(8);
         this.lastName = RandomStringUtils.randomAlphabetic(12);
@@ -60,10 +61,11 @@ public class User {
         this.enabled = true;
     }
 
-    public User(String firstName, String lastName, String username) {
+    public User(String firstName, String lastName, String username, String photoUrl) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
+        this.photoUrl = photoUrl;
         this.enabled = true;
     }
 
@@ -125,6 +127,14 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     //

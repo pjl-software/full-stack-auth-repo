@@ -16,7 +16,6 @@ public interface UserService {
     User getUserFromJwt(JwtAuthenticationToken principal);
 
     /**
-     *
      * @param username
      * @return
      */
@@ -32,4 +31,10 @@ public interface UserService {
      * @return - Response entity with JSON string indicating status.
      */
     ResponseEntity<AuthenticatedUserProjection> handleGoogleSignIn(final String jwt);
+
+    /**
+     * @param username
+     * @return - Return Optional.of(User) that was soft-deleted; otherwise Optional.empty()
+     */
+    Optional<User> softDeleteUser(String username);
 }

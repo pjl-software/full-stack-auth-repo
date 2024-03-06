@@ -45,14 +45,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_FREE_USER')")
     @RequestMapping(
             value = "/create",
             method = RequestMethod.POST,
             produces = {"application/json"}
     )
     public ResponseEntity<String> createUser(@CurrentUser User user) {
-        System.out.println("current user: " + user);
+        LOGGER.info("current user: {}", user);
         User newRandomUser = new User();
         Role freeUserRole = roleRepository.findByName(RoleName.ROLE_FREE_USER)
                 .orElseThrow(() -> new RuntimeException("Couldn't find the " + RoleName.ROLE_FREE_USER +
@@ -60,7 +60,22 @@ public class UserController {
         newRandomUser.setRoles(new HashSet<>(Set.of(freeUserRole)));
 
         userRepository.persist(newRandomUser);
+
         return new ResponseEntity<>("{\"value\": \"Created new random user\"}", HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasRole('ROLE_FREE_USER')")
+    @RequestMapping(
+            value = "/delete",
+            method = RequestMethod.PUT,
+            produces = {"application/json"}
+    )
+    public ResponseEntity<String> deleteMe(@CurrentUser User authenticatedUser) {
+        return (userService.softDeleteUser(authenticatedUser.getUsername())
+                .isPresent()) ? new ResponseEntity<>("{\"value\": \"Your account has been deleted.\"}", HttpStatus.OK) :
+                new ResponseEntity<>("{\"value\": \"Nothing done. Check Logs.\"}", HttpStatus.BAD_REQUEST);
+
+
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -70,17 +85,9 @@ public class UserController {
             produces = {"application/json"}
     )
     public ResponseEntity<String> deleteUser(@PathVariable String username) {
-        try {
-            User existingUser = userRepository.findByUsername(username)
-                    .orElseThrow(() -> new RuntimeException("No user found with username: " + username));
-            existingUser.setEnabled(false);
-            existingUser.setRoles(new HashSet<>(Set.of()));
-            userRepository.update(existingUser);
-        } catch (Exception e) {
-            LOGGER.info("Exception in deleteUser: {}", e.getLocalizedMessage());
-            return new ResponseEntity<>("{\"value\": \"Nothing done. Check Logs.\"}", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>("{\"value\": \"" + username + " has been disabled.\"}", HttpStatus.OK);
+        return (userService.softDeleteUser(username)
+                .isPresent()) ? new ResponseEntity<>("{\"value\": \"" + username + " has been disabled.\"}", HttpStatus.OK) :
+                new ResponseEntity<>("{\"value\": \"Nothing done. Check Logs.\"}", HttpStatus.BAD_REQUEST);
     }
 
     @PreAuthorize("hasRole('ROLE_FREE_USER')")
@@ -90,7 +97,7 @@ public class UserController {
             produces = {"application/json"}
     )
     public ResponseEntity<List<GenericUserProjection>> getEnabledUsers() {
-        return new ResponseEntity<>(userRepository.findByEnabledIsTrue()
+        return new ResponseEntity<>(userRepository.findNonGmailUsersByEnabledIsTrue()
                 .orElseThrow(() -> new RuntimeException("No enabled users found.")), HttpStatus.OK);
     }
 
@@ -101,6 +108,7 @@ public class UserController {
             produces = {"application/json"}
     )
     public ResponseEntity<AuthenticatedUserProjection> getUserInformation(@CurrentUser User authenticatedUser) {
+        LOGGER.info("authenticatedUser user: {}", authenticatedUser);
         return new ResponseEntity<>(userService.getUserInformation(authenticatedUser.getUsername())
                 .orElseThrow(() -> new RuntimeException("No enabled users found.")), HttpStatus.OK);
     }
