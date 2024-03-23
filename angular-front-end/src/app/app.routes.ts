@@ -24,5 +24,8 @@ export const routes: Routes = [
     component: AdminDashboardComponent,
     canActivate: [adminCanActivate],
   },
-  { path: '', component: AuthenticationDashboardComponent },
+  {
+    path: '',
+    component: AuthenticationDashboardComponent,
+  },
 ];

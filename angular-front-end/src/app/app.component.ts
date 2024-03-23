@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CoreLayoutComponent } from './pjl-common/core-layout/core-layout.component';
 import { UserCoreSerivce } from './pjl-core/services/pjl-authentication/user-core.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [CoreLayoutComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
