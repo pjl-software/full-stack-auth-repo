@@ -1,7 +1,14 @@
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, distinctUntilChanged, map, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  catchError,
+  distinctUntilChanged,
+  map,
+  of,
+} from 'rxjs';
 import { environment } from '../../../../environment-configs/environment.local';
 import {
   BackEndAuthenticatedUserProjection,
@@ -44,8 +51,7 @@ export class UserCoreSerivce {
    * @returns - An Observable<string> message indicating if the delete process was successful.
    */
   deleteMe(): Observable<string> {
-    const path: string =
-      `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.UserController.deleteMe}`;
+    const path: string = `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.UserController.deleteMe}`;
 
     return this.http.put(path, {}).pipe(
       map<any, string>((response) => {
@@ -53,20 +59,18 @@ export class UserCoreSerivce {
       }),
       catchError((err: HttpErrorResponse) => {
         if (err.status === 400) {
-          return of(
-            'Unable to delete you. Are you logged in?'
-          );
+          return of('Unable to delete you. Are you logged in?');
         } else if (err.status === 401) {
           return of(
-            `You are not authorized to perform this action. Check you're authenticated.`
+            `You are not authorized to perform this action. Check you're authenticated.`,
           );
         } else if (err.status === 403) {
           return of(
-            'You do not have the appropriate roles to perform this action.'
+            'You do not have the appropriate roles to perform this action.',
           );
         }
         return of('Failed to delete yourself.');
-      })
+      }),
     );
   }
 
@@ -97,6 +101,20 @@ export class UserCoreSerivce {
       this.signOut();
     }
     return UnauthenticatedBackEndAuthenticatedUserProjection;
+  }
+
+  toggleAdminStatus(): Observable<BackEndAuthenticatedUserProjection> {
+    const path: string = `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.UserController.toggleAdminStatus}`;
+
+    return this.http.post(path, {}).pipe(
+      map<any, BackEndAuthenticatedUserProjection>((response) => {
+        this.updateCurrentUser(response);
+        return response;
+      }),
+      catchError((err: HttpErrorResponse) => {
+        return of({} as BackEndAuthenticatedUserProjection);
+      }),
+    );
   }
 
   /**

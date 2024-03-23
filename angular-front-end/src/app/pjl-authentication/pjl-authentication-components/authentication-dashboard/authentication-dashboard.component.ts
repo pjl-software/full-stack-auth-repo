@@ -8,11 +8,13 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthenticationCoreSerivce } from '../../../pjl-core/services/pjl-authentication/authentication-core.service';
 import { JwtService } from '../../../pjl-core/services/pjl-authentication/jwt.service';
 import { UserCoreSerivce } from '../../../pjl-core/services/pjl-authentication/user-core.service';
 import { PjlSharedModule } from '../../../pjl-shared/shared.module';
+import { BackEndAuthenticatedUserProjection } from '../../pjl-authentication-models/back-end/back-end-authenticated-user-projection.model';
 import { CreateUserButtonComponent } from '../create-user-button/create-user-button.component';
 import { DeleteUserButtonComponent } from '../delete-user-button/delete-user-button.component';
 import { LogOutButtonComponent } from '../log-out-button/log-out-button.component';
@@ -28,6 +30,7 @@ import { ViewUsersComponent } from '../view-users/view-users.component';
     PjlSharedModule,
     GoogleSigninButtonModule,
     LogOutButtonComponent,
+    RouterModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './authentication-dashboard.component.html',
@@ -52,6 +55,7 @@ export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    console.log('hi');
     this.authService.authState.subscribe((user) => {
       this.loggedIn = user != null;
       if (user != null) {
@@ -90,6 +94,14 @@ export class AuthenticationDashboardComponent implements OnInit, OnDestroy {
     this.userService.signOut();
 
     return;
+  }
+
+  toggleAdminStatus(): void {
+    this.userService.toggleAdminStatus().subscribe({
+      next: (response: BackEndAuthenticatedUserProjection) => {
+        console.log(response);
+      },
+    });
   }
 
   toggleBrowserMenu(): boolean {

@@ -84,9 +84,6 @@ public class UserServiceImpl implements UserService {
             Role freeUserRole = roleRepository.findByName(RoleName.ROLE_FREE_USER)
                     .orElseThrow(() -> new RuntimeException("Couldn't find the " + RoleName.ROLE_FREE_USER +
                             " role. Are you sure you loaded the database?"));
-            Role adminUserRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                    .orElseThrow(() -> new RuntimeException("Couldn't find the " + RoleName.ROLE_ADMIN +
-                            " role. Are you sure you loaded the database?"));
             Set<Role> googleUserRoles = new HashSet<>(Set.of(freeUserRole));
 
             Optional<User> isAlreadyUser = userRepository.findByUsername(user.getUsername());
@@ -114,5 +111,28 @@ public class UserServiceImpl implements UserService {
             LOGGER.info("Exception in handleGoogleSignIn: {}", e.getLocalizedMessage());
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @Override
+    @Transactional
+    public Optional<AuthenticatedUserProjection> toggleAdminStatus(String username) {
+        try {
+            User validUser = userRepository.findByUsernameAndEnabledIsTrue(username)
+                    .orElseThrow(() -> new RuntimeException(username + " is not a valid username."));
+            Role adminUserRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                    .orElseThrow(() -> new RuntimeException("Couldn't find the " + RoleName.ROLE_ADMIN +
+                            " role. Are you sure you loaded the database?"));
+
+            if (validUser.getRoles().contains(adminUserRole)) {
+                validUser.getRoles().remove(adminUserRole);
+            } else {
+                validUser.getRoles().add(adminUserRole);
+            }
+            userRepository.persist(validUser);
+            return userRepository.returnUserInfoForEnabledUserByUsername(username);
+        } catch (Exception e) {
+            LOGGER.info("Exception in toggleAdminStatus. {}", e.getLocalizedMessage());
+        }
+        return Optional.empty();
     }
 }

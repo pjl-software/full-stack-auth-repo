@@ -224,12 +224,13 @@
                   aria-current="page"
                   >User Dashboard</a
                 >
-                <!-- <a
+                <a
                   *ngIf="user.isAdmin"
                   href="#"
+                  [routerLink]="['/admin-dashboard']"
                   class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                   >Admin Dashboard</a
-                > -->
+                >
               </div>
             </div>
           </div>
@@ -266,6 +267,26 @@
                 tabindex="-1"
               >
                 <a
+                  *ngIf="user.isNotAdmin"
+                  (click)="toggleAdminStatus()"
+                  href="#"
+                  class="block px-4 py-2 text-sm text-gray-700"
+                  role="menuitem"
+                  tabindex="-1"
+                  id="user-menu-item-1"
+                  >Add Admin Role</a
+                >
+                <a
+                  *ngIf="user.isAdmin"
+                  (click)="toggleAdminStatus()"
+                  href="#"
+                  class="block px-4 py-2 text-sm text-gray-700"
+                  role="menuitem"
+                  tabindex="-1"
+                  id="user-menu-item-1"
+                  >Remove Admin Role</a
+                >
+                <a
                   (click)="deleteAccount()"
                   href="#"
                   class="block px-4 py-2 text-sm text-red-700"
@@ -280,7 +301,7 @@
                   class="block px-4 py-2 text-sm text-gray-700"
                   role="menuitem"
                   tabindex="-1"
-                  id="user-menu-item-2"
+                  id="user-menu-item-3"
                   >Sign out</a
                 >
               </div>
@@ -302,12 +323,14 @@
             aria-current="page"
             >User Dashboard</a
           >
-          <!-- <a
-            href="#"
-            class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >Team</a
-          >
           <a
+            *ngIf="user.isAdmin"
+            href="#"
+            [routerLink]="['/admin-dashboard']"
+            class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+            >Admin Dashboard</a
+          >
+          <!-- <a
             href="#"
             class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
             >Projects</a

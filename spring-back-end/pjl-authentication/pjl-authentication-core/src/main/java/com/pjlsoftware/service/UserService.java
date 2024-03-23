@@ -37,4 +37,6 @@ public interface UserService {
      * @return - Return Optional.of(User) that was soft-deleted; otherwise Optional.empty()
      */
     Optional<User> softDeleteUser(String username);
+
+    Optional<AuthenticatedUserProjection> toggleAdminStatus(String username);
 }
