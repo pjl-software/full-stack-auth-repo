@@ -103,6 +103,10 @@ export class UserCoreSerivce {
     return UnauthenticatedBackEndAuthenticatedUserProjection;
   }
 
+  /**
+   *
+   * @returns - An Observable<BackEndAuthenticatedUserProjection> of the user's latest information after calling the toggleAdminStatus API endpoint.
+   */
   toggleAdminStatus(): Observable<BackEndAuthenticatedUserProjection> {
     const path: string = `${environment.apiUrl}${environment.apiVersion}${environment.backEndControllerPaths.UserController.toggleAdminStatus}`;
 
