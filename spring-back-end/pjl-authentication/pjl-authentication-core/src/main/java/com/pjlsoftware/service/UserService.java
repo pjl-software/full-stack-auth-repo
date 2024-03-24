@@ -37,4 +37,10 @@ public interface UserService {
      * @return - Return Optional.of(User) that was soft-deleted; otherwise Optional.empty()
      */
     Optional<User> softDeleteUser(String username);
+
+    /**
+     * @param username - Username to use to find a valid User entity to add or remove the admin role
+     * @return - An Optional.of(AuthenticatedUserProjection) with their admin status toggled; otherwise empty
+     */
+    Optional<AuthenticatedUserProjection> toggleAdminStatus(String username);
 }

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -111,5 +112,17 @@ public class UserController {
         LOGGER.info("authenticatedUser user: {}", authenticatedUser);
         return new ResponseEntity<>(userService.getUserInformation(authenticatedUser.getUsername())
                 .orElseThrow(() -> new RuntimeException("No enabled users found.")), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_FREE_USER')")
+    @RequestMapping(
+            value = "/admin-toggle",
+            method = RequestMethod.POST,
+            produces = {"application/json"}
+    )
+    public ResponseEntity<AuthenticatedUserProjection> toggleAdminStatus(@CurrentUser User authenticatedUser) {
+        Optional<AuthenticatedUserProjection> toggleAdminStatusResponse = userService.toggleAdminStatus(authenticatedUser.getUsername());
+        return toggleAdminStatusResponse.map(authenticatedUserProjection -> new ResponseEntity<>(authenticatedUserProjection, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.SERVICE_UNAVAILABLE));
     }
 }

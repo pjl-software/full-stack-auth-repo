@@ -14,6 +14,7 @@ export const environment = {
       deleteUser: '/users/delete',
       getEnabledUsers: '/users/',
       getUserInformation: '/users/info',
+      toggleAdminStatus: '/users/admin-toggle',
     },
   },
 };
